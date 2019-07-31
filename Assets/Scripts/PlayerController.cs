@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     public int m_PlayerNumber = 1;
+    public int m_PlayerMask = 1 << 9;    // layer 9: Player
     public float m_MovementSpeed = 5f;
     public float m_TurnSpeed = 10f;
     public float m_AnalogMinThreshold = 0.2f;
@@ -15,11 +16,11 @@ public class PlayerController : MonoBehaviour
     public float m_MinChargeShovePressure = 1f;
     public float m_MaxChargeShovePressure = 8f;
     public Image m_selectImage;
+    public string m_AButtonName;
+    public string m_BButtonName;
+    public string m_JoyStickVerticalName;
+    public string m_JoyStickHorizontalName;
 
-    private string m_AButtonName;
-    private string m_BButtonName;
-    private string m_JoyStickVerticalName;
-    private string m_JoyStickHorizontalName;
     private float m_JoystickVertical;
     private float m_JoystickHorizontal;
     private float m_KnockbackCounter;
@@ -178,18 +179,16 @@ public class PlayerController : MonoBehaviour
 
     private void KnockbackDetection() {
         float radius = 1f;
-        int playerMask = 1 << 9;    // layer 9: Player
-        
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, playerMask);
+       
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, m_PlayerMask);
         foreach (Collider col in colliders) {
-            // Debug.Log(col.gameObject.GetComponent<PlayerController>().m_PlayerNumber);
             PlayerController otherPlayer = col.gameObject.GetComponent<PlayerController>();
             if (otherPlayer.m_PlayerNumber != this.m_PlayerNumber && !otherPlayer.GetKnockbackState()) {
                 count++;
                 Vector3 pushDirection = col.transform.position - transform.position;
                 pushDirection = pushDirection.normalized;
                 otherPlayer.SetKnockbackState(true);
-                Debug.Log("knockback called: " + count);
+                // Debug.Log("knockback called: " + count);
                 otherPlayer.Knockback(pushDirection);
             }
         }
@@ -201,7 +200,6 @@ public class PlayerController : MonoBehaviour
 
         // Stop current shove coroutine
         if (m_CurrentCoroutine != null) StopCoroutine(m_CurrentCoroutine);
-        // Debug.Log("Stopped");
         Vector3 knockbackEnd = transform.position + direction * m_KnockbackDistance;
         m_CurrentCoroutine = DashLoop(transform.position, knockbackEnd, m_KnockbackTime, false);
         StartCoroutine(m_CurrentCoroutine);

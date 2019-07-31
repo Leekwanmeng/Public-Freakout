@@ -9,10 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 334980945092910465}
-  - component: {fileID: 5391913387563040615}
   - component: {fileID: 4904109365587111143}
   - component: {fileID: -1338398059835309385}
+  - component: {fileID: 5391913387563040615}
   - component: {fileID: 4920179915305342014}
+  - component: {fileID: 6465421268332573637}
   m_Layer: 9
   m_Name: ModelPlayer
   m_TagString: Player
@@ -36,28 +37,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5391913387563040615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 334980945092910468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d287f78a5678344bbb43c17e0b028b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PlayerNumber: 1
-  m_MovementSpeed: 5
-  m_TurnSpeed: 10
-  m_AnalogMinThreshold: 0.2
-  m_GravityScale: 10
-  m_KnockbackDistance: 5
-  m_ChargeShoveIncrement: 10
-  m_MinChargeShovePressure: 1
-  m_MaxChargeShovePressure: 8
-  m_selectImage: {fileID: 6665881493376038258}
 --- !u!143 &4904109365587111143
 CharacterController:
   m_ObjectHideFlags: 0
@@ -90,6 +69,33 @@ CapsuleCollider:
   m_Height: 1.384222
   m_Direction: 1
   m_Center: {x: -0.0043528676, y: 0.6705935, z: 0}
+--- !u!114 &5391913387563040615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334980945092910468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d287f78a5678344bbb43c17e0b028b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PlayerNumber: 1
+  m_PlayerMask: 512
+  m_MovementSpeed: 5
+  m_TurnSpeed: 10
+  m_AnalogMinThreshold: 0.2
+  m_GravityScale: 10
+  m_KnockbackDistance: 5
+  m_ChargeShoveIncrement: 10
+  m_MinChargeShovePressure: 1
+  m_MaxChargeShovePressure: 8
+  m_selectImage: {fileID: 6665881493376038258}
+  m_AButtonName: 
+  m_BButtonName: 
+  m_JoyStickVerticalName: 
+  m_JoyStickHorizontalName: 
 --- !u!114 &4920179915305342014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,8 +108,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ee0704f77a30ae4099e53733da74ba3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_PlayerNumber: 1
   m_Slider: {fileID: 2919595673064081535}
   m_FillImage: {fileID: 8747109609879182737}
+--- !u!114 &6465421268332573637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334980945092910468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ca597d8a15a2c94cbd2e82e18067462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ItemMask: 1024
+  m_HoldingItemId: -1
+  m_PickupRadius: 1
 --- !u!1 &1641823797086757229
 GameObject:
   m_ObjectHideFlags: 0

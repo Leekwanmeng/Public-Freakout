@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerChargeUI : MonoBehaviour
 {
-    public Slider m_Slider;                      
+    public int m_PlayerNumber = 1;
+    public Slider m_Slider;                    
     public Image m_FillImage;
     private PlayerController m_playerController;
     void Awake()

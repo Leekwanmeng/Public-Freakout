@@ -16,39 +16,35 @@ public class PlayerManager
 
     private PlayerController m_PlayerController;
     private PlayerChargeUI m_PlayerChargeUI;
-    // private PlayerShooting m_Shooting;
-    // private GameObject m_CanvasGameObject;
+    private GameObject m_CanvasGameObject;
 
 
     public void Setup()
     {
         m_PlayerController = m_Instance.GetComponent<PlayerController>();
         m_PlayerChargeUI = m_Instance.GetComponent<PlayerChargeUI>();
-        // m_Shooting = m_Instance.GetComponent<PlayerShooting>();
-        // m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
+        m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
 
         m_PlayerController.m_PlayerNumber = m_PlayerNumber;
-        // m_Shooting.m_PlayerNumber = m_PlayerNumber;
+        m_PlayerChargeUI.m_PlayerNumber = m_PlayerNumber;
+        m_ColoredPlayerText = "<color=#" + ColorUtility.ToHtmlStringRGB(m_PlayerColor) + ">PLAYER " + m_PlayerNumber + "</color>";
 
-        // m_ColoredPlayerText = "<color=#" + ColorUtility.ToHtmlStringRGB(m_PlayerColor) + ">PLAYER " + m_PlayerNumber + "</color>";
+        Color fillColor = m_PlayerColor;
+        fillColor.a = 1f;
+        m_PlayerChargeUI.m_FillImage.color = fillColor;
+        m_PlayerController.m_selectImage.color = m_PlayerColor;
+
         // MeshRenderer[] renderers = m_Instance.GetComponentsInChildren<MeshRenderer>();
         // for (int i = 0; i < renderers.Length; i++)
         // {
         //     renderers[i].material.color = m_PlayerColor;
         // }
-        m_PlayerController.m_selectImage.color = m_PlayerColor;
-        Color fillColor = m_PlayerColor;
-        fillColor.a = 1f;
-        m_PlayerChargeUI.m_FillImage.color = fillColor;
-
     }
 
 
     public void DisableControl()
     {
         m_PlayerController.enabled = false;
-        // m_Shooting.enabled = false;
-
         // m_CanvasGameObject.SetActive(false);
     }
 
@@ -56,8 +52,6 @@ public class PlayerManager
     public void EnableControl()
     {
         m_PlayerController.enabled = true;
-        // m_Shooting.enabled = true;
-
         // m_CanvasGameObject.SetActive(true);
     }
 

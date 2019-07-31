@@ -42,7 +42,6 @@ public class GameManagement : MonoBehaviour
                 Instantiate(m_PlayerPrefab, m_Players[i].m_SpawnPoint.position, m_Players[i].m_SpawnPoint.rotation) as GameObject;
             m_Players[i].m_PlayerNumber = i + 1;
             m_Players[i].Setup();
-            Debug.Log(i);
         }
     }
 
@@ -51,8 +50,7 @@ public class GameManagement : MonoBehaviour
     {
         Transform[] targets = new Transform[m_Players.Length];
 
-        for (int i = 0; i < targets.Length; i++)
-        {
+        for (int i = 0; i < targets.Length; i++) {
             targets[i] = m_Players[i].m_Instance.transform;
         }
 
