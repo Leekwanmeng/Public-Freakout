@@ -9,8 +9,17 @@ public class Item : MonoBehaviour
     public string m_ItemName;
     public float m_MaxTime = 15f;
     public float m_RotateSpeed = 30f;
+    public bool m_Thrown;
+    public float m_ThrowKnockForce;
     
     private float m_Timer;
+    private Rigidbody m_RigidBody;
+
+    void Awake()
+    {
+        m_RigidBody = GetComponent<Rigidbody>();
+        m_ThrowKnockForce = 100f;
+    }
     protected virtual void Start()
     {
         ResetTimer();
@@ -20,7 +29,6 @@ public class Item : MonoBehaviour
     void Update()
     {
         Countdown();
-        Rotate();
     }
 
     protected void ResetTimer() {
@@ -30,12 +38,33 @@ public class Item : MonoBehaviour
     protected void Countdown() {
         m_Timer -= Time.deltaTime;
         if (m_Timer < 0f) {
-            Destroy(gameObject);
+            ExpireItem();
         }
     }
 
-    protected void Rotate() {
+    protected void ExpireItem()
+    {
+        GameObject.Find("ItemManager").GetComponent<ItemSpawner>().m_ItemsToSpawn++;
+        Destroy(gameObject);
+    }
+
+    protected void CheckGround() {
         transform.Rotate(Vector3.up * m_RotateSpeed * Time.deltaTime, Space.Self);
+    }
+
+    void OnCollisionEnter(Collision other) {
+        if (other.gameObject.tag == "Ground") {
+            m_Thrown = false;
+        }
+        if (m_Thrown && other.gameObject.tag == "Player")  {
+            Vector3 direction = other.transform.position - transform.position;
+            direction.y = 0f;
+            direction.Normalize();
+            // Debug.Log(m_RigidBody.velocity.magnitude);
+            other.gameObject.GetComponent<Rigidbody>().AddForce(
+                direction * m_RigidBody.velocity.magnitude * m_ThrowKnockForce
+            );
+        }
     }
 
 

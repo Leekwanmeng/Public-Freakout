@@ -39,10 +39,10 @@ public class TestController : MonoBehaviour
         m_Rigidbody.AddForce(-m_Movement, ForceMode.VelocityChange);
 
         Vector3 addMovement = new Vector3(0,0,0); // add == 0
-        if (Mathf.Abs(m_JoystickHorizontal) > m_AnalogMinThreshold) addMovement.x = m_JoystickHorizontal;
-        if (Mathf.Abs(m_JoystickVertical) > m_AnalogMinThreshold) addMovement.z = -m_JoystickVertical;
+        addMovement.x = m_JoystickHorizontal;
+        addMovement.z = -m_JoystickVertical;
         
-        // addMovement *= speed;  // add == 5
+        addMovement *= speed;  // add == 5
 
         m_Rigidbody.AddForce(addMovement, ForceMode.VelocityChange);    // add == 5, m == 5, addforce 5
         Debug.Log("Movement: "+ m_Movement);
