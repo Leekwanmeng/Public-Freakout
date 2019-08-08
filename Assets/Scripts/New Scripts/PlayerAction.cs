@@ -15,17 +15,25 @@ public class PlayerAction : MonoBehaviour
     public float m_AEDForce = 20f;
     public float m_ExtinguisherForce = 1.5f;
 
+    public float m_BatPlayerForce = 10f;
+    public float m_BatItemHForce = 7f;
+    public float m_BatItemVForce = 5f;
+
     public float m_ChargeShovePressure;
     private string m_AButtonName;
     private string m_BButtonName;
     private PlayerState m_PlayerState;
     private ItemDatabase m_ItemDatabase;
     private Rigidbody m_RigidBody;
+
+    private float m_Cooldown;
+
     void Awake()
     {
         m_PlayerState = GetComponent<PlayerState>();
         m_ItemDatabase = GameObject.FindGameObjectWithTag("ItemManager").GetComponent<ItemDatabase>();
         m_RigidBody = GetComponent<Rigidbody>();
+        m_Cooldown = Time.time;
     }
 
     void Start()
@@ -44,19 +52,54 @@ public class PlayerAction : MonoBehaviour
     }
 
     void CheckAButton() {
+        //Holdable actions
         if (Input.GetButton(m_AButtonName)) {
-            if (m_PlayerState.m_HoldItemId < 0) {
+            switch(m_PlayerState.m_HoldItemId) {
+          
+            case -1:
                 m_PlayerState.m_CanWalk = false;
                 ChargeShove();
+                break;
+
+            case 2:
+                UseExtinguisher();
+                break;
+            
+            // jackhammer
+            case 3:
+                break;
+
+            default:
+                break;
             }
-            else {
-                UseItem();
-            }
-        }
-        else {
+        } else {
             if (m_PlayerState.m_HoldItemId < 0) {
                 Shove();
                 // StartCoroutine(WaitToWalk());
+            }
+        }
+
+        if (m_Cooldown <= Time.time){       
+            //Single click actions
+            if (Input.GetButtonDown(m_AButtonName)) {
+                switch(m_PlayerState.m_HoldItemId) {
+                // bb bat
+                case 0:
+                    Debug.Log("Swing bat");
+                    UseBat();
+                    Set_Cooldown(1f);
+                    break;
+
+                // AED
+                case 1:
+                    StartCoroutine(UseAED());
+                    Set_Cooldown(1f);
+                    break;
+
+                default:
+                    break;
+                }
+            
             }
         }
     }
@@ -99,6 +142,10 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
+    void Set_Cooldown(float duration){
+        m_Cooldown = Time.time + duration;
+    }
+
     IEnumerator WaitToWalk() {
         yield return new WaitForSeconds(1);
         m_PlayerState.m_CanWalk = true;
@@ -113,55 +160,6 @@ public class PlayerAction : MonoBehaviour
             other.gameObject.GetComponent<Rigidbody>().AddForce(
                 pushDirection * m_ShoveKnockForce, ForceMode.VelocityChange
             );
-        }
-    }
-
-    void UseItem() {
-        // Check holding item id, do appropriate action
-        switch(m_PlayerState.m_HoldItemId) {
-            // bb bat
-            case 0:
-                StartCoroutine(UseBat());
-                break;
-
-            // AED
-            case 1:
-                StartCoroutine(UseAED());
-                break;
-            
-            // extinguisher
-            case 2:
-                UseExtinguisher();
-                break;
-            
-            // jackhammer
-            case 3:
-                break;
-            
-            default:
-                break;
-        
-        }
-    }
-
-    void UseBat() {
-        float radius = 2.0f;
-        float maxAngle = 15f;
-
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_PlayerMask);
-        foreach (Collider col in colliders) {
-            PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
-            if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
-                Vector3 pushDirection = col.transform.position - transform.position;
-                float angle = Vector3.Angle(pushDirection, transform.forward);
-                if (angle < maxAngle && !otherPlayer.m_IsKnocked) {
-                    pushDirection = pushDirection.normalized;
-                    col.gameObject.GetComponent<Rigidbody>().AddForce(
-                        pushDirection, ForceMode.VelocityChange
-                    );
-                    otherPlayer.EnterKnockedState();
-                }
-            }
         }
     }
 
@@ -182,7 +180,7 @@ public class PlayerAction : MonoBehaviour
             if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
                 Vector3 pushDirection = col.transform.position - transform.position;
                 float angle = Vector3.Angle(pushDirection, transform.forward);
-                if (angle < maxAngle && !otherPlayer.m_IsKnocked) {
+                if (angle < maxAngle) {
                     pushDirection = pushDirection.normalized;
                     col.gameObject.GetComponent<Rigidbody>().AddForce(
                         pushDirection * m_AEDForce, ForceMode.VelocityChange
@@ -193,9 +191,10 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
-    IEnumerator UseBat() {
-        float radius = 3.0f;
-        float maxAngle = 30f;
+    void UseBat() {
+        
+        float radius = 1.0f;
+        float maxAngle = 20f;
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_PlayerMask);
         foreach (Collider col in colliders) {
@@ -203,10 +202,10 @@ public class PlayerAction : MonoBehaviour
             if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
                 Vector3 pushDirection = col.transform.position - transform.position;
                 float angle = Vector3.Angle(pushDirection, transform.forward);
-                if (angle < maxAngle && !otherPlayer.m_IsKnocked) {
+                if (angle < maxAngle) {
                     pushDirection = pushDirection.normalized;
                     col.gameObject.GetComponent<Rigidbody>().AddForce(
-                        pushDirection * m_AEDForce, ForceMode.VelocityChange
+                        pushDirection * m_BatPlayerForce, ForceMode.VelocityChange
                     );
                     otherPlayer.EnterKnockedState();
                 }
@@ -221,16 +220,18 @@ public class PlayerAction : MonoBehaviour
             if (angle < maxAngle) {
                 Debug.Log("Hit object");
                 //Force to applied to object
-                Vector3 force = transform.forward.normalized;
-                force.y = 0.5f;
+                Vector3 force = transform.forward.normalized * m_BatItemHForce;
+                //Vertical force
+                force.y = m_BatItemVForce;
+                col.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 col.gameObject.GetComponent<Rigidbody>().AddForce(
                     force, ForceMode.VelocityChange
                 );
             }
         }
-        //Cooldown duration
-        yield return new WaitForSeconds(1);
     }
+
+    
 
     void UseExtinguisher() {        
         float radius = 6.0f;
