@@ -684,16 +684,16 @@ MonoBehaviour:
   m_EndDelay: 3
   m_CameraControl: {fileID: 1017627381}
   m_MessageText: {fileID: 1878621709}
-  m_PlayerPrefab: {fileID: 4836531662017868162, guid: fdc3ec2cd8eaa664fb6263b4c24b8403,
+  m_PlayerPrefab: {fileID: 2480657857998624451, guid: bc29314c067ead54890f226f25992652,
     type: 3}
   m_Players:
-  - m_PlayerColor: {r: 0.32941177, g: 0.5411765, b: 1, a: 0.627451}
+  - m_PlayerColor: {r: 0.031149892, g: 0.20700449, b: 0.9433962, a: 0}
     m_SpawnPoint: {fileID: 263459443}
     m_PlayerNumber: 0
     m_ColoredPlayerText: 
     m_Instance: {fileID: 0}
     m_Wins: 0
-  - m_PlayerColor: {r: 1, g: 0.3254902, b: 0.16078432, a: 0.627451}
+  - m_PlayerColor: {r: 0.9299333, g: 0.9622642, b: 0.05900679, a: 0}
     m_SpawnPoint: {fileID: 176918707}
     m_PlayerNumber: 0
     m_ColoredPlayerText: 

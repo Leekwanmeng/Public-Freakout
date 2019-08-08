@@ -334,20 +334,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba5ca230a84df1a4c8e39d7e8126d8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PickupRadius: 1
-  m_WalkDropForce: 50
-  m_MinDropForce: 120
-  m_ItemSpawnFromPlayerHeight: 0.7
-  m_ChargeShoveIncrement: 12
-  m_MinChargeShovePressure: 3
-  m_MaxChargeShovePressure: 10
-  m_ShoveKnockForce: 5
-  m_AEDForce: 20
-  m_ExtinguisherForce: 1.5
-  m_BatPlayerForce: 5
-  m_BatItemHForce: 7
-  m_BatItemVForce: 5
-  m_ChargeShovePressure: 0
 --- !u!114 &981807044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,7 +530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
+  m_Color: {r: 1, g: 1, b: 0.5882353, a: 0.5882353}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
