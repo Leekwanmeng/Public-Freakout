@@ -121,6 +121,7 @@ public class PlayerAction : MonoBehaviour
         switch(m_PlayerState.m_HoldItemId) {
             // bb bat
             case 0:
+                StartCoroutine(UseBat());
                 break;
 
             // AED
@@ -169,6 +170,45 @@ public class PlayerAction : MonoBehaviour
                 }
             }
         }
+    }
+
+    IEnumerator UseBat() {
+        float radius = 3.0f;
+        float maxAngle = 30f;
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_PlayerMask);
+        foreach (Collider col in colliders) {
+            PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
+            if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
+                Vector3 pushDirection = col.transform.position - transform.position;
+                float angle = Vector3.Angle(pushDirection, transform.forward);
+                if (angle < maxAngle && !otherPlayer.m_IsKnocked) {
+                    pushDirection = pushDirection.normalized;
+                    col.gameObject.GetComponent<Rigidbody>().AddForce(
+                        pushDirection * m_AEDForce, ForceMode.VelocityChange
+                    );
+                    otherPlayer.EnterKnockedState();
+                }
+            }
+        }
+
+        colliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_ItemMask);
+        foreach (Collider col in colliders) {
+            
+            Vector3 pushDifference = col.transform.position - transform.position;
+            float angle = Vector3.Angle(pushDifference, transform.forward);
+            if (angle < maxAngle) {
+                Debug.Log("Hit object");
+                //Force to applied to object
+                Vector3 force = transform.forward.normalized;
+                force.y = 0.5f;
+                col.gameObject.GetComponent<Rigidbody>().AddForce(
+                    force, ForceMode.VelocityChange
+                );
+            }
+        }
+        //Cooldown duration
+        yield return new WaitForSeconds(1);
     }
 
     void UseExtinguisher() {        
