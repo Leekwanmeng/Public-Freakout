@@ -133,7 +133,7 @@ public class PlayerAction : MonoBehaviour
 
     void Shove() {
         if (m_ChargeShovePressure > 0f) {
-            m_PlayerState.m_CanWalk = true;
+            m_PlayerState.m_CanRotate = false;
             m_ChargeShovePressure += m_MinChargeShovePressure;
             Vector3 force = transform.forward * m_ChargeShovePressure;
             StartCoroutine(WaitToWalk(m_ChargeShovePressure));
@@ -148,12 +148,9 @@ public class PlayerAction : MonoBehaviour
     }
 
     IEnumerator WaitToWalk(float force) {
-        Debug.Log(force);
-        // Debug.Log("something");
-        Debug.Log(m_PlayerState.m_FrictionMagnitude);
-        Debug.Log(force/m_PlayerState.m_FrictionMagnitude);
-        yield return new WaitForSeconds(force/m_PlayerState.m_FrictionMagnitude);
+        yield return new WaitForSeconds( (force/m_PlayerState.m_FrictionMagnitude - 5) * Time.deltaTime);
         m_PlayerState.m_CanWalk = true;
+        m_PlayerState.m_CanRotate = true;
         m_PlayerState.m_IsCharging = false;
     }
 

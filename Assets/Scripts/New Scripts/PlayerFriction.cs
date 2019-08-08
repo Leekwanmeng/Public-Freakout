@@ -36,7 +36,6 @@ public class PlayerFriction : MonoBehaviour
         if ((currentForce != Vector3.zero) ){
             // Debug.Log("FORCE APPLIED" + currentForce);
             Vector3 frictionForce  = -currentForce/currentForce.magnitude * m_PlayerState.m_FrictionMagnitude;
-            Debug.Log("Friction : " + frictionForce);
             if ( (Mathf.Abs(currentForce.x) <= m_PlayerState.m_FrictionMagnitude) && (Mathf.Abs(currentForce.z) <= m_PlayerState.m_FrictionMagnitude) ){
                 currentForce.y = 0;
                 m_Rigidbody.AddForce(-currentForce, ForceMode.VelocityChange);
