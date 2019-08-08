@@ -6,7 +6,34 @@ ModelImporter:
   - first:
       74: 1827226128182048838
     second: PlayerAEDIdle
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: AED_Body
+    second: {fileID: 2100000, guid: f501fb3fdebb81445b4e0872760fb69d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: AED_Lightning
+    second: {fileID: 7107233891589275574, guid: 90b914bd1490c0a4388d3be4028d5e7c,
+      type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body_Shader_Red
+    second: {fileID: 2100000, guid: 4a73097798ae46645966a94dc6aa5caf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Eyes_Shader
+    second: {fileID: -6183267341104066207, guid: 4737305bb1c929843af9629a6c6840b4,
+      type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 879ed4d2b26f4f94bb7ab88d098218ee, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -112,7 +139,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.07
+    globalScale: 7
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

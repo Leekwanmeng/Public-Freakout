@@ -15,7 +15,8 @@ public class GameManagement : MonoBehaviour
     public PlayerManager[] m_Players;
 
 
-    private int m_RoundNumber;              
+    private bool m_Paused;
+    private int m_RoundNumber;
     private WaitForSeconds m_StartWait;     
     private WaitForSeconds m_EndWait;       
     private PlayerManager m_RoundWinner;
@@ -26,6 +27,7 @@ public class GameManagement : MonoBehaviour
     {
         m_StartWait = new WaitForSeconds(m_StartDelay);
         m_EndWait = new WaitForSeconds(m_EndDelay);
+        m_Paused = false;
 
         SpawnAllPlayers();
         SetCameraTargets();
@@ -91,6 +93,8 @@ public class GameManagement : MonoBehaviour
         EnablePlayerControl();
         m_MessageText.text = string.Empty;
         while (!OnePlayerLeft()) {
+            CheckPause();
+            Debug.Log(m_Paused);
             yield return null;
         }
     }
@@ -108,6 +112,20 @@ public class GameManagement : MonoBehaviour
         string message = EndMessage();
         m_MessageText.text = message;
         yield return m_EndWait;
+    }
+
+    private void CheckPause() {
+        if (Input.GetButtonDown("StartButton1")) {
+            if (!m_Paused) {
+                Time.timeScale = 0.0f;
+                DisablePlayerControl();
+                m_Paused = true;
+            } else {
+                EnablePlayerControl();
+                Time.timeScale = 1.0f;
+                m_Paused = false;
+            }
+        }
     }
 
 

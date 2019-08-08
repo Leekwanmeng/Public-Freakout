@@ -1,37 +1,12 @@
 fileFormatVersion: 2
-guid: 7534d441d0a206a4d881748621e502b8
+guid: aa0fca9e14f12184fa85c4be7b86fe57
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: RedAEDWalk
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: AED_Body
-    second: {fileID: 2100000, guid: 40ea80c8f01e70d4e8fa3df26c88a6ce, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: AED_Lightning
-    second: {fileID: 2100000, guid: 18fc67c1f1518a74aab3aeb74bee2e46, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Body_Shader_Red
-    second: {fileID: 2100000, guid: 4a73097798ae46645966a94dc6aa5caf, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Eyes_Shader
-    second: {fileID: 2100000, guid: abd848698e6a42d47baae87db36c3cb4, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: lambert1
-    second: {fileID: 2100000, guid: 879ed4d2b26f4f94bb7ab88d098218ee, type: 2}
+    second: PlayerAEDWalk
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
@@ -60,7 +35,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: RedAEDWalk
+      name: PlayerAEDWalk
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 1
@@ -71,7 +46,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -137,7 +112,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 7
+    globalScale: 0.07
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

@@ -6,7 +6,29 @@ ModelImporter:
   - first:
       74: 1827226128182048838
     second: PlayerBatIdle
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BaseballBat_Shader
+    second: {fileID: 2100000, guid: 40ea80c8f01e70d4e8fa3df26c88a6ce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body_Shader_Red
+    second: {fileID: 7107233891589275574, guid: aa0fca9e14f12184fa85c4be7b86fe57,
+      type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Eyes_Shader
+    second: {fileID: 2100000, guid: 40ea80c8f01e70d4e8fa3df26c88a6ce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 5561349426305759274, guid: cb26725144a5ded498e855e3ffebd44c,
+      type: 3}
   materials:
     importMaterials: 1
     materialName: 0

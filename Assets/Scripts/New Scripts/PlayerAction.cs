@@ -105,16 +105,16 @@ public class PlayerAction : MonoBehaviour
     }
 
 
-    void OnCollisionEnter(Collision other) {
-        if (other.gameObject.tag == "Player") {
-            PlayerState otherPlayer = other.gameObject.GetComponent<PlayerState>();
-            Vector3 pushDirection = other.transform.position - transform.position;
-            pushDirection = pushDirection.normalized;
-            other.gameObject.GetComponent<Rigidbody>().AddForce(
-                pushDirection * m_ShoveKnockForce, ForceMode.VelocityChange
-            );
-        }
-    }
+    // void OnCollisionEnter(Collision other) {
+    //     if (other.gameObject.tag == "Player") {
+    //         PlayerState otherPlayer = other.gameObject.GetComponent<PlayerState>();
+    //         Vector3 pushDirection = other.transform.position - transform.position;
+    //         pushDirection = pushDirection.normalized;
+    //         other.gameObject.GetComponent<Rigidbody>().AddForce(
+    //             pushDirection * m_ShoveKnockForce, ForceMode.VelocityChange
+    //         );
+    //     }
+    // }
 
     void UseItem() {
         // Check holding item id, do appropriate action
@@ -141,27 +141,6 @@ public class PlayerAction : MonoBehaviour
             default:
                 break;
         
-        }
-    }
-
-    void UseBat() {
-        float radius = 2.0f;
-        float maxAngle = 15f;
-
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_PlayerMask);
-        foreach (Collider col in colliders) {
-            PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
-            if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
-                Vector3 pushDirection = col.transform.position - transform.position;
-                float angle = Vector3.Angle(pushDirection, transform.forward);
-                if (angle < maxAngle && !otherPlayer.m_IsKnocked) {
-                    pushDirection = pushDirection.normalized;
-                    col.gameObject.GetComponent<Rigidbody>().AddForce(
-                        pushDirection, ForceMode.VelocityChange
-                    );
-                    otherPlayer.EnterKnockedState();
-                }
-            }
         }
     }
 

@@ -33,6 +33,10 @@ public class PlayerState : MonoBehaviour
         m_RigidBody = GetComponent<Rigidbody>();
     }
 
+    void Start()
+    {
+    }
+
     void Update()
     {
         UpdateAnimations();
