@@ -184,6 +184,7 @@ GameObject:
   - component: {fileID: 2480657857998624454}
   - component: {fileID: 8525488566727318152}
   - component: {fileID: -484342697010507906}
+  - component: {fileID: 8271380378206855133}
   - component: {fileID: 981807042}
   - component: {fileID: 8673456479855766584}
   - component: {fileID: 7101327619186679673}
@@ -242,6 +243,25 @@ CapsuleCollider:
   m_Height: 1.3406986
   m_Direction: 1
   m_Center: {x: 0, y: 0.6796507, z: 0}
+--- !u!95 &8271380378206855133
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2480657857998624451}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 4737305bb1c929843af9629a6c6840b4, type: 3}
+  m_Controller: {fileID: 9100000, guid: 09c1705e8e8214a48ae8a37cdb060e1b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &981807042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,17 +278,22 @@ MonoBehaviour:
   m_PlayerMask: 512
   m_ItemMask: 1024
   m_HoldItemId: -1
+  m_Speed: 4
+  m_TurnSpeed: 15
   m_CanWalk: 1
   m_CanRotate: 1
   m_IsKnocked: 0
   m_IsShoving: 0
   m_IsCharging: 0
   m_FrictionMagnitude: 0
-  m_Movement: 0
+  m_MovementMagnitude: 0
+  m_CurrentMovement: {x: 0, y: 0, z: 0}
+  m_PreviousMovement: {x: 0, y: 0, z: 0}
   m_ChargeShovePressure: 0
   m_MinChargeShovePressure: 0
   m_MaxChargeShovePressure: 0
   m_selectImage: {fileID: 8812121351906459189}
+  m_Animator: {fileID: 0}
 --- !u!114 &8673456479855766584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,7 +308,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CurrentMovement: {x: 0, y: 0, z: 0}
   m_PreviousMovement: {x: 0, y: 0, z: 0}
-  m_Speed: 4
 --- !u!114 &7101327619186679673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,6 +342,9 @@ MonoBehaviour:
   m_ChargeShoveIncrement: 15
   m_MinChargeShovePressure: 5
   m_MaxChargeShovePressure: 20
+  m_ShoveKnockForce: 5
+  m_AEDForce: 20
+  m_ExtinguisherForce: 0.8
   m_ChargeShovePressure: 0
 --- !u!114 &981807044
 MonoBehaviour:
@@ -604,6 +631,11 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 09c1705e8e8214a48ae8a37cdb060e1b, type: 2}
+    - target: {fileID: -6057140222963153312, guid: 4737305bb1c929843af9629a6c6840b4,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4737305bb1c929843af9629a6c6840b4, type: 3}
 --- !u!4 &1991202554193213468 stripped

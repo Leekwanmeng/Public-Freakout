@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: cb26725144a5ded498e855e3ffebd44c
+guid: 5a453e6df88bd5b498c30f45e0583d62
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: PlayerEmptyShoveCharge
+    second: PlayerAEDIdle
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -35,7 +35,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: PlayerEmptyShoveCharge
+      name: PlayerAEDIdle
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 1
@@ -112,7 +112,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 7
+    globalScale: 0.07
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

@@ -5,13 +5,13 @@ using UnityEngine;
 public class PlayerFriction : MonoBehaviour
 {
     public float frictionMagnitude;
-    private PlayerWalk m_PlayerWalk;
+    private PlayerState m_PlayerState;
     private Rigidbody m_Rigidbody;
     // private Vector3 previousMovement;
         
     void Awake()
     {
-        m_PlayerWalk = GetComponent<PlayerWalk>();
+        m_PlayerState = GetComponent<PlayerState>();
         m_Rigidbody = GetComponent<Rigidbody>();
     }
     
@@ -30,7 +30,7 @@ public class PlayerFriction : MonoBehaviour
 
     void ApplyFriction()
     {
-        Vector3 currentMovement = m_PlayerWalk.m_CurrentMovement;
+        Vector3 currentMovement = m_PlayerState.m_CurrentMovement;
         Vector3 currentVelocity = m_Rigidbody.velocity;
         Vector3 currentForce = currentVelocity - currentMovement;
 
