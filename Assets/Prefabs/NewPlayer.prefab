@@ -279,7 +279,7 @@ MonoBehaviour:
   m_ItemMask: 1024
   m_HoldItemId: -1
   m_Speed: 4
-  m_TurnSpeed: 15
+  m_TurnSpeed: 10
   m_CanWalk: 1
   m_CanRotate: 1
   m_IsKnocked: 0
@@ -306,8 +306,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31f424f2b8d1f7647833ce75f6b61db0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_CurrentMovement: {x: 0, y: 0, z: 0}
-  m_PreviousMovement: {x: 0, y: 0, z: 0}
 --- !u!114 &7101327619186679673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,7 +342,7 @@ MonoBehaviour:
   m_MaxChargeShovePressure: 20
   m_ShoveKnockForce: 5
   m_AEDForce: 20
-  m_ExtinguisherForce: 0.8
+  m_ExtinguisherForce: 1.5
   m_ChargeShovePressure: 0
 --- !u!114 &981807044
 MonoBehaviour:

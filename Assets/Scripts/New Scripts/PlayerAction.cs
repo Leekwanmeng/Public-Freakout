@@ -13,7 +13,7 @@ public class PlayerAction : MonoBehaviour
     public float m_MaxChargeShovePressure;
     public float m_ShoveKnockForce = 5f;
     public float m_AEDForce = 20f;
-    public float m_ExtinguisherForce = 0.8f;
+    public float m_ExtinguisherForce = 1.5f;
 
     public float m_ChargeShovePressure;
     private string m_AButtonName;
@@ -37,15 +37,16 @@ public class PlayerAction : MonoBehaviour
         m_PlayerState.m_MaxChargeShovePressure = m_MaxChargeShovePressure;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        CheckBButton();
         CheckAButton();
+        CheckBButton();
     }
 
     void CheckAButton() {
         if (Input.GetButton(m_AButtonName)) {
             if (m_PlayerState.m_HoldItemId < 0) {
+                m_PlayerState.m_CanWalk = false;
                 ChargeShove();
             }
             else {
@@ -55,7 +56,7 @@ public class PlayerAction : MonoBehaviour
         else {
             if (m_PlayerState.m_HoldItemId < 0) {
                 Shove();
-                StartCoroutine(WaitToWalk());
+                // StartCoroutine(WaitToWalk());
             }
         }
     }
@@ -72,12 +73,11 @@ public class PlayerAction : MonoBehaviour
     }
 
     private void ChargeShove() {
-        m_PlayerState.m_CanWalk = false;
         // TODO: find a way to stop movement
-        if (m_ChargeShovePressure == 0f) {
-            m_RigidBody.AddForce(m_PlayerState.m_PreviousMovement - m_PlayerState.m_CurrentMovement, ForceMode.VelocityChange);
-            m_PlayerState.m_CurrentMovement = Vector3.zero;
-        }
+        // if (m_ChargeShovePressure == 0f) {
+        //     m_RigidBody.AddForce(-m_PlayerState.m_CurrentMovement, ForceMode.VelocityChange);
+        //     m_PlayerState.m_CurrentMovement = Vector3.zero;
+        // }
         
         if (m_ChargeShovePressure < m_MaxChargeShovePressure) {
             m_ChargeShovePressure += m_ChargeShoveIncrement * Time.deltaTime;
@@ -90,6 +90,7 @@ public class PlayerAction : MonoBehaviour
 
     void Shove() {
         if (m_ChargeShovePressure > 0f) {
+            m_PlayerState.m_CanWalk = true;
             m_ChargeShovePressure += m_MinChargeShovePressure;
             Vector3 force = transform.forward * m_ChargeShovePressure;
             m_RigidBody.AddForce(force, ForceMode.VelocityChange);

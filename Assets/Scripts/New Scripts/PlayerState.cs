@@ -10,7 +10,7 @@ public class PlayerState : MonoBehaviour
     public int m_ItemMask = 1 << 10; // layer 10: Items
     public int m_HoldItemId = -1;
     public float m_Speed = 4f;
-    public float m_TurnSpeed = 15f;
+    public float m_TurnSpeed = 10f;
     public bool m_CanWalk;
     public bool m_CanRotate;
     public bool m_IsKnocked;

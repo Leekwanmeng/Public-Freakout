@@ -29,6 +29,8 @@ public class PlayerWalk : MonoBehaviour
 
         if (m_PlayerState.m_CanWalk) {
             Walk(h,v);
+        } else {
+            Walk(0f,0f);
         }
         if (m_PlayerState.m_CanRotate) {
             Rotate(h,v);
