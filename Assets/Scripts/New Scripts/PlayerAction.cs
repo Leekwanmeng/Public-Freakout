@@ -144,6 +144,27 @@ public class PlayerAction : MonoBehaviour
         }
     }
 
+    void UseBat() {
+        float radius = 2.0f;
+        float maxAngle = 15f;
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_PlayerMask);
+        foreach (Collider col in colliders) {
+            PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
+            if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
+                Vector3 pushDirection = col.transform.position - transform.position;
+                float angle = Vector3.Angle(pushDirection, transform.forward);
+                if (angle < maxAngle && !otherPlayer.m_IsKnocked) {
+                    pushDirection = pushDirection.normalized;
+                    col.gameObject.GetComponent<Rigidbody>().AddForce(
+                        pushDirection, ForceMode.VelocityChange
+                    );
+                    otherPlayer.EnterKnockedState();
+                }
+            }
+        }
+    }
+
     IEnumerator UseAED() {
         m_PlayerState.m_CanWalk = false;
         m_PlayerState.m_CanRotate = false;

@@ -49,7 +49,7 @@ public class PlayerManager
     public void DisableControl()
     {
         // m_PlayerState.m_CanWalk = false;
-        m_PlayerState.enabled = false;
+        // m_PlayerState.enabled = false;
         m_PlayerWalk.enabled = false;
         m_PlayerAction.enabled = false;
         // m_CanvasGameObject.SetActive(false);
@@ -58,7 +58,7 @@ public class PlayerManager
 
     public void EnableControl()
     {
-        m_PlayerState.enabled = true;
+        // m_PlayerState.enabled = true;
         m_PlayerWalk.enabled = true;
         m_PlayerAction.enabled = true;
         // m_PlayerState.m_CanWalk = true;
