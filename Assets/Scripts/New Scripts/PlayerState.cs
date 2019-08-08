@@ -25,24 +25,24 @@ public class PlayerState : MonoBehaviour
     public float m_MaxChargeShovePressure;
     public Image m_selectImage;
     public Animator m_Animator;
+    public Rigidbody m_RigidBody;
 
     void Awake()
     {
         m_Animator = GetComponent<Animator>();
+        m_RigidBody = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        m_Animator.SetFloat("movementMagnitude", m_MovementMagnitude);
-        m_Animator.SetInteger("holdItemId", m_HoldItemId);
-        m_Animator.SetFloat("chargeShovePressure", m_ChargeShovePressure);
+        UpdateAnimations();
     }
     
     public void EnterKnockedState() {
         StartCoroutine(KnockedState());
     }
 
-    IEnumerator KnockedState () {
+    IEnumerator KnockedState() {
         Debug.Log("Entered knock");
         m_IsKnocked = true;
         m_CanWalk = false;
@@ -55,5 +55,26 @@ public class PlayerState : MonoBehaviour
         m_CanWalk = true;
         m_CanRotate = true;
         Debug.Log("Finish knock");
+    }
+
+    void UpdateAnimations() {
+        m_Animator.SetFloat("movementMagnitude", m_MovementMagnitude);
+        m_Animator.SetInteger("holdItemId", m_HoldItemId);
+        m_Animator.SetFloat("chargeShovePressure", m_ChargeShovePressure);
+    }
+
+    public void GetKnocked() {
+        m_IsKnocked = true;
+        m_CanWalk = false;
+        m_CanRotate = false;
+        m_IsShoving = false;
+        m_IsCharging = false;
+    }
+
+    public void DoForce(Vector3 force) {
+        if (force.magnitude > 3f) {
+            m_IsKnocked = true;
+        }
+        m_RigidBody.AddForce(force);
     }
 }

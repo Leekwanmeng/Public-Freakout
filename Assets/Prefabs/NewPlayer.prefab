@@ -337,9 +337,9 @@ MonoBehaviour:
   m_WalkDropForce: 50
   m_MinDropForce: 120
   m_ItemSpawnFromPlayerHeight: 0.7
-  m_ChargeShoveIncrement: 15
-  m_MinChargeShovePressure: 5
-  m_MaxChargeShovePressure: 20
+  m_ChargeShoveIncrement: 12
+  m_MinChargeShovePressure: 3
+  m_MaxChargeShovePressure: 10
   m_ShoveKnockForce: 5
   m_AEDForce: 20
   m_ExtinguisherForce: 1.5

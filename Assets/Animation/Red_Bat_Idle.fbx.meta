@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 7aee50d809346514781298111e44e263
+guid: 9e3ee690c04699d4fbc34c6f9283aa71
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: PlayerBatAction
+    second: PlayerBatIdle
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -35,7 +35,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: PlayerBatAction
+      name: PlayerBatIdle
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 1

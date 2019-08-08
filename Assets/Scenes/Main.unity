@@ -684,7 +684,7 @@ MonoBehaviour:
   m_EndDelay: 3
   m_CameraControl: {fileID: 1017627381}
   m_MessageText: {fileID: 1878621709}
-  m_PlayerPrefab: {fileID: 2480657857998624451, guid: bc29314c067ead54890f226f25992652,
+  m_PlayerPrefab: {fileID: 4836531662017868162, guid: fdc3ec2cd8eaa664fb6263b4c24b8403,
     type: 3}
   m_Players:
   - m_PlayerColor: {r: 0.32941177, g: 0.5411765, b: 1, a: 0.627451}

@@ -61,11 +61,11 @@ public class Item : MonoBehaviour
             direction.y = 0f;
             direction.Normalize();
             // Debug.Log(m_RigidBody.velocity.magnitude);
-            other.gameObject.GetComponent<Rigidbody>().AddForce(
-                direction * m_RigidBody.velocity.magnitude * m_ThrowKnockForce
-            );
+            Vector3 force = direction * m_RigidBody.velocity.magnitude * m_ThrowKnockForce;
+            other.gameObject.GetComponent<PlayerState>().DoForce(force);
         }
     }
+
 
 
 
