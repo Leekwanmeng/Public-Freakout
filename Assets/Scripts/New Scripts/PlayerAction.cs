@@ -45,7 +45,7 @@ public class PlayerAction : MonoBehaviour
         m_PlayerState.m_MaxChargeShovePressure = m_MaxChargeShovePressure;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         CheckAButton();
         CheckBButton();
@@ -121,7 +121,7 @@ public class PlayerAction : MonoBehaviour
         //     m_RigidBody.AddForce(-m_PlayerState.m_CurrentMovement, ForceMode.VelocityChange);
         //     m_PlayerState.m_CurrentMovement = Vector3.zero;
         // }
-        
+        m_PlayerState.m_IsCharging = true;
         if (m_ChargeShovePressure < m_MaxChargeShovePressure) {
             m_ChargeShovePressure += m_ChargeShoveIncrement * Time.deltaTime;
         }
@@ -136,6 +136,7 @@ public class PlayerAction : MonoBehaviour
             m_PlayerState.m_CanWalk = true;
             m_ChargeShovePressure += m_MinChargeShovePressure;
             Vector3 force = transform.forward * m_ChargeShovePressure;
+            StartCoroutine(WaitToWalk(m_ChargeShovePressure));
             m_RigidBody.AddForce(force, ForceMode.VelocityChange);
             m_ChargeShovePressure = 0f;
             m_PlayerState.m_ChargeShovePressure = m_ChargeShovePressure;
@@ -146,22 +147,31 @@ public class PlayerAction : MonoBehaviour
         m_Cooldown = Time.time + duration;
     }
 
-    IEnumerator WaitToWalk() {
-        yield return new WaitForSeconds(1);
+    IEnumerator WaitToWalk(float force) {
+        Debug.Log(force);
+        // Debug.Log("something");
+        Debug.Log(m_PlayerState.m_FrictionMagnitude);
+        Debug.Log(force/m_PlayerState.m_FrictionMagnitude);
+        yield return new WaitForSeconds(force/m_PlayerState.m_FrictionMagnitude);
         m_PlayerState.m_CanWalk = true;
+        m_PlayerState.m_IsCharging = false;
     }
 
 
-    void OnCollisionEnter(Collision other) {
-        if (other.gameObject.tag == "Player") {
-            PlayerState otherPlayer = other.gameObject.GetComponent<PlayerState>();
-            Vector3 pushDirection = other.transform.position - transform.position;
-            pushDirection = pushDirection.normalized;
-            other.gameObject.GetComponent<Rigidbody>().AddForce(
-                pushDirection * m_ShoveKnockForce, ForceMode.VelocityChange
-            );
-        }
-    }
+    // void OnCollisionEnter(Collision other) {
+    //     if (other.gameObject.tag == "Player") {
+    //         PlayerState otherPlayer = other.gameObject.GetComponent<PlayerState>();
+    //         Vector3 pushDirection = other.transform.position - transform.position;
+    //         pushDirection = pushDirection.normalized;
+    //         // other.gameObject.GetComponent<Rigidbody>().AddForce(
+    //         //     pushDirection * m_ShoveKnockForce, ForceMode.VelocityChange
+    //         // );
+
+    //         other.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_ShoveKnockForce);
+
+            
+    //     }
+    // }
 
     IEnumerator UseAED() {
         m_PlayerState.m_CanWalk = false;
@@ -182,10 +192,12 @@ public class PlayerAction : MonoBehaviour
                 float angle = Vector3.Angle(pushDirection, transform.forward);
                 if (angle < maxAngle) {
                     pushDirection = pushDirection.normalized;
-                    col.gameObject.GetComponent<Rigidbody>().AddForce(
-                        pushDirection * m_AEDForce, ForceMode.VelocityChange
-                    );
-                    otherPlayer.EnterKnockedState();
+                    // col.gameObject.GetComponent<Rigidbody>().AddForce(
+                    //     pushDirection * m_AEDForce, ForceMode.VelocityChange
+                    // );
+
+                    col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_AEDForce);
+
                 }
             }
         }
@@ -204,10 +216,10 @@ public class PlayerAction : MonoBehaviour
                 float angle = Vector3.Angle(pushDirection, transform.forward);
                 if (angle < maxAngle) {
                     pushDirection = pushDirection.normalized;
-                    col.gameObject.GetComponent<Rigidbody>().AddForce(
-                        pushDirection * m_BatPlayerForce, ForceMode.VelocityChange
-                    );
-                    otherPlayer.EnterKnockedState();
+                    // col.gameObject.GetComponent<Rigidbody>().AddForce(
+                    //     pushDirection * m_BatPlayerForce, ForceMode.VelocityChange
+                    // );
+                    col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_BatPlayerForce);
                 }
             }
         }
@@ -260,6 +272,8 @@ public class PlayerAction : MonoBehaviour
         float scaledPush = 1f / pushDifference.magnitude;
         Vector3 pushDirection = pushDifference.normalized;
         Debug.Log(scaledPush * m_ExtinguisherForce);
+
+        // ps.DoForce(pushDirection * scaledPush * m_ExtinguisherForce);
         col.gameObject.GetComponent<Rigidbody>().AddForce(
             pushDirection * scaledPush * m_ExtinguisherForce, ForceMode.VelocityChange
         );
