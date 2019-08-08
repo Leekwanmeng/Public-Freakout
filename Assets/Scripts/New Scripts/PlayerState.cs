@@ -10,12 +10,13 @@ public class PlayerState : MonoBehaviour
     public int m_ItemMask = 1 << 10; // layer 10: Items
     public int m_HoldItemId = -1;
     public float m_Speed = 4f;
-    public float m_TurnSpeed = 10f;
+    public float m_TurnSpeed;
     public bool m_CanWalk;
     public bool m_CanRotate;
     public bool m_IsKnocked;
     public bool m_IsShoving;
     public bool m_IsCharging;
+    public bool m_IsUsingStationaryItem;
     public float m_FrictionMagnitude;
     public float m_MovementMagnitude;
     public Vector3 m_CurrentMovement;
@@ -35,11 +36,28 @@ public class PlayerState : MonoBehaviour
 
     void Start()
     {
+        m_TurnSpeed = 10f;
+        m_IsUsingStationaryItem = false;
     }
 
     void Update()
     {
         UpdateAnimations();
+        CheckStationaryItem();
+    }
+
+    void CheckStationaryItem() {
+        float slowerTurn = 2.0f;
+        bool holdingStationaryItem = m_HoldItemId == 2 || m_HoldItemId == 3;
+        if (m_IsUsingStationaryItem) {
+            m_CanWalk = false;
+            m_TurnSpeed = slowerTurn;
+        } else {
+            if (holdingStationaryItem){
+                m_CanWalk = true;
+                m_TurnSpeed = 10f;
+            }
+        }
     }
 
     void UpdateAnimations() {

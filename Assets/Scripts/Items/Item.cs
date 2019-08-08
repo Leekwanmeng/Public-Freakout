@@ -48,10 +48,6 @@ public class Item : MonoBehaviour
         Destroy(gameObject);
     }
 
-    protected void CheckGround() {
-        transform.Rotate(Vector3.up * m_RotateSpeed * Time.deltaTime, Space.Self);
-    }
-
     void OnCollisionEnter(Collision other) {
         if (other.gameObject.tag == "Ground") {
             m_Thrown = false;

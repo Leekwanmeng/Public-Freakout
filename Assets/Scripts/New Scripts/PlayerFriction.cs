@@ -17,14 +17,7 @@ public class PlayerFriction : MonoBehaviour
     void FixedUpdate()
     {
         ApplyFriction();
-        // if (Input.GetKey("j")){
-        //     m_Rigidbody.AddForce(new Vector3(-11,0,0), ForceMode.VelocityChange);
-        //     // m_Rigidbody.AddForce(new Vector3(10,0,0));
-        // }
-        // if (Input.GetKey("k")){
-        //     m_Rigidbody.AddForce(new Vector3(11,0,0), ForceMode.VelocityChange);
-        //     // m_Rigidbody.AddForce(new Vector3(10,0,0));
-        // }
+
     }
 
     void ApplyFriction()

@@ -94,7 +94,6 @@ public class GameManagement : MonoBehaviour
         m_MessageText.text = string.Empty;
         while (!OnePlayerLeft()) {
             CheckPause();
-            Debug.Log(m_Paused);
             yield return null;
         }
     }
@@ -120,10 +119,13 @@ public class GameManagement : MonoBehaviour
                 Time.timeScale = 0.0f;
                 DisablePlayerControl();
                 m_Paused = true;
+                m_MessageText.text = "PAUSED";
             } else {
+                m_MessageText.text = string.Empty;
                 EnablePlayerControl();
                 Time.timeScale = 1.0f;
                 m_Paused = false;
+                
             }
         }
     }

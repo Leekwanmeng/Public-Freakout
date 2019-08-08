@@ -18,6 +18,7 @@ public class PlayerAction : MonoBehaviour
     public float m_BatPlayerForce = 10f;
     public float m_BatItemHForce = 7f;
     public float m_BatItemVForce = 5f;
+    private float m_JackhammerForce = 2f;
 
     public float m_ChargeShovePressure;
     private string m_AButtonName;
@@ -25,8 +26,9 @@ public class PlayerAction : MonoBehaviour
     private PlayerState m_PlayerState;
     private ItemDatabase m_ItemDatabase;
     private Rigidbody m_RigidBody;
-
     private float m_Cooldown;
+    private Vector3 m_ExtinguisherPushbackCurrent;
+    private Vector3 m_ExtinguisherPushbackPrevious;
 
     void Awake()
     {
@@ -41,6 +43,8 @@ public class PlayerAction : MonoBehaviour
         m_AButtonName = "AButton" + m_PlayerState.m_PlayerNumber;
         m_BButtonName = "BButton" + m_PlayerState.m_PlayerNumber;
         m_ChargeShovePressure = 0f;
+        m_ExtinguisherPushbackCurrent = Vector3.zero;
+        m_ExtinguisherPushbackPrevious = Vector3.zero;
         m_PlayerState.m_MinChargeShovePressure = m_MinChargeShovePressure;
         m_PlayerState.m_MaxChargeShovePressure = m_MaxChargeShovePressure;
     }
@@ -62,20 +66,23 @@ public class PlayerAction : MonoBehaviour
                 break;
 
             case 2:
+                m_PlayerState.m_IsUsingStationaryItem = true;
                 UseExtinguisher();
                 break;
             
-            // jackhammer
             case 3:
+                m_PlayerState.m_IsUsingStationaryItem = true;
+                UseJackhammer();
                 break;
 
             default:
                 break;
             }
-        } else {
+        }
+        else {
+            m_PlayerState.m_IsUsingStationaryItem = false;
             if (m_PlayerState.m_HoldItemId < 0) {
                 Shove();
-                // StartCoroutine(WaitToWalk());
             }
         }
 
@@ -116,11 +123,6 @@ public class PlayerAction : MonoBehaviour
     }
 
     private void ChargeShove() {
-        // TODO: find a way to stop movement
-        // if (m_ChargeShovePressure == 0f) {
-        //     m_RigidBody.AddForce(-m_PlayerState.m_CurrentMovement, ForceMode.VelocityChange);
-        //     m_PlayerState.m_CurrentMovement = Vector3.zero;
-        // }
         m_PlayerState.m_IsCharging = true;
         if (m_ChargeShovePressure < m_MaxChargeShovePressure) {
             m_ChargeShovePressure += m_ChargeShoveIncrement * Time.deltaTime;
@@ -136,7 +138,9 @@ public class PlayerAction : MonoBehaviour
             m_PlayerState.m_CanRotate = false;
             m_ChargeShovePressure += m_MinChargeShovePressure;
             Vector3 force = transform.forward * m_ChargeShovePressure;
+
             StartCoroutine(WaitToWalk(m_ChargeShovePressure));
+
             m_RigidBody.AddForce(force, ForceMode.VelocityChange);
             m_ChargeShovePressure = 0f;
             m_PlayerState.m_ChargeShovePressure = m_ChargeShovePressure;
@@ -201,7 +205,6 @@ public class PlayerAction : MonoBehaviour
     }
 
     void UseBat() {
-        
         float radius = 1.0f;
         float maxAngle = 20f;
 
@@ -246,6 +249,12 @@ public class PlayerAction : MonoBehaviour
         float radius = 6.0f;
         float maxAngle = 15f;
 
+        // Push self back
+        if (m_RigidBody.velocity.magnitude < 1f) {
+            m_RigidBody.AddForce(-transform.forward * m_ExtinguisherForce, ForceMode.VelocityChange);
+        }
+
+        // Pushing others
         int playerAndItemMask = m_PlayerState.m_PlayerMask | m_PlayerState.m_ItemMask;
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius, playerAndItemMask);
         foreach (Collider col in colliders) {
@@ -274,6 +283,44 @@ public class PlayerAction : MonoBehaviour
         col.gameObject.GetComponent<Rigidbody>().AddForce(
             pushDirection * scaledPush * m_ExtinguisherForce, ForceMode.VelocityChange
         );
+    }
+
+    void UseJackhammer() {     
+        float radius = 4.0f;
+        float randomRotate = 15f;
+        float randomPlayerCap = 5f;
+        float randomItemCap = 2f;
+
+        if (m_RigidBody.velocity.magnitude < 1f) {
+            Vector3 randomForce = new Vector3(Random.Range(-randomPlayerCap, randomPlayerCap), 0, Random.Range(-randomPlayerCap, randomPlayerCap));
+            m_RigidBody.AddForce(randomForce, ForceMode.VelocityChange);
+            Quaternion newRotation = Quaternion.LookRotation(randomForce, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, randomRotate * Time.deltaTime);
+        }
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_PlayerMask);
+        foreach (Collider col in colliders) {
+            PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
+            Vector3 pushDirection = (col.transform.position - transform.position).normalized;
+            if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
+                float randomBonusInDirection = Random.Range(0f, 1f);
+                col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * randomBonusInDirection);
+            }
+        }
+
+        colliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_ItemMask);
+        foreach (Collider col in colliders) {
+            //Force to applied to object
+            float rand = Random.Range(-randomItemCap, randomItemCap);
+            Vector3 randomForce = new Vector3(rand, Random.Range(0f, 1f), rand);
+            Rigidbody otherRBD = col.gameObject.GetComponent<Rigidbody>();
+            Item item = col.gameObject.GetComponent<Item>();
+            if (otherRBD.velocity.magnitude < 1f && !item.m_Thrown) {
+                otherRBD.AddForce(
+                    randomForce, ForceMode.VelocityChange
+                );
+            }
+        }
     }
 
     int ItemPickup() {
