@@ -285,7 +285,7 @@ MonoBehaviour:
   m_IsKnocked: 0
   m_IsShoving: 0
   m_IsCharging: 0
-  m_FrictionMagnitude: 0
+  m_FrictionMagnitude: 0.4
   m_MovementMagnitude: 0
   m_CurrentMovement: {x: 0, y: 0, z: 0}
   m_PreviousMovement: {x: 0, y: 0, z: 0}
@@ -294,6 +294,7 @@ MonoBehaviour:
   m_MaxChargeShovePressure: 0
   m_selectImage: {fileID: 8812121351906459189}
   m_Animator: {fileID: 0}
+  m_RigidBody: {fileID: 0}
 --- !u!114 &8673456479855766584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,6 +344,9 @@ MonoBehaviour:
   m_ShoveKnockForce: 5
   m_AEDForce: 20
   m_ExtinguisherForce: 1.5
+  m_BatPlayerForce: 5
+  m_BatItemHForce: 7
+  m_BatItemVForce: 5
   m_ChargeShovePressure: 0
 --- !u!114 &981807044
 MonoBehaviour:
@@ -356,7 +360,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdf5f3037781bf846b0fa1fe92520601, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frictionMagnitude: 0.4
 --- !u!1 &3459864316375738922
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,11 +567,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2480657857998624454}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: 4737305bb1c929843af9629a6c6840b4,
-        type: 3}
-      propertyPath: m_Name
-      value: Red_Empty_Idle
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 4737305bb1c929843af9629a6c6840b4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -623,6 +621,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 4737305bb1c929843af9629a6c6840b4,
+        type: 3}
+      propertyPath: m_Name
+      value: Red_Empty_Idle
       objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: 4737305bb1c929843af9629a6c6840b4,
         type: 3}

@@ -41,30 +41,12 @@ public class PlayerState : MonoBehaviour
     {
         UpdateAnimations();
     }
-    
-    public void EnterKnockedState() {
-        StartCoroutine(KnockedState());
-    }
-
-    IEnumerator KnockedState() {
-        Debug.Log("Entered knock");
-        m_IsKnocked = true;
-        m_CanWalk = false;
-        m_CanRotate = false;
-
-        // SUper hacky!! FInd a way to tell when a force ends / how long it takes for friction to stop
-        yield return new WaitForSeconds(1);
-
-        m_IsKnocked = false;
-        m_CanWalk = true;
-        m_CanRotate = true;
-        Debug.Log("Finish knock");
-    }
 
     void UpdateAnimations() {
         m_Animator.SetFloat("movementMagnitude", m_MovementMagnitude);
         m_Animator.SetInteger("holdItemId", m_HoldItemId);
         m_Animator.SetFloat("chargeShovePressure", m_ChargeShovePressure);
+        m_Animator.SetBool("isCharged", m_IsCharging);
     }
 
     public void GetKnocked() {
@@ -77,8 +59,10 @@ public class PlayerState : MonoBehaviour
 
     public void DoForce(Vector3 force) {
         if (force.magnitude > 3f) {
-            m_IsKnocked = true;
+            // m_IsKnocked = true;
+            Debug.Log("IM KNOCKED!");
+            GetKnocked();
         }
-        m_RigidBody.AddForce(force);
+        m_RigidBody.AddForce(force, ForceMode.VelocityChange);
     }
 }

@@ -18,7 +18,7 @@ public class Item : MonoBehaviour
     void Awake()
     {
         m_RigidBody = GetComponent<Rigidbody>();
-        m_ThrowKnockForce = 100f;
+        m_ThrowKnockForce = 1f;
     }
     protected virtual void Start()
     {

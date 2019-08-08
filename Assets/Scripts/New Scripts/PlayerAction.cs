@@ -15,17 +15,25 @@ public class PlayerAction : MonoBehaviour
     public float m_AEDForce = 20f;
     public float m_ExtinguisherForce = 1.5f;
 
+    public float m_BatPlayerForce = 10f;
+    public float m_BatItemHForce = 7f;
+    public float m_BatItemVForce = 5f;
+
     public float m_ChargeShovePressure;
     private string m_AButtonName;
     private string m_BButtonName;
     private PlayerState m_PlayerState;
     private ItemDatabase m_ItemDatabase;
     private Rigidbody m_RigidBody;
+
+    private float m_Cooldown;
+
     void Awake()
     {
         m_PlayerState = GetComponent<PlayerState>();
         m_ItemDatabase = GameObject.FindGameObjectWithTag("ItemManager").GetComponent<ItemDatabase>();
         m_RigidBody = GetComponent<Rigidbody>();
+        m_Cooldown = Time.time;
     }
 
     void Start()
@@ -37,26 +45,61 @@ public class PlayerAction : MonoBehaviour
         m_PlayerState.m_MaxChargeShovePressure = m_MaxChargeShovePressure;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         CheckAButton();
         CheckBButton();
     }
 
     void CheckAButton() {
+        //Holdable actions
         if (Input.GetButton(m_AButtonName)) {
-            if (m_PlayerState.m_HoldItemId < 0) {
+            switch(m_PlayerState.m_HoldItemId) {
+          
+            case -1:
                 m_PlayerState.m_CanWalk = false;
                 ChargeShove();
+                break;
+
+            case 2:
+                UseExtinguisher();
+                break;
+            
+            // jackhammer
+            case 3:
+                break;
+
+            default:
+                break;
             }
-            else {
-                UseItem();
-            }
-        }
-        else {
+        } else {
             if (m_PlayerState.m_HoldItemId < 0) {
                 Shove();
                 // StartCoroutine(WaitToWalk());
+            }
+        }
+
+        if (m_Cooldown <= Time.time){       
+            //Single click actions
+            if (Input.GetButtonDown(m_AButtonName)) {
+                switch(m_PlayerState.m_HoldItemId) {
+                // bb bat
+                case 0:
+                    Debug.Log("Swing bat");
+                    UseBat();
+                    Set_Cooldown(1f);
+                    break;
+
+                // AED
+                case 1:
+                    StartCoroutine(UseAED());
+                    Set_Cooldown(1f);
+                    break;
+
+                default:
+                    break;
+                }
+            
             }
         }
     }
@@ -78,7 +121,7 @@ public class PlayerAction : MonoBehaviour
         //     m_RigidBody.AddForce(-m_PlayerState.m_CurrentMovement, ForceMode.VelocityChange);
         //     m_PlayerState.m_CurrentMovement = Vector3.zero;
         // }
-        
+        m_PlayerState.m_IsCharging = true;
         if (m_ChargeShovePressure < m_MaxChargeShovePressure) {
             m_ChargeShovePressure += m_ChargeShoveIncrement * Time.deltaTime;
         }
@@ -90,18 +133,25 @@ public class PlayerAction : MonoBehaviour
 
     void Shove() {
         if (m_ChargeShovePressure > 0f) {
-            m_PlayerState.m_CanWalk = true;
+            m_PlayerState.m_CanRotate = false;
             m_ChargeShovePressure += m_MinChargeShovePressure;
             Vector3 force = transform.forward * m_ChargeShovePressure;
+            StartCoroutine(WaitToWalk(m_ChargeShovePressure));
             m_RigidBody.AddForce(force, ForceMode.VelocityChange);
             m_ChargeShovePressure = 0f;
             m_PlayerState.m_ChargeShovePressure = m_ChargeShovePressure;
         }
     }
 
-    IEnumerator WaitToWalk() {
-        yield return new WaitForSeconds(1);
+    void Set_Cooldown(float duration){
+        m_Cooldown = Time.time + duration;
+    }
+
+    IEnumerator WaitToWalk(float force) {
+        yield return new WaitForSeconds( (force/m_PlayerState.m_FrictionMagnitude - 5) * Time.deltaTime);
         m_PlayerState.m_CanWalk = true;
+        m_PlayerState.m_CanRotate = true;
+        m_PlayerState.m_IsCharging = false;
     }
 
 
@@ -110,39 +160,15 @@ public class PlayerAction : MonoBehaviour
     //         PlayerState otherPlayer = other.gameObject.GetComponent<PlayerState>();
     //         Vector3 pushDirection = other.transform.position - transform.position;
     //         pushDirection = pushDirection.normalized;
-    //         other.gameObject.GetComponent<Rigidbody>().AddForce(
-    //             pushDirection * m_ShoveKnockForce, ForceMode.VelocityChange
-    //         );
+    //         // other.gameObject.GetComponent<Rigidbody>().AddForce(
+    //         //     pushDirection * m_ShoveKnockForce, ForceMode.VelocityChange
+    //         // );
+
+    //         other.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_ShoveKnockForce);
+
+            
     //     }
     // }
-
-    void UseItem() {
-        // Check holding item id, do appropriate action
-        switch(m_PlayerState.m_HoldItemId) {
-            // bb bat
-            case 0:
-                StartCoroutine(UseBat());
-                break;
-
-            // AED
-            case 1:
-                StartCoroutine(UseAED());
-                break;
-            
-            // extinguisher
-            case 2:
-                UseExtinguisher();
-                break;
-            
-            // jackhammer
-            case 3:
-                break;
-            
-            default:
-                break;
-        
-        }
-    }
 
     IEnumerator UseAED() {
         m_PlayerState.m_CanWalk = false;
@@ -161,20 +187,23 @@ public class PlayerAction : MonoBehaviour
             if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
                 Vector3 pushDirection = col.transform.position - transform.position;
                 float angle = Vector3.Angle(pushDirection, transform.forward);
-                if (angle < maxAngle && !otherPlayer.m_IsKnocked) {
+                if (angle < maxAngle) {
                     pushDirection = pushDirection.normalized;
-                    col.gameObject.GetComponent<Rigidbody>().AddForce(
-                        pushDirection * m_AEDForce, ForceMode.VelocityChange
-                    );
-                    otherPlayer.EnterKnockedState();
+                    // col.gameObject.GetComponent<Rigidbody>().AddForce(
+                    //     pushDirection * m_AEDForce, ForceMode.VelocityChange
+                    // );
+
+                    col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_AEDForce);
+
                 }
             }
         }
     }
 
-    IEnumerator UseBat() {
-        float radius = 3.0f;
-        float maxAngle = 30f;
+    void UseBat() {
+        
+        float radius = 1.0f;
+        float maxAngle = 20f;
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_PlayerMask);
         foreach (Collider col in colliders) {
@@ -182,12 +211,12 @@ public class PlayerAction : MonoBehaviour
             if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
                 Vector3 pushDirection = col.transform.position - transform.position;
                 float angle = Vector3.Angle(pushDirection, transform.forward);
-                if (angle < maxAngle && !otherPlayer.m_IsKnocked) {
+                if (angle < maxAngle) {
                     pushDirection = pushDirection.normalized;
-                    col.gameObject.GetComponent<Rigidbody>().AddForce(
-                        pushDirection * m_AEDForce, ForceMode.VelocityChange
-                    );
-                    otherPlayer.EnterKnockedState();
+                    // col.gameObject.GetComponent<Rigidbody>().AddForce(
+                    //     pushDirection * m_BatPlayerForce, ForceMode.VelocityChange
+                    // );
+                    col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_BatPlayerForce);
                 }
             }
         }
@@ -200,16 +229,18 @@ public class PlayerAction : MonoBehaviour
             if (angle < maxAngle) {
                 Debug.Log("Hit object");
                 //Force to applied to object
-                Vector3 force = transform.forward.normalized;
-                force.y = 0.5f;
+                Vector3 force = transform.forward.normalized * m_BatItemHForce;
+                //Vertical force
+                force.y = m_BatItemVForce;
+                col.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 col.gameObject.GetComponent<Rigidbody>().AddForce(
                     force, ForceMode.VelocityChange
                 );
             }
         }
-        //Cooldown duration
-        yield return new WaitForSeconds(1);
     }
+
+    
 
     void UseExtinguisher() {        
         float radius = 6.0f;
@@ -238,6 +269,8 @@ public class PlayerAction : MonoBehaviour
         float scaledPush = 1f / pushDifference.magnitude;
         Vector3 pushDirection = pushDifference.normalized;
         Debug.Log(scaledPush * m_ExtinguisherForce);
+
+        // ps.DoForce(pushDirection * scaledPush * m_ExtinguisherForce);
         col.gameObject.GetComponent<Rigidbody>().AddForce(
             pushDirection * scaledPush * m_ExtinguisherForce, ForceMode.VelocityChange
         );

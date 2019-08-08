@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerFriction : MonoBehaviour
 {
-    public float frictionMagnitude;
     private PlayerState m_PlayerState;
     private Rigidbody m_Rigidbody;
     // private Vector3 previousMovement;
@@ -36,8 +35,8 @@ public class PlayerFriction : MonoBehaviour
 
         if ((currentForce != Vector3.zero) ){
             // Debug.Log("FORCE APPLIED" + currentForce);
-            Vector3 frictionForce  = -currentForce/currentForce.magnitude * frictionMagnitude;
-            if ( (Mathf.Abs(currentForce.x) <= frictionMagnitude) && (Mathf.Abs(currentForce.z) <= frictionMagnitude) ){
+            Vector3 frictionForce  = -currentForce/currentForce.magnitude * m_PlayerState.m_FrictionMagnitude;
+            if ( (Mathf.Abs(currentForce.x) <= m_PlayerState.m_FrictionMagnitude) && (Mathf.Abs(currentForce.z) <= m_PlayerState.m_FrictionMagnitude) ){
                 currentForce.y = 0;
                 m_Rigidbody.AddForce(-currentForce, ForceMode.VelocityChange);
 
