@@ -48,7 +48,7 @@ public class Item : MonoBehaviour
         }
     }
 
-    protected void ExpireItem()
+    public void ExpireItem()
     {
         GameObject.Find("ItemManager").GetComponent<ItemSpawner>().m_ItemsToSpawn++;
         Destroy(gameObject);

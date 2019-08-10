@@ -28,6 +28,7 @@ public class PlayerState : MonoBehaviour
     public Image m_selectImage;
     public Animator m_Animator;
     public Rigidbody m_RigidBody;
+    public GameObject m_CurrentAnimation;
 
     void Awake()
     {
@@ -106,5 +107,9 @@ public class PlayerState : MonoBehaviour
             GetKnocked();
         }
         m_RigidBody.AddForce(force, ForceMode.VelocityChange);
+    }
+
+    public void DestroyCurrentAnimation() {
+        Destroy(m_CurrentAnimation);
     }
 }
