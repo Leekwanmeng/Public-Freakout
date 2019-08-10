@@ -3,7 +3,12 @@ guid: dd8cc802a0754514aad62e2f5d516260
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Hollow
+    second: {fileID: 2100000, guid: 7676f9a759251ca44a8c6b26c69c0bc3, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
