@@ -41,7 +41,20 @@ public class PlayerState : MonoBehaviour
     }
 
     void Update()
-    {
+    {   
+        if (m_IsKnocked && m_RigidBody.velocity == Vector3.zero){
+            Debug.Log("Stoped knocked");
+            m_IsKnocked = false;
+            m_CanWalk = true;
+            m_CanRotate = true;
+        }
+        if (m_PlayerNumber == 1){
+        // Debug.Log("Knocked: " + m_IsKnocked);
+        // Debug.Log("Charging: " + m_IsCharging);
+        // Debug.Log("Shoving: " + m_IsShoving);
+        // Debug.Log("Walkable: " + m_CanWalk);
+        // Debug.Log("Can Rotate: " + m_CanRotate);
+        }
         UpdateAnimations();
         CheckStationaryItem();
     }
@@ -73,10 +86,12 @@ public class PlayerState : MonoBehaviour
         m_CanRotate = false;
         m_IsShoving = false;
         m_IsCharging = false;
+        m_ChargeShovePressure = 0.0f;
+        GetComponent<PlayerAction>().DropItem();
     }
 
     public void DoForce(Vector3 force) {
-        if (force.magnitude > 3f) {
+        if (force.magnitude > 5f) {
             // m_IsKnocked = true;
             Debug.Log("IM KNOCKED!");
             GetKnocked();

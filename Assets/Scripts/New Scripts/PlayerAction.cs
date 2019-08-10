@@ -4,23 +4,27 @@ using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
-    public float m_PickupRadius = 1f;
-    public float m_WalkDropForce = 50f;
-    public float m_MinDropForce = 120f;
-    public float m_ItemSpawnFromPlayerHeight = 0.7f;
-    public float m_ChargeShoveIncrement;
-    public float m_MinChargeShovePressure;
-    public float m_MaxChargeShovePressure;
-    public float m_ShoveKnockForce = 5f;
-    public float m_AEDForce = 20f;
-    public float m_ExtinguisherForce = 1.5f;
+    private float m_PickupRadius = 1f;
+    private float m_WalkDropForce = 50f;
+    private float m_MinDropForce = 120f;
+    private float m_ItemSpawnFromPlayerHeight = 0.7f;
+    private float m_ChargeShoveIncrement = 12;
+    private float m_MinChargeShovePressure = 3;
+    private float m_MaxChargeShovePressure = 10;
+    private float m_ShoveKnockForce = 5f;
+    private float m_AEDForce = 20f;
+    private float m_ExtinguisherForce = 1.5f;
 
-    public float m_BatPlayerForce = 10f;
-    public float m_BatItemHForce = 7f;
-    public float m_BatItemVForce = 5f;
-    private float m_JackhammerForce = 2f;
+    private float m_BatPlayerForce = 10f;
+    private float m_BatItemHForce = 7f;
+    private float m_BatItemVForce = 5f;
+    
+    private float m_UseBatCooldown = 1f;
+    private float m_UseShoveCooldown = 0.5f;
+    private float m_UseAEDCooldown = 1f;
+    
 
-    public float m_ChargeShovePressure;
+    private float m_ChargeShovePressure;
     private string m_AButtonName;
     private string m_BButtonName;
     private PlayerState m_PlayerState;
@@ -53,14 +57,24 @@ public class PlayerAction : MonoBehaviour
     {
         CheckAButton();
         CheckBButton();
+        //REMOVE THIS
+        if (Input.GetKeyDown(KeyCode.K)){
+            m_PlayerState.DoForce(new Vector3(0,0,15f));
+        }
+
+        if (Input.GetKeyDown(KeyCode.J)){
+            m_PlayerState.DoForce(new Vector3(4f,0,0));
+        }
     }
 
     void CheckAButton() {
         //Holdable actions
-        if (Input.GetButton(m_AButtonName)) {
+        if (m_Cooldown <= Time.time){ 
+        if (Input.GetButton(m_AButtonName) && !m_PlayerState.m_IsKnocked) {
             switch(m_PlayerState.m_HoldItemId) {
           
             case -1:
+                Debug.Log("Shoving");
                 m_PlayerState.m_CanWalk = false;
                 ChargeShove();
                 break;
@@ -86,21 +100,21 @@ public class PlayerAction : MonoBehaviour
             }
         }
 
-        if (m_Cooldown <= Time.time){       
+              
             //Single click actions
-            if (Input.GetButtonDown(m_AButtonName)) {
+            if (Input.GetButtonDown(m_AButtonName)  && !m_PlayerState.m_IsKnocked) {
                 switch(m_PlayerState.m_HoldItemId) {
                 // bb bat
                 case 0:
                     Debug.Log("Swing bat");
                     UseBat();
-                    Set_Cooldown(1f);
+                    Set_Cooldown(m_UseBatCooldown);
                     break;
 
                 // AED
                 case 1:
                     StartCoroutine(UseAED());
-                    Set_Cooldown(1f);
+                    Set_Cooldown(m_UseAEDCooldown);
                     break;
 
                 default:
@@ -135,6 +149,8 @@ public class PlayerAction : MonoBehaviour
 
     void Shove() {
         if (m_ChargeShovePressure > 0f) {
+            m_PlayerState.m_IsCharging = false;
+            m_PlayerState.m_IsShoving = true;
             m_PlayerState.m_CanRotate = false;
             m_ChargeShovePressure += m_MinChargeShovePressure;
             Vector3 force = transform.forward * m_ChargeShovePressure;
@@ -152,27 +168,28 @@ public class PlayerAction : MonoBehaviour
     }
 
     IEnumerator WaitToWalk(float force) {
+        Set_Cooldown(m_UseShoveCooldown);
         yield return new WaitForSeconds( (force/m_PlayerState.m_FrictionMagnitude - 5) * Time.deltaTime);
         m_PlayerState.m_CanWalk = true;
         m_PlayerState.m_CanRotate = true;
-        m_PlayerState.m_IsCharging = false;
+        m_PlayerState.m_IsShoving = false;
     }
 
 
-    // void OnCollisionEnter(Collision other) {
-    //     if (other.gameObject.tag == "Player") {
-    //         PlayerState otherPlayer = other.gameObject.GetComponent<PlayerState>();
-    //         Vector3 pushDirection = other.transform.position - transform.position;
-    //         pushDirection = pushDirection.normalized;
-    //         // other.gameObject.GetComponent<Rigidbody>().AddForce(
-    //         //     pushDirection * m_ShoveKnockForce, ForceMode.VelocityChange
-    //         // );
+    void OnCollisionEnter(Collision other) {
+        if (other.gameObject.tag == "Player" && m_PlayerState.m_IsShoving) {
+            PlayerState otherPlayer = other.gameObject.GetComponent<PlayerState>();
+            Vector3 pushDirection = other.transform.position - transform.position;
+            pushDirection = pushDirection.normalized;
+            // other.gameObject.GetComponent<Rigidbody>().AddForce(
+            //     pushDirection * m_ShoveKnockForce, ForceMode.VelocityChange
+            // );
 
-    //         other.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_ShoveKnockForce);
+            other.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_ShoveKnockForce);
 
             
-    //     }
-    // }
+        }
+    }
 
     IEnumerator UseAED() {
         m_PlayerState.m_CanWalk = false;
@@ -230,7 +247,7 @@ public class PlayerAction : MonoBehaviour
             Vector3 pushDifference = col.transform.position - transform.position;
             float angle = Vector3.Angle(pushDifference, transform.forward);
             if (angle < maxAngle) {
-                Debug.Log("Hit object");
+
                 //Force to applied to object
                 Vector3 force = transform.forward.normalized * m_BatItemHForce;
                 //Vertical force
@@ -277,8 +294,6 @@ public class PlayerAction : MonoBehaviour
     void ExtinguisherPush(Collider col, Vector3 pushDifference) {
         float scaledPush = 1f / pushDifference.magnitude;
         Vector3 pushDirection = pushDifference.normalized;
-        Debug.Log(scaledPush * m_ExtinguisherForce);
-
         // ps.DoForce(pushDirection * scaledPush * m_ExtinguisherForce);
         col.gameObject.GetComponent<Rigidbody>().AddForce(
             pushDirection * scaledPush * m_ExtinguisherForce, ForceMode.VelocityChange
@@ -352,16 +367,18 @@ public class PlayerAction : MonoBehaviour
         return nearestIndex;
     }
 
-    void DropItem() {
-        GameObject itemPrefabToInstantiate = m_ItemDatabase.GetItemById(m_PlayerState.m_HoldItemId);
-        Vector3 objPosition = transform.position + transform.forward + new Vector3(0f, m_ItemSpawnFromPlayerHeight, 0f);
-        GameObject obj = Instantiate(itemPrefabToInstantiate, objPosition, Quaternion.identity);
-        Vector3 force = transform.forward * (m_MinDropForce + m_PlayerState.m_MovementMagnitude * m_WalkDropForce);
-        // Debug.Log(force.magnitude);
-        obj.GetComponent<Rigidbody>().AddForce(force);
-        obj.GetComponent<Item>().m_Thrown = true;
-        // Set to empty
-        m_PlayerState.m_HoldItemId = -1;
+    public void DropItem() {
+        if (m_PlayerState.m_HoldItemId != -1){
+            GameObject itemPrefabToInstantiate = m_ItemDatabase.GetItemById(m_PlayerState.m_HoldItemId);
+            Vector3 objPosition = transform.position + transform.forward + new Vector3(0f, m_ItemSpawnFromPlayerHeight, 0f);
+            GameObject obj = Instantiate(itemPrefabToInstantiate, objPosition, Quaternion.identity);
+            Vector3 force = transform.forward * (m_MinDropForce + m_PlayerState.m_MovementMagnitude * m_WalkDropForce);
+            // Debug.Log(force.magnitude);
+            obj.GetComponent<Rigidbody>().AddForce(force);
+            obj.GetComponent<Item>().m_Thrown = true;
+            // Set to empty
+            m_PlayerState.m_HoldItemId = -1;
+        }
     }
 
 }
