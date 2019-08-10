@@ -63,9 +63,10 @@ public class StageManager2 : MonoBehaviour
     {
         if (other.gameObject.tag == "Player"){
             //Disable friction script, disable movement
-            // other.gameObject.GetComponent<PlayerState>().m_CanWalk = false;
-            // other.gameObject.GetComponent<PlayerState>().m_CanRotate = false;
-            // other.gameObject.GetComponent<PlayerFriction>().enabled = false;
+            other.gameObject.GetComponent<PlayerState>().m_CanWalk = false;
+            other.gameObject.GetComponent<PlayerState>().m_CanRotate = false;
+            other.gameObject.GetComponent<PlayerFriction>().enabled = false;
+            other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
     }
 }

@@ -833,7 +833,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9e4c7d5310c1414ab0b5fac1312e33e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layersToRemove: []
+  layersToRemove:
+  - {fileID: 1290304093}
   levels: 5
   buildingLength: 20
   durationBetweenRounds: 0
@@ -1032,7 +1033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7789a0f9d9567bf4d80a44544ec78144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BaseStage: {fileID: 1878687142}
+  m_BaseStage: {fileID: 1347997817}
   m_HeightToSpawn: 10
   m_ItemsToSpawn: 10
   m_SpawnProbability: 0.2
