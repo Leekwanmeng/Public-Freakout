@@ -35,7 +35,7 @@ public class CameraControl : MonoBehaviour
 
     private void Update()
     {
-        Zoom();
+        //Zoom();
     }
 
     private void Move()
