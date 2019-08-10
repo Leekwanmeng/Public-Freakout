@@ -1,14 +1,9 @@
 fileFormatVersion: 2
-guid: dd8cc802a0754514aad62e2f5d516260
+guid: df385c117a4b2ea439259eb0308195e3
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Hollow
-    second: {fileID: 2100000, guid: 7676f9a759251ca44a8c6b26c69c0bc3, type: 2}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
@@ -41,7 +36,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
