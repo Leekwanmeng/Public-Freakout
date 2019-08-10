@@ -46,6 +46,7 @@ public class PlayerAction : MonoBehaviour
     {
         m_AButtonName = "AButton" + m_PlayerState.m_PlayerNumber;
         m_BButtonName = "BButton" + m_PlayerState.m_PlayerNumber;
+
         m_ChargeShovePressure = 0f;
         m_ExtinguisherPushbackCurrent = Vector3.zero;
         m_ExtinguisherPushbackPrevious = Vector3.zero;
@@ -302,11 +303,13 @@ public class PlayerAction : MonoBehaviour
     void UseJackhammer() {     
         float radius = 4.0f;
         float randomRotate = 15f;
-        float randomPlayerCap = 5f;
+        float randomPlayerCap = 4f;
         float randomItemCap = 2f;
+        float forwardScale = 2f;
 
         if (m_RigidBody.velocity.magnitude < 1f) {
             Vector3 randomForce = new Vector3(Random.Range(-randomPlayerCap, randomPlayerCap), 0, Random.Range(-randomPlayerCap, randomPlayerCap));
+            randomForce += forwardScale * transform.forward;
             m_RigidBody.AddForce(randomForce, ForceMode.VelocityChange);
             Quaternion newRotation = Quaternion.LookRotation(randomForce, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, randomRotate * Time.deltaTime);
