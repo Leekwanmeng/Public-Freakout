@@ -23,12 +23,7 @@ public class PlayerManager
 
     public void Setup()
     {
-        m_PlayerState = m_Instance.GetComponent<PlayerState>();
-        m_PlayerWalk = m_Instance.GetComponent<PlayerWalk>();
-        m_PlayerAction = m_Instance.GetComponent<PlayerAction>();
-        m_PlayerChargeUI = m_Instance.GetComponent<PlayerChargeUI>();
-        m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
-
+        InitializeComponents();
         m_PlayerState.m_PlayerNumber = m_PlayerNumber;
         m_PlayerChargeUI.m_PlayerNumber = m_PlayerNumber;
         m_ColoredPlayerText = "<color=#" + ColorUtility.ToHtmlStringRGB(m_PlayerColor) + ">PLAYER " + m_PlayerNumber + "</color>";
@@ -38,11 +33,6 @@ public class PlayerManager
         m_PlayerChargeUI.m_FillImage.color = fillColor;
         m_PlayerState.m_selectImage.color = m_PlayerColor;
 
-        // MeshRenderer[] renderers = m_Instance.GetComponentsInChildren<MeshRenderer>();
-        // for (int i = 0; i < renderers.Length; i++)
-        // {
-        //     renderers[i].material.color = m_PlayerColor;
-        // }
     }
 
 
@@ -68,10 +58,25 @@ public class PlayerManager
 
     public void Reset()
     {
+        m_PlayerState.DestroyCurrentAnimation();
         m_Instance.transform.position = m_SpawnPoint.position;
         m_Instance.transform.rotation = m_SpawnPoint.rotation;
 
         m_Instance.SetActive(false);
         m_Instance.SetActive(true);
+        m_Instance.GetComponent<PlayerState>().m_CanWalk = true;
+        m_Instance.GetComponent<PlayerState>().m_CanRotate = true;
+        m_Instance.GetComponent<PlayerFriction>().enabled = true;
+        m_Instance.GetComponent<Rigidbody>().constraints = 
+            RigidbodyConstraints.FreezePositionY | 
+            RigidbodyConstraints.FreezeRotation;
+    }
+
+    void InitializeComponents() {
+        m_PlayerState = m_Instance.GetComponent<PlayerState>();
+        m_PlayerWalk = m_Instance.GetComponent<PlayerWalk>();
+        m_PlayerAction = m_Instance.GetComponent<PlayerAction>();
+        m_PlayerChargeUI = m_Instance.GetComponent<PlayerChargeUI>();
+        m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
     }
 }

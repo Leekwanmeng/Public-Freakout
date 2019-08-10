@@ -88,7 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6728830105249234198}
   - component: {fileID: -6659292832018855586}
-  - component: {fileID: 6931377285864699988}
+  - component: {fileID: 4750395187572297644}
   - component: {fileID: -2706570270068969263}
   m_Layer: 10
   m_Name: AED
@@ -128,8 +128,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &6931377285864699988
-BoxCollider:
+--- !u!136 &4750395187572297644
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -138,8 +138,9 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.4, y: 0.4, z: 0.3}
+  m_Radius: 0.15
+  m_Height: 0.4
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-2706570270068969263
 MonoBehaviour:
@@ -157,3 +158,5 @@ MonoBehaviour:
   m_ItemName: AED
   m_MaxTime: 15
   m_RotateSpeed: 15
+  m_Thrown: 0
+  m_ThrowKnockForce: 0
