@@ -7,7 +7,7 @@ public class PlayerAction : MonoBehaviour
     private float m_PickupRadius = 1f;
     private float m_WalkDropForce = 50f;
     private float m_MinDropForce = 120f;
-    private float m_ItemSpawnFromPlayerHeight = 0.7f;
+    private float m_ItemSpawnFromPlayerHeight = 1.0f;
     private float m_ChargeShoveIncrement = 12;
     private float m_MinChargeShovePressure = 3;
     private float m_MaxChargeShovePressure = 10;
@@ -42,11 +42,9 @@ public class PlayerAction : MonoBehaviour
     public AudioClip sfx_FireEx;
     private AudioSource audio;
 
-    private bool m_UsingJackhammer = false;
-    private bool m_UsingFireEx = false;
-
     private float audioTimer;
     private float sfx_OffsetJH = 0.049f;
+
     void Awake()
     {
         audio = GetComponent<AudioSource>();
@@ -68,7 +66,7 @@ public class PlayerAction : MonoBehaviour
         m_PlayerState.m_MaxChargeShovePressure = m_MaxChargeShovePressure;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         CheckAButton();
         CheckBButton();
@@ -79,7 +77,7 @@ public class PlayerAction : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.J)){
-            m_PlayerState.DoForce(new Vector3(4f,0,0));
+            m_PlayerState.DoForce(new Vector3(15f,0,0));
         }
     }
 
@@ -210,17 +208,21 @@ public class PlayerAction : MonoBehaviour
 
     void OnCollisionEnter(Collision other) {
         if (other.gameObject.tag == "Player" && m_PlayerState.m_IsShoving) {
-            
             //Play collision audio
-            audio.PlayOneShot(sfx_PlayerCollision);
+            audio.PlayOneShot(sfx_PlayerCollision, 0.1f);
 
             PlayerState otherPlayer = other.gameObject.GetComponent<PlayerState>();
             Vector3 pushDirection = other.transform.position - transform.position;
             pushDirection = pushDirection.normalized;
             other.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_ShoveKnockForce);
+        } else if (other.gameObject.tag == "Item"){
 
-            
+            if (other.gameObject.GetComponent<Item>().m_Thrown == true && other.gameObject.GetComponent<Rigidbody>().velocity.magnitude > 3f){
+                audio.PlayOneShot(sfx_PlayerCollision, 0.1f);
+            }
+
         }
+
     }
 
     IEnumerator UseAED() {
@@ -427,6 +429,24 @@ public class PlayerAction : MonoBehaviour
             Vector3 force = transform.forward * (m_MinDropForce + m_PlayerState.m_MovementMagnitude * m_WalkDropForce);
             // Debug.Log(force.magnitude);
             obj.GetComponent<Rigidbody>().AddForce(force);
+            obj.GetComponent<Item>().m_Thrown = true;
+            // Set to empty
+            m_PlayerState.m_HoldItemId = -1;
+        }
+    }
+
+    public void KnockDropItem(Vector3 knockForce){
+        if (m_PlayerState.m_HoldItemId != -1){
+            GameObject itemPrefabToInstantiate = m_ItemDatabase.GetItemById(m_PlayerState.m_HoldItemId);
+            Vector3 objPosition = transform.position + knockForce.normalized + new Vector3(0f, 2.0f, 0f);
+            GameObject obj = Instantiate(itemPrefabToInstantiate, objPosition, Quaternion.identity);
+            
+
+            Vector3 dir = Quaternion.AngleAxis( Random.Range(-30f, 30f), Vector3.up) * knockForce.normalized;
+            Vector3 force = dir * (m_MinDropForce * 1.5f) + new Vector3(0, 7f, 0);
+            Debug.Log(force.magnitude);
+            obj.GetComponent<Rigidbody>().AddForce(force);
+            obj.GetComponent<Rigidbody>().angularVelocity = force;
             obj.GetComponent<Item>().m_Thrown = true;
             // Set to empty
             m_PlayerState.m_HoldItemId = -1;

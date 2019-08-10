@@ -99,7 +99,7 @@ public class PlayerState : MonoBehaviour
         m_IsShoving = false;
         m_IsCharging = false;
         m_ChargeShovePressure = 0.0f;
-        GetComponent<PlayerAction>().DropItem();
+        
     }
 
     public void DoForce(Vector3 force) {
@@ -107,6 +107,8 @@ public class PlayerState : MonoBehaviour
             // m_IsKnocked = true;
             Debug.Log("IM KNOCKED!");
             GetKnocked();
+            GetComponent<PlayerAction>().KnockDropItem(force);
+            // GetComponent<AudioSource>().PlayOneShot(GetComponent<PlayerAction>().sfx_PlayerCollision);
         }
         m_RigidBody.AddForce(force, ForceMode.VelocityChange);
     }
