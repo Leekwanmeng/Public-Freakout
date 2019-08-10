@@ -64,8 +64,6 @@ public class PlayerManager
 
         m_Instance.SetActive(false);
         m_Instance.SetActive(true);
-        m_Instance.GetComponent<PlayerState>().m_CanWalk = true;
-        m_Instance.GetComponent<PlayerState>().m_CanRotate = true;
         m_Instance.GetComponent<PlayerFriction>().enabled = true;
         m_Instance.GetComponent<Rigidbody>().constraints = 
             RigidbodyConstraints.FreezePositionY | 

@@ -54,7 +54,7 @@ public class PlayerAction : MonoBehaviour
         m_PlayerState.m_MaxChargeShovePressure = m_MaxChargeShovePressure;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         CheckAButton();
         CheckBButton();

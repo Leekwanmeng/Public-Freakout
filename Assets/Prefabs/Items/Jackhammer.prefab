@@ -60,10 +60,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.24719499
-  m_Height: 0.7166814
+  m_Radius: 0.3
+  m_Height: 1.2
   m_Direction: 1
-  m_Center: {x: 0.0027792007, y: 0.06387752, z: 0.000000029802322}
+  m_Center: {x: 0, y: 0.05, z: 0}
 --- !u!114 &4299801330953504439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,6 +80,8 @@ MonoBehaviour:
   m_ItemName: jackhammer
   m_MaxTime: 15
   m_RotateSpeed: 30
+  m_Thrown: 0
+  m_ThrowKnockForce: 0
 --- !u!1 &6605723711684779913
 GameObject:
   m_ObjectHideFlags: 0
