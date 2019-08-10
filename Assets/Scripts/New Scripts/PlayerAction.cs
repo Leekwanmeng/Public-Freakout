@@ -226,15 +226,13 @@ public class PlayerAction : MonoBehaviour
     }
 
     IEnumerator UseAED() {
-
         m_PlayerState.m_CanWalk = false;
         m_PlayerState.m_CanRotate = false;
-        // TODO: find a way to stop movement
+        m_PlayerState.m_IsSingleUseItem = true;
+        
         yield return new WaitForSeconds(1);
 
         audio.PlayOneShot(sfx_AED, 0.1f);
-        m_PlayerState.m_CanWalk = true;
-        m_PlayerState.m_CanRotate = true;
 
         float radius = 2.0f;
         float maxAngle = 15f;
@@ -247,18 +245,19 @@ public class PlayerAction : MonoBehaviour
                 float angle = Vector3.Angle(pushDirection, transform.forward);
                 if (angle < maxAngle) {
                     pushDirection = pushDirection.normalized;
-                    // col.gameObject.GetComponent<Rigidbody>().AddForce(
-                    //     pushDirection * m_AEDForce, ForceMode.VelocityChange
-                    // );
-
                     col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_AEDForce);
 
                 }
             }
         }
+        m_PlayerState.m_IsSingleUseItem = false;
+        m_PlayerState.m_CanWalk = true;
+        m_PlayerState.m_CanRotate = true;
     }
 
     void UseBat() {
+        m_PlayerState.m_IsSingleUseItem = true;
+
         float radius = 1.5f;
         float maxAngle = 25f;
         int hitCount = 0;
@@ -304,6 +303,7 @@ public class PlayerAction : MonoBehaviour
             //Play woosh
             audio.PlayOneShot(sfx_BatMiss);
         }
+        m_PlayerState.m_IsSingleUseItem = false;
     }
 
     

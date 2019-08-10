@@ -17,6 +17,7 @@ public class PlayerState : MonoBehaviour
     public bool m_IsShoving;
     public bool m_IsCharging;
     public bool m_IsUsingStationaryItem;
+    public bool m_IsSingleUseItem;
     public float m_FrictionMagnitude;
     public float m_MovementMagnitude;
     public Vector3 m_CurrentMovement;
@@ -90,6 +91,7 @@ public class PlayerState : MonoBehaviour
         m_Animator.SetBool("isCharged", m_IsCharging);
         m_Animator.SetBool("isKnocked", m_IsKnocked);
         m_Animator.SetBool("isUsingStationaryItem", m_IsUsingStationaryItem);
+        m_Animator.SetBool("isSingleUseItem", m_IsSingleUseItem);
     }
 
     public void GetKnocked() {
