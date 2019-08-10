@@ -835,7 +835,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layersToRemove:
   - {fileID: 1290304093}
-  - {fileID: 1446568170}
   levels: 5
   buildingLength: 20
   durationBetweenRounds: 0
