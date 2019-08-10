@@ -35,24 +35,30 @@ public class PlayerManager
 
     }
 
+    void InitializeComponents() {
+        m_PlayerState = m_Instance.GetComponent<PlayerState>();
+        m_PlayerWalk = m_Instance.GetComponent<PlayerWalk>();
+        m_PlayerAction = m_Instance.GetComponent<PlayerAction>();
+        m_PlayerChargeUI = m_Instance.GetComponent<PlayerChargeUI>();
+        m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
+    }
+
 
     public void DisableControl()
     {
-        // m_PlayerState.m_CanWalk = false;
-        // m_PlayerState.enabled = false;
+        m_PlayerState.m_CanWalk = false;
+        m_PlayerState.m_CanRotate = false;
         m_PlayerWalk.enabled = false;
         m_PlayerAction.enabled = false;
-        // m_CanvasGameObject.SetActive(false);
     }
 
 
     public void EnableControl()
     {
-        // m_PlayerState.enabled = true;
         m_PlayerWalk.enabled = true;
         m_PlayerAction.enabled = true;
-        // m_PlayerState.m_CanWalk = true;
-        // m_CanvasGameObject.SetActive(true);
+        m_PlayerState.m_CanWalk = true;
+        m_PlayerState.m_CanRotate = true;
     }
 
 
@@ -64,17 +70,11 @@ public class PlayerManager
 
         m_Instance.SetActive(false);
         m_Instance.SetActive(true);
+        m_Instance.GetComponent<PlayerState>().m_HoldItemId = -1;
         m_Instance.GetComponent<PlayerFriction>().enabled = true;
         m_Instance.GetComponent<Rigidbody>().constraints = 
             RigidbodyConstraints.FreezePositionY | 
             RigidbodyConstraints.FreezeRotation;
     }
 
-    void InitializeComponents() {
-        m_PlayerState = m_Instance.GetComponent<PlayerState>();
-        m_PlayerWalk = m_Instance.GetComponent<PlayerWalk>();
-        m_PlayerAction = m_Instance.GetComponent<PlayerAction>();
-        m_PlayerChargeUI = m_Instance.GetComponent<PlayerChargeUI>();
-        m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;
-    }
 }

@@ -14,6 +14,7 @@ public class IdleDetection : StateMachineBehaviour
     {
         m_PlayerAnimationDB = animator.GetComponent<PlayerAnimationDatabase>();
         m_PlayerState = animator.GetComponent<PlayerState>();
+        if (m_PlayerState.m_CurrentAnimation != null) Destroy(m_PlayerState.m_CurrentAnimation);
 
         m_CurrentAnimation = m_PlayerAnimationDB.GetAnimationById(IDLE);
         m_CurrentAnimation = Instantiate (m_CurrentAnimation, animator.rootPosition, animator.transform.rotation) as GameObject;
