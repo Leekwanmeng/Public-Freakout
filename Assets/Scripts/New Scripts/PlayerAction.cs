@@ -23,6 +23,9 @@ public class PlayerAction : MonoBehaviour
     private float m_UseShoveCooldown = 1f;
     private float m_UseAEDCooldown = 1f;
     
+    private bool m_CanUseShove = false;
+    private bool m_CanUseFireEx = false;
+    private bool m_CanUseJackhammer = false;
 
     private float m_ChargeShovePressure;
     private string m_AButtonName;
@@ -87,6 +90,10 @@ public class PlayerAction : MonoBehaviour
             if (Input.GetButtonDown(m_AButtonName)  && !m_PlayerState.m_IsKnocked) {
                 switch(m_PlayerState.m_HoldItemId) {
                 // bb bat
+                case -1:
+                    m_CanUseShove = true;
+                    break;
+
                 case 0:
                     StartCoroutine(UseBat());
                     Set_Cooldown(m_UseBatCooldown);
@@ -98,12 +105,16 @@ public class PlayerAction : MonoBehaviour
                     Set_Cooldown(m_UseAEDCooldown);
                     break;
 
+                //Fire extinguisher
                 case 2:
+                    m_CanUseFireEx = true;
                     break;
 
+                //Jackhammer
                 case 3:
                     // audio.PlayOneShot(sfx_Jackhammer);
                     // audioTimer = sfx_Jackhammer.length - sfx_OffsetJH;
+                    m_CanUseJackhammer = true;
                     break;
 
 
@@ -118,18 +129,24 @@ public class PlayerAction : MonoBehaviour
                 switch(m_PlayerState.m_HoldItemId) {
             
                 case -1:
-                    m_PlayerState.m_CanWalk = false;
-                    ChargeShove();
+                    if (m_CanUseShove){
+                        m_PlayerState.m_CanWalk = false;
+                        ChargeShove();
+                    }
                     break;
 
                 case 2:
-                    m_PlayerState.m_IsUsingStationaryItem = true;
-                    UseExtinguisher();
+                    if (m_CanUseFireEx){
+                        m_PlayerState.m_IsUsingStationaryItem = true;
+                        UseExtinguisher();
+                    }
                     break;
                 
                 case 3:
-                    m_PlayerState.m_IsUsingStationaryItem = true;
-                    UseJackhammer();
+                    if (m_CanUseJackhammer){
+                        m_PlayerState.m_IsUsingStationaryItem = true;
+                        UseJackhammer();
+                    }
                     break;
 
                 default:
@@ -138,6 +155,9 @@ public class PlayerAction : MonoBehaviour
             }
             else {
                 m_PlayerState.m_IsUsingStationaryItem = false;
+                m_CanUseFireEx = false;
+                m_CanUseShove = false;
+                m_CanUseJackhammer = false;
                 if (m_PlayerState.m_HoldItemId < 0) {
                     Shove();
                 }
@@ -178,10 +198,11 @@ public class PlayerAction : MonoBehaviour
         if (m_ChargeShovePressure > 0f) {
             m_PlayerState.m_IsCharging = false;
             m_PlayerState.m_IsShoving = true;
+            m_PlayerState.m_CanWalk = false;
             m_PlayerState.m_CanRotate = false;
             m_ChargeShovePressure += m_MinChargeShovePressure;
             Vector3 force = transform.forward * m_ChargeShovePressure;
-
+            Debug.Log(m_PlayerState.m_CanWalk);
             StartCoroutine(WaitToWalk(m_ChargeShovePressure));
 
             m_RigidBody.AddForce(force, ForceMode.VelocityChange);
@@ -448,7 +469,7 @@ public class PlayerAction : MonoBehaviour
             Debug.Log(force.magnitude);
             obj.GetComponent<Rigidbody>().AddForce(force);
             obj.GetComponent<Rigidbody>().angularVelocity = force;
-            obj.GetComponent<Item>().m_Thrown = true;
+            obj.GetComponent<Item>().m_Thrown = false;
             // Set to empty
             m_PlayerState.m_HoldItemId = -1;
         }
