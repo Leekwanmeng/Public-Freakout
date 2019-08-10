@@ -112,46 +112,44 @@ public class PlayerAction : MonoBehaviour
                 }
             
             }
-        }
-
-        //Holdable actions
-        if (Input.GetButton(m_AButtonName) && !m_PlayerState.m_IsKnocked) {
-            switch(m_PlayerState.m_HoldItemId) {
         
-            case -1:
-                m_PlayerState.m_CanWalk = false;
-                ChargeShove();
-                break;
-
-            case 2:
-                m_PlayerState.m_IsUsingStationaryItem = true;
-                UseExtinguisher();
-                break;
+            //Holdable actions
+            if (Input.GetButton(m_AButtonName) && !m_PlayerState.m_IsKnocked) {
+                switch(m_PlayerState.m_HoldItemId) {
             
-            case 3:
-                m_PlayerState.m_IsUsingStationaryItem = true;
-                UseJackhammer();
-                break;
+                case -1:
+                    m_PlayerState.m_CanWalk = false;
+                    ChargeShove();
+                    break;
 
-            default:
-                break;
+                case 2:
+                    m_PlayerState.m_IsUsingStationaryItem = true;
+                    UseExtinguisher();
+                    break;
+                
+                case 3:
+                    m_PlayerState.m_IsUsingStationaryItem = true;
+                    UseJackhammer();
+                    break;
+
+                default:
+                    break;
+                }
+            }
+            else {
+                m_PlayerState.m_IsUsingStationaryItem = false;
+                if (m_PlayerState.m_HoldItemId < 0) {
+                    Shove();
+                }
+                
+                // audio.loop = false;
+                // audio.Stop();
+                // m_UsingJackhammer = false;
+                // m_UsingFireEx = false;
+                // Debug.Log("AUDIO LOOP: " + audio.loop);
+                // m_UsingJackhammer = false;
             }
         }
-        else {
-            m_PlayerState.m_IsUsingStationaryItem = false;
-            if (m_PlayerState.m_HoldItemId < 0) {
-                Shove();
-            }
-            
-            // audio.loop = false;
-            // audio.Stop();
-            // m_UsingJackhammer = false;
-            // m_UsingFireEx = false;
-            // Debug.Log("AUDIO LOOP: " + audio.loop);
-            // m_UsingJackhammer = false;
-        }
-            
-        
     }
 
     void CheckBButton() {
