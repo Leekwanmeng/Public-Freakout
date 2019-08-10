@@ -53,10 +53,11 @@ public class PlayerAction : MonoBehaviour
         m_PlayerState.m_MaxChargeShovePressure = m_MaxChargeShovePressure;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         CheckAButton();
         CheckBButton();
+        
         //REMOVE THIS
         if (Input.GetKeyDown(KeyCode.K)){
             m_PlayerState.DoForce(new Vector3(0,0,15f));
@@ -70,37 +71,37 @@ public class PlayerAction : MonoBehaviour
     void CheckAButton() {
         //Holdable actions
         if (m_Cooldown <= Time.time){ 
-        if (Input.GetButton(m_AButtonName) && !m_PlayerState.m_IsKnocked) {
-            switch(m_PlayerState.m_HoldItemId) {
-          
-            case -1:
-                Debug.Log("Shoving");
-                m_PlayerState.m_CanWalk = false;
-                ChargeShove();
-                break;
-
-            case 2:
-                m_PlayerState.m_IsUsingStationaryItem = true;
-                UseExtinguisher();
-                break;
+            if (Input.GetButton(m_AButtonName) && !m_PlayerState.m_IsKnocked) {
+                switch(m_PlayerState.m_HoldItemId) {
             
-            case 3:
-                m_PlayerState.m_IsUsingStationaryItem = true;
-                UseJackhammer();
-                break;
+                case -1:
+                    Debug.Log("Shoving");
+                    m_PlayerState.m_CanWalk = false;
+                    ChargeShove();
+                    break;
 
-            default:
-                break;
-            }
-        }
-        else {
-            m_PlayerState.m_IsUsingStationaryItem = false;
-            if (m_PlayerState.m_HoldItemId < 0) {
-                Shove();
-            }
-        }
+                case 2:
+                    m_PlayerState.m_IsUsingStationaryItem = true;
+                    UseExtinguisher();
+                    break;
+                
+                case 3:
+                    m_PlayerState.m_IsUsingStationaryItem = true;
+                    UseJackhammer();
+                    break;
 
-              
+                default:
+                    break;
+                }
+            }
+            else {
+                m_PlayerState.m_IsUsingStationaryItem = false;
+                if (m_PlayerState.m_HoldItemId < 0) {
+                    Shove();
+                }
+            }
+
+                
             //Single click actions
             if (Input.GetButtonDown(m_AButtonName)  && !m_PlayerState.m_IsKnocked) {
                 switch(m_PlayerState.m_HoldItemId) {
