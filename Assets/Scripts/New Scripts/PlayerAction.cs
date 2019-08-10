@@ -20,7 +20,7 @@ public class PlayerAction : MonoBehaviour
     private float m_BatItemVForce = 5f;
     
     private float m_UseBatCooldown = 1f;
-    private float m_UseShoveCooldown = 0.5f;
+    private float m_UseShoveCooldown = 1f;
     private float m_UseAEDCooldown = 1f;
     
 
@@ -57,7 +57,7 @@ public class PlayerAction : MonoBehaviour
     {
         CheckAButton();
         CheckBButton();
-        
+
         //REMOVE THIS
         if (Input.GetKeyDown(KeyCode.K)){
             m_PlayerState.DoForce(new Vector3(0,0,15f));
@@ -70,12 +70,11 @@ public class PlayerAction : MonoBehaviour
 
     void CheckAButton() {
         //Holdable actions
-        if (m_Cooldown <= Time.time){ 
+        if (m_PlayerState.m_Cooldown <= 0f){ 
             if (Input.GetButton(m_AButtonName) && !m_PlayerState.m_IsKnocked) {
                 switch(m_PlayerState.m_HoldItemId) {
             
                 case -1:
-                    Debug.Log("Shoving");
                     m_PlayerState.m_CanWalk = false;
                     ChargeShove();
                     break;
@@ -107,7 +106,6 @@ public class PlayerAction : MonoBehaviour
                 switch(m_PlayerState.m_HoldItemId) {
                 // bb bat
                 case 0:
-                    Debug.Log("Swing bat");
                     UseBat();
                     Set_Cooldown(m_UseBatCooldown);
                     break;
@@ -165,7 +163,7 @@ public class PlayerAction : MonoBehaviour
     }
 
     void Set_Cooldown(float duration){
-        m_Cooldown = Time.time + duration;
+        m_PlayerState.m_Cooldown = duration;
     }
 
     IEnumerator WaitToWalk(float force) {

@@ -24,6 +24,7 @@ public class PlayerState : MonoBehaviour
     public float m_ChargeShovePressure;
     public float m_MinChargeShovePressure;
     public float m_MaxChargeShovePressure;
+    public float m_Cooldown;
     public Image m_selectImage;
     public Animator m_Animator;
     public Rigidbody m_RigidBody;
@@ -57,6 +58,7 @@ public class PlayerState : MonoBehaviour
         }
         UpdateAnimations();
         CheckStationaryItem();
+        ReduceCooldown();
     }
 
     void CheckStationaryItem() {
@@ -70,6 +72,13 @@ public class PlayerState : MonoBehaviour
                 m_CanWalk = true;
                 m_TurnSpeed = 10f;
             }
+        }
+    }
+
+    void ReduceCooldown() {
+        if (m_Cooldown > 0f) {
+            m_Cooldown -= Time.deltaTime;
+            if (m_Cooldown < 0f) m_Cooldown = 0f;
         }
     }
 
