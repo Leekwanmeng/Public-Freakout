@@ -9,15 +9,18 @@ public class Item : MonoBehaviour
     public string m_ItemName;
     public float m_MaxTime = 15f;
     public float m_RotateSpeed = 30f;
+    private float m_FlashMinTime = 3f;
     public bool m_Thrown;
     public float m_ThrowKnockForce;
     
     private float m_Timer;
     private Rigidbody m_RigidBody;
+    private MeshRenderer m_Mesh;
 
     void Awake()
     {
         m_RigidBody = GetComponent<Rigidbody>();
+        m_Mesh = GetComponentInChildren<MeshRenderer>();
         m_ThrowKnockForce = 1f;
     }
     protected virtual void Start()
@@ -28,6 +31,9 @@ public class Item : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (m_Timer < m_FlashMinTime) {
+            StartCoroutine(Flash());
+        }
         Countdown();
     }
 
@@ -46,6 +52,17 @@ public class Item : MonoBehaviour
     {
         GameObject.Find("ItemManager").GetComponent<ItemSpawner>().m_ItemsToSpawn++;
         Destroy(gameObject);
+    }
+
+    IEnumerator Flash() {
+        while (m_Timer < m_FlashMinTime) {
+            m_Mesh.enabled = false;
+            yield return new WaitForSeconds(0.15f);
+            m_Mesh.enabled = true;
+            yield return new WaitForSeconds(0.15f);
+            if (m_Timer < 0f) break;
+        }
+        yield return null;
     }
 
     void OnCollisionEnter(Collision other) {
