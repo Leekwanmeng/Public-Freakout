@@ -1510,7 +1510,7 @@ MonoBehaviour:
   - {fileID: 1290304093}
   levels: 5
   buildingLength: 20
-  durationBetweenRounds: 0
+  durationBetweenRounds: 30
   flooring: {fileID: 7397945069063647601, guid: d4a959fa5f08a0e48a215f661eacb297,
     type: 3}
   heightOfLevel: 2.181781

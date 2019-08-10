@@ -531,10 +531,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1.3406986
+  m_Radius: 0.35845834
+  m_Height: 1.3406985
   m_Direction: 1
-  m_Center: {x: 0, y: 0.6796507, z: 0}
+  m_Center: {x: 0.00670588, y: 0.67965066, z: 0.014003277}
 --- !u!95 &8271380378206855133
 Animator:
   serializedVersion: 3
@@ -713,7 +713,8 @@ AudioSource:
   m_GameObject: {fileID: 2480657857998624451}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 91d05ada05384fa459c868a849b7575a,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

@@ -206,17 +206,20 @@ public class PlayerAction : MonoBehaviour
     void OnCollisionEnter(Collision other) {
         if (other.gameObject.tag == "Player" && m_PlayerState.m_IsShoving) {
             //Play collision audio
-            audio.PlayOneShot(sfx_PlayerCollision, 0.1f);
+            audio.PlayOneShot(sfx_PlayerCollision);
 
             PlayerState otherPlayer = other.gameObject.GetComponent<PlayerState>();
             Vector3 pushDirection = other.transform.position - transform.position;
             pushDirection = pushDirection.normalized;
             other.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_ShoveKnockForce);
         } else if (other.gameObject.tag == "Item"){
-
-            if (other.gameObject.GetComponent<Item>().m_Thrown == true && other.gameObject.GetComponent<Rigidbody>().velocity.magnitude > 3f){
-                audio.PlayOneShot(sfx_PlayerCollision, 0.1f);
+            
+            if (m_PlayerState.m_IsShoving){
+                other.gameObject.GetComponent<Rigidbody>().AddForce( transform.forward * 3f + new Vector3(0,1f,0), ForceMode.VelocityChange);
             }
+            // if (other.gameObject.GetComponent<Item>().m_Thrown == true && other.gameObject.GetComponent<Rigidbody>().velocity.magnitude > 3f){
+            //     audio.PlayOneShot(sfx_PlayerCollision, 0.1f);
+            // }
 
         }
 
@@ -229,7 +232,7 @@ public class PlayerAction : MonoBehaviour
         // TODO: find a way to stop movement
         yield return new WaitForSeconds(1);
 
-        audio.PlayOneShot(sfx_AED, 0.5f);
+        audio.PlayOneShot(sfx_AED, 0.1f);
         m_PlayerState.m_CanWalk = true;
         m_PlayerState.m_CanRotate = true;
 
@@ -296,10 +299,10 @@ public class PlayerAction : MonoBehaviour
         }
 
         if (hitCount > 0){
-            audio.PlayOneShot(sfx_BatHit, 0.3f);
+            audio.PlayOneShot(sfx_BatHit);
         } else {
             //Play woosh
-            audio.PlayOneShot(sfx_BatMiss, 0.3f);
+            audio.PlayOneShot(sfx_BatMiss);
         }
     }
 
