@@ -88,7 +88,7 @@ public class PlayerAction : MonoBehaviour
                 switch(m_PlayerState.m_HoldItemId) {
                 // bb bat
                 case 0:
-                    UseBat();
+                    StartCoroutine(UseBat());
                     Set_Cooldown(m_UseBatCooldown);
                     break;
 
@@ -255,7 +255,7 @@ public class PlayerAction : MonoBehaviour
         m_PlayerState.m_CanRotate = true;
     }
 
-    void UseBat() {
+    IEnumerator UseBat() {
         m_PlayerState.m_IsSingleUseItem = true;
 
         float radius = 1.5f;
@@ -303,6 +303,7 @@ public class PlayerAction : MonoBehaviour
             //Play woosh
             audio.PlayOneShot(sfx_BatMiss);
         }
+        yield return new WaitForSeconds(0.2f);
         m_PlayerState.m_IsSingleUseItem = false;
     }
 
