@@ -5356,6 +5356,7 @@ MonoBehaviour:
   m_Animator: {fileID: 0}
   m_RigidBody: {fileID: 0}
   m_CurrentAnimation: {fileID: 0}
+  m_CanPickItem: 1
 --- !u!114 &8673456479855766584
 MonoBehaviour:
   m_ObjectHideFlags: 0

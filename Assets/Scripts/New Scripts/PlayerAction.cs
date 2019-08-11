@@ -178,7 +178,7 @@ public class PlayerAction : MonoBehaviour
     }
 
     void CheckBButton() {
-        if (Input.GetButtonDown(m_BButtonName)) {
+        if (Input.GetButtonDown(m_BButtonName) && !m_PlayerState.m_IsCharging) {
             if (m_PlayerState.m_HoldItemId < 0) {
                 m_PlayerState.m_HoldItemId = ItemPickup();
             }
@@ -495,6 +495,17 @@ public class PlayerAction : MonoBehaviour
             obj.GetComponent<Item>().m_Thrown = true;
             // Set to empty
             m_PlayerState.m_HoldItemId = -1;
+
+            if (audio.loop == true){
+                audio.Stop();
+                audio.loop = false;
+            }
+
+            m_PlayerState.m_CanWalk = true;
+            m_PlayerState.m_CanRotate = true;
+            m_PlayerState.m_IsSingleUseItem = false;
+            m_PlayerState.m_IsUsingStationaryItem = false;
+            m_PlayerState.m_TurnSpeed = 10f;
         }
     }
 
@@ -513,6 +524,11 @@ public class PlayerAction : MonoBehaviour
             obj.GetComponent<Item>().m_Thrown = false;
             // Set to empty
             m_PlayerState.m_HoldItemId = -1;
+
+            if (audio.loop == true){
+                audio.Stop();
+                audio.loop = false;
+            }
         }
     }
 

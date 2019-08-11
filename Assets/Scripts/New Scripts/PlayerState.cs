@@ -30,6 +30,7 @@ public class PlayerState : MonoBehaviour
     public Animator m_Animator;
     public Rigidbody m_RigidBody;
     public GameObject m_CurrentAnimation;
+    
 
     void Awake()
     {
@@ -88,6 +89,10 @@ public class PlayerState : MonoBehaviour
             m_CanWalk = false;
             m_TurnSpeed = slowerTurn;
         } else {
+            // if (GetComponent<AudioSource>().loop == true){
+            // GetComponent<AudioSource>().Stop();
+            // GetComponent<AudioSource>().loop = false;
+            // }
             if (holdingStationaryItem){
                 GetComponent<AudioSource>().Stop();
                 GetComponent<AudioSource>().loop = false;
@@ -124,10 +129,6 @@ public class PlayerState : MonoBehaviour
         m_IsCharging = false;
         m_IsSingleUseItem = false;
         m_IsUsingStationaryItem = false;
-        if (GetComponent<AudioSource>().loop == true){
-            GetComponent<AudioSource>().Stop();
-            GetComponent<AudioSource>().loop = false;
-        }
     }
 
     public void DoForce(Vector3 force) {
