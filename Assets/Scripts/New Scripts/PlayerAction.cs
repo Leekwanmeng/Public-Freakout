@@ -7,7 +7,7 @@ public class PlayerAction : MonoBehaviour
     private float m_PickupRadius = 1f;
     private float m_WalkDropForce = 50f;
     private float m_MinDropForce = 120f;
-    private float m_ItemSpawnFromPlayerHeight = 0.7f;
+    private float m_ItemSpawnFromPlayerHeight = 1.0f;
     private float m_ChargeShoveIncrement = 12;
     private float m_MinChargeShovePressure = 3;
     private float m_MaxChargeShovePressure = 10;
@@ -208,17 +208,21 @@ public class PlayerAction : MonoBehaviour
 
     void OnCollisionEnter(Collision other) {
         if (other.gameObject.tag == "Player" && m_PlayerState.m_IsShoving) {
-            
             //Play collision audio
-            audio.PlayOneShot(sfx_PlayerCollision);
+            audio.PlayOneShot(sfx_PlayerCollision, 0.1f);
 
             PlayerState otherPlayer = other.gameObject.GetComponent<PlayerState>();
             Vector3 pushDirection = other.transform.position - transform.position;
             pushDirection = pushDirection.normalized;
             other.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_ShoveKnockForce);
+        } else if (other.gameObject.tag == "Item"){
 
-            
+            if (other.gameObject.GetComponent<Item>().m_Thrown == true && other.gameObject.GetComponent<Rigidbody>().velocity.magnitude > 3f){
+                audio.PlayOneShot(sfx_PlayerCollision, 0.1f);
+            }
+
         }
+
     }
 
     IEnumerator UseAED() {
@@ -438,9 +442,9 @@ public class PlayerAction : MonoBehaviour
             GameObject obj = Instantiate(itemPrefabToInstantiate, objPosition, Quaternion.identity);
             
 
-            Vector3 dir = Quaternion.AngleAxis( Random.Range(-30f, 30f), Vector3.up) * knockForce/1.5f;
-            Vector3 force = dir * (m_MinDropForce) + new Vector3(0, 7f, 0);
-            // Debug.Log(force.magnitude);
+            Vector3 dir = Quaternion.AngleAxis( Random.Range(-30f, 30f), Vector3.up) * knockForce.normalized;
+            Vector3 force = dir * (m_MinDropForce * 1.5f) + new Vector3(0, 7f, 0);
+            Debug.Log(force.magnitude);
             obj.GetComponent<Rigidbody>().AddForce(force);
             obj.GetComponent<Rigidbody>().angularVelocity = force;
             obj.GetComponent<Item>().m_Thrown = true;

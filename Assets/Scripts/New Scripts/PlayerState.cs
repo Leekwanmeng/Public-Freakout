@@ -108,6 +108,7 @@ public class PlayerState : MonoBehaviour
             Debug.Log("IM KNOCKED!");
             GetKnocked();
             GetComponent<PlayerAction>().KnockDropItem(force);
+            // GetComponent<AudioSource>().PlayOneShot(GetComponent<PlayerAction>().sfx_PlayerCollision);
         }
         m_RigidBody.AddForce(force, ForceMode.VelocityChange);
     }
