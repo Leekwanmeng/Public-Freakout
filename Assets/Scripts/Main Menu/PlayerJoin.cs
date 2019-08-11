@@ -11,35 +11,59 @@ using UnityEngine.UI;
 
 public class PlayerJoin : MonoBehaviour
 {
-    public Image playerwheel;
-    public Color wheelcolour;
+    
+    public Color m_JoinedColour;
+    public int m_PlayerNumber;
     public string key;
     public bool joined;
+    public GameObject m_CurrentAnimation;
+    private Image playerwheel;
     private Color defaultcolour;
-    // Start is called before the first frame update
+    private string m_AButtonName;
+    private PlayerAnimationDatabase m_DB;
+    
+    void Awake()
+    {
+        m_DB = GetComponent<PlayerAnimationDatabase>();
+    }
     void Start()
     {
+        m_AButtonName = "AButton" + m_PlayerNumber;
         playerwheel = gameObject.GetComponentInChildren<Image>();
-        //wheelcolour = new Color(255, 0, 0, 80/250);
         defaultcolour = playerwheel.color;
-
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(key))
+        if (Input.GetButtonDown(m_AButtonName))
         {
             if (playerwheel.color == defaultcolour)
             {
-                playerwheel.color = wheelcolour;
+                playerwheel.color = m_JoinedColour;
+                JoinAnimation();
                 joined = true;
+
             }
             else
             {
                 playerwheel.color = defaultcolour;
+                DefaultAnimation();
                 joined = false;
             }
         }
+    }
+
+    void JoinAnimation() {
+        if (m_CurrentAnimation != null) Destroy(m_CurrentAnimation);
+        m_CurrentAnimation = m_DB.GetAnimationById(m_PlayerNumber);
+        m_CurrentAnimation = Instantiate (m_CurrentAnimation, transform.position, transform.rotation) as GameObject;
+        m_CurrentAnimation.transform.parent = transform;
+    }
+
+    void DefaultAnimation() {
+        if (m_CurrentAnimation != null) Destroy(m_CurrentAnimation);
+        m_CurrentAnimation = m_DB.GetAnimationById(0);
+        m_CurrentAnimation = Instantiate (m_CurrentAnimation, transform.position, transform.rotation) as GameObject;
+        m_CurrentAnimation.transform.parent = transform;
     }
 }

@@ -37,8 +37,6 @@ public class StageManager2 : MonoBehaviour
 
         //Create bounding box for stage
 
-
-
     }
 
     void Update(){

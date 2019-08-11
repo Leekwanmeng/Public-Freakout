@@ -358,7 +358,7 @@ InputManager:
     axis: 4
     joyNum: 15
   - serializedVersion: 3
-    m_Name: Vertical
+    m_Name: JoystickVerticalMenu
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
@@ -366,10 +366,10 @@ InputManager:
     altNegativeButton: 
     altPositiveButton: 
     gravity: 0
-    dead: 0
+    dead: 0.2
     sensitivity: 1
     snap: 1
-    invert: 0
-    type: 0
-    axis: 4
-    joyNum: 15
+    invert: 1
+    type: 2
+    axis: 1
+    joyNum: 1

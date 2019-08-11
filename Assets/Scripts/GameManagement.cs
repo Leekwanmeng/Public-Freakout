@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameManagement : MonoBehaviour
 {
-    public int m_NumRoundsToWin = 5;        
+    public int m_NumRoundsToWin = 3;        
     public float m_StartDelay = 3f;         
     public float m_EndDelay = 3f;           
     public CameraControl m_CameraControl;   
@@ -31,10 +31,12 @@ public class GameManagement : MonoBehaviour
         m_EndWait = new WaitForSeconds(m_EndDelay);
         m_Paused = false;
         m_ItemSpawner = GameObject.Find("ItemManager").GetComponent<ItemSpawner>();
-        m_StageManager = GameObject.Find("Stage").GetComponent<StageManager2>();
+        m_StageManager = GameObject.Find("Stage").GetComponent<StageManager2>();   
+    }
 
+    public void BeginGame() {
         SpawnAllPlayers();
-        StartCoroutine(GameLoop());        
+        StartCoroutine(GameLoop());
     }
 
 

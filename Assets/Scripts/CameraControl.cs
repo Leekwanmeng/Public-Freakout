@@ -6,7 +6,7 @@ public class CameraControl : MonoBehaviour
 {
     public float m_DampTime = 0.2f;                 
     public float m_ScreenEdgeBuffer = 3f;           
-    public float m_MinSize = 4f;          
+    public float m_MinSize = 3.5f;         
     [HideInInspector] public Transform[] m_Targets; 
 
 
