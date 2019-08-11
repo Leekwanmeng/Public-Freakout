@@ -26,8 +26,6 @@ public class RemoveLevel : MonoBehaviour
         speed = -0.01f;
         count = 1f;
         timer = 5;
-
-        
     }
 
     // Update is called once per frame
@@ -42,6 +40,7 @@ public class RemoveLevel : MonoBehaviour
                     reduceCollider = false;
                     transform.parent.GetComponent<StageManager2>().reduceStageCollider();
                 }
+                
                 //Vibrate about x axis
                 float x = Mathf.Sin(Time.time * vibrateFreq) * vibrateAmp;
 
@@ -61,9 +60,21 @@ public class RemoveLevel : MonoBehaviour
                     timer -= Time.deltaTime;
                 }
             } else {
-                Destroy(gameObject);
+                ResetRemove();
             }
 
         }
-    }   
+    }  
+
+    public void ResetRemove(){
+        foreach (Transform child in transform) {
+            GameObject.Destroy(child.gameObject);
+            start = false;
+            distanceTravelled = 0f;
+            speed = -0.01f;
+            count = 1f;
+            timer = 5;
+            transform.position = new Vector3(0,0,0);
+        }
+    }
 }

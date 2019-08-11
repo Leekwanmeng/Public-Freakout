@@ -11,7 +11,7 @@ public class CreateLevel : MonoBehaviour
     Vector3 m_Min, m_Max;
     // float heightOfLevel;
 
-    void Start()
+    public void StartScript()
     {
         //Fetch the Collider from the GameObject
         // Collider m_Collider = parent.GetComponent<Collider>();
@@ -23,7 +23,7 @@ public class CreateLevel : MonoBehaviour
         float heightOfLevel = parent.heightOfLevel;
         // float y_min = m_Min.y;
         // float y_max = m_Max.y;
-
+        
         for (float i = 1; i <= levels; i++){
             createFloor(-i * heightOfLevel);
         }

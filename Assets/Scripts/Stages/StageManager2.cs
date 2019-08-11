@@ -15,21 +15,15 @@ public class StageManager2 : MonoBehaviour
     private AudioSource buildingCollapse;
     private BoxCollider stageCollider;
 
+    public bool reset = false;
 
     void Awake()
     {
         buildingCollapse = GetComponent<AudioSource>();
-
-        //Start script to remove layers periodically
-        for (int i = 0; i < layersToRemove.Length; i++){
-            float waitTime = (i + 1) * durationBetweenRounds;
-            IEnumerator coroutine = RemoveLevel(layersToRemove[i], waitTime);
-            StartCoroutine(coroutine);
-        }
-
         b_Min = new Vector3( -buildingLength/2f, 0, 0 -buildingLength/2f);
         b_Max = new Vector3( buildingLength/2f, 0, buildingLength/2f);
-
+        Reset();
+       
         //Build flooring for levels
         for (float i = 0; i < levels; i++){
             Vector3 position = new Vector3(0, -i * heightOfLevel - 0.1818f/2, 0);
@@ -48,10 +42,17 @@ public class StageManager2 : MonoBehaviour
 
     }
 
+    void Update(){
+        if (reset){
+            reset = false;
+            Reset();
+        }
+    }
+
     private IEnumerator RemoveLevel(GameObject layer, float waitTime){
         yield return new WaitForSeconds(waitTime);
-        RemoveLevel script = layer.GetComponent<RemoveLevel>();
-        script.start = true;
+        layer.GetComponent<RemoveLevel>().start = true;
+        // script.start = true;
         buildingCollapse.Play(0);
     }
 
@@ -69,4 +70,27 @@ public class StageManager2 : MonoBehaviour
             other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
     }
+
+    void Reset(){
+
+        foreach (Transform child in transform) {
+            if (child.childCount == 0){
+                child.GetComponent<CreateLevel>().StartScript();
+            }
+            if (child.GetComponent<RemoveLevel>().start == true){
+                buildingCollapse.Stop();
+                child.GetComponent<RemoveLevel>().ResetRemove();       
+                child.GetComponent<CreateLevel>().StartScript();
+            }
+        }
+
+         
+        for (int i = 0; i < layersToRemove.Length; i++){
+            float waitTime = (i + 1) * durationBetweenRounds;
+            IEnumerator coroutine = RemoveLevel(layersToRemove[i], waitTime);
+            StartCoroutine(coroutine);
+        }
+
+    }
+
 }

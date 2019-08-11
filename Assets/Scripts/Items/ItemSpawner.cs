@@ -62,4 +62,5 @@ public class ItemSpawner : MonoBehaviour
         // item_rb.velocity = force;
         item_rb.angularVelocity = force;
     }
+
 }
