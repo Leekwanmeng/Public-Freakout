@@ -217,9 +217,12 @@ public class PlayerAction : MonoBehaviour
     IEnumerator WaitToWalk(float force) {
         Set_Cooldown(m_UseShoveCooldown);
         yield return new WaitForSeconds( (force/m_PlayerState.m_FrictionMagnitude - 5) * Time.deltaTime);
-        m_PlayerState.m_CanWalk = true;
-        m_PlayerState.m_CanRotate = true;
-        m_PlayerState.m_IsShoving = false;
+        if (!m_PlayerState.m_IsKnocked){
+            m_PlayerState.m_CanWalk = true;
+            m_PlayerState.m_CanRotate = true;
+            m_PlayerState.m_IsShoving = false;    
+        }
+        
     }
 
 
