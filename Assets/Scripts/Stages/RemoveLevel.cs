@@ -19,8 +19,8 @@ public class RemoveLevel : MonoBehaviour
     {
         start = false;
         startPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        vibrateAmp = 0.1f;
-        vibrateFreq = 100.0f;
+        vibrateAmp = 0.05f;
+        vibrateFreq = 50.0f;
         distanceTravelled = 0f;
         // speed = -2.00f;
         speed = -0.01f;
