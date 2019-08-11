@@ -83,6 +83,7 @@ public class PlayerAction : MonoBehaviour
 
     void CheckAButton() {
         //Single click actions
+        if (m_PlayerState.m_Cooldown <= 0f) {
             if (Input.GetButtonDown(m_AButtonName)  && !m_PlayerState.m_IsKnocked) {
                 switch(m_PlayerState.m_HoldItemId) {
                 // bb bat
@@ -111,48 +112,46 @@ public class PlayerAction : MonoBehaviour
                 }
             
             }
+        }
 
         //Holdable actions
-        if (m_PlayerState.m_Cooldown <= 0f){ 
-            if (Input.GetButton(m_AButtonName) && !m_PlayerState.m_IsKnocked) {
-                switch(m_PlayerState.m_HoldItemId) {
+        if (Input.GetButton(m_AButtonName) && !m_PlayerState.m_IsKnocked) {
+            switch(m_PlayerState.m_HoldItemId) {
+        
+            case -1:
+                m_PlayerState.m_CanWalk = false;
+                ChargeShove();
+                break;
+
+            case 2:
+                m_PlayerState.m_IsUsingStationaryItem = true;
+                UseExtinguisher();
+                break;
             
-                case -1:
-                    m_PlayerState.m_CanWalk = false;
-                    ChargeShove();
-                    break;
+            case 3:
+                m_PlayerState.m_IsUsingStationaryItem = true;
+                UseJackhammer();
+                break;
 
-                case 2:
-                    m_PlayerState.m_IsUsingStationaryItem = true;
-                    UseExtinguisher();
-                    break;
-                
-                case 3:
-                    m_PlayerState.m_IsUsingStationaryItem = true;
-                    UseJackhammer();
-                    break;
-
-                default:
-                    break;
-                }
+            default:
+                break;
             }
-            else {
-                m_PlayerState.m_IsUsingStationaryItem = false;
-                if (m_PlayerState.m_HoldItemId < 0) {
-                    Shove();
-                }
-                
-                // audio.loop = false;
-                // audio.Stop();
-                // m_UsingJackhammer = false;
-                // m_UsingFireEx = false;
-                // Debug.Log("AUDIO LOOP: " + audio.loop);
-                // m_UsingJackhammer = false;
-            }
-
-                
-            
         }
+        else {
+            m_PlayerState.m_IsUsingStationaryItem = false;
+            if (m_PlayerState.m_HoldItemId < 0) {
+                Shove();
+            }
+            
+            // audio.loop = false;
+            // audio.Stop();
+            // m_UsingJackhammer = false;
+            // m_UsingFireEx = false;
+            // Debug.Log("AUDIO LOOP: " + audio.loop);
+            // m_UsingJackhammer = false;
+        }
+            
+        
     }
 
     void CheckBButton() {
