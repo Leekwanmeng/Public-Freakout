@@ -63,4 +63,11 @@ public class ItemSpawner : MonoBehaviour
         item_rb.angularVelocity = force;
     }
 
+    public void ResetItems() {
+        GameObject[] items = GameObject.FindGameObjectsWithTag("Item");
+        for (int i=0; i<items.Length; i++) {
+            Destroy(items[i]);
+        }
+        m_ItemsToSpawn = 10;
+    }
 }

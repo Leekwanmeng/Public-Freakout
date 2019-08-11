@@ -20,7 +20,8 @@ public class GameManagement : MonoBehaviour
     private WaitForSeconds m_StartWait;     
     private WaitForSeconds m_EndWait;       
     private PlayerManager m_RoundWinner;
-    private PlayerManager m_GameWinner;       
+    private PlayerManager m_GameWinner;
+    private ItemSpawner m_ItemSpawner; 
 
 
     private void Start()
@@ -28,10 +29,9 @@ public class GameManagement : MonoBehaviour
         m_StartWait = new WaitForSeconds(m_StartDelay);
         m_EndWait = new WaitForSeconds(m_EndDelay);
         m_Paused = false;
+        m_ItemSpawner = GameObject.Find("ItemManager").GetComponent<ItemSpawner>();
 
         SpawnAllPlayers();
-        SetCameraTargets();
-
         StartCoroutine(GameLoop());        
     }
 
@@ -79,7 +79,9 @@ public class GameManagement : MonoBehaviour
 
     private IEnumerator RoundStarting()
     {
-        ResetAllPlayers();
+        m_ItemSpawner.ResetItems();
+        RespawnAllPlayers();
+        SetCameraTargets();
         DisablePlayerControl();
         m_CameraControl.SetStartPositionAndSize();
         m_RoundNumber++;
@@ -198,6 +200,19 @@ public class GameManagement : MonoBehaviour
         }
     }
 
+    private void RespawnAllPlayers() {
+        for (int i = 0; i < m_Players.Length; i++)
+        {
+            Destroy(m_Players[i].m_Instance);
+            m_Players[i].m_Instance = Instantiate (
+                    m_PlayerPrefab,
+                    m_Players[i].m_SpawnPoint.position,
+                    m_Players[i].m_SpawnPoint.rotation
+                ) as GameObject;
+            m_Players[i].Setup();
+
+        }
+    }
 
     private void EnablePlayerControl()
     {
