@@ -107,12 +107,17 @@ public class PlayerAction : MonoBehaviour
 
                 //Fire extinguisher
                 case 2:
+                    audio.loop = true;
+                    audio.clip = sfx_FireEx;
+                    audio.Play();
                     m_CanUseFireEx = true;
                     break;
 
                 //Jackhammer
                 case 3:
-                    // audio.PlayOneShot(sfx_Jackhammer);
+                    audio.loop = true;
+                    audio.clip = sfx_Jackhammer;
+                    audio.Play();
                     // audioTimer = sfx_Jackhammer.length - sfx_OffsetJH;
                     m_CanUseJackhammer = true;
                     break;
@@ -254,29 +259,31 @@ public class PlayerAction : MonoBehaviour
         m_PlayerState.m_IsSingleUseItem = true;
         
         yield return new WaitForSeconds(1);
+        if (m_PlayerState.m_HoldItemId == 1){
+            audio.PlayOneShot(sfx_AED, 0.1f);
 
-        audio.PlayOneShot(sfx_AED, 0.1f);
+            float radius = 2.0f;
+            float maxAngle = 15f;
 
-        float radius = 2.0f;
-        float maxAngle = 15f;
+            Collider[] colliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_PlayerMask);
+            foreach (Collider col in colliders) {
+                PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
+                if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
+                    Vector3 pushDirection = col.transform.position - transform.position;
+                    float angle = Vector3.Angle(pushDirection, transform.forward);
+                    if (angle < maxAngle) {
+                        pushDirection = pushDirection.normalized;
+                        col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_AEDForce);
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_PlayerMask);
-        foreach (Collider col in colliders) {
-            PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
-            if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
-                Vector3 pushDirection = col.transform.position - transform.position;
-                float angle = Vector3.Angle(pushDirection, transform.forward);
-                if (angle < maxAngle) {
-                    pushDirection = pushDirection.normalized;
-                    col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_AEDForce);
-
+                    }
                 }
             }
+            m_PlayerState.m_IsSingleUseItem = false;
+            m_PlayerState.m_CanWalk = true;
+            m_PlayerState.m_CanRotate = true;
+        
+            }
         }
-        m_PlayerState.m_IsSingleUseItem = false;
-        m_PlayerState.m_CanWalk = true;
-        m_PlayerState.m_CanRotate = true;
-    }
 
     IEnumerator UseBat() {
         m_PlayerState.m_IsSingleUseItem = true;
@@ -301,6 +308,38 @@ public class PlayerAction : MonoBehaviour
                 }
             }
         }
+
+        // Collider[] playerColliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_PlayerMask);
+        // foreach (Collider col in playerColliders) {
+        //     PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
+        //     if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
+        //         Vector3 pushDirection = col.transform.position - transform.position;
+        //         float angle = Vector3.Angle(pushDirection, transform.forward);
+
+        //         float half_width = 0.5f;
+        //         Vector3 other_position = col.transform.position;
+        //         Vector2 my_position = new Vector2(transform.position.x, transform.position.z);
+        //         Vector2 forward = new Vector2(transform.forward.x, transform.forward.z);
+        //         Vector2 normal = Vector2.Perpendicular(forward);
+        //         Vector2 min_thresh = forward - normal * half_width + my_position;
+        //         Vector2 max_thresh = forward + normal * half_width + my_position;
+
+
+
+        //         // bool IsCBetweenAB ( Vector3 A , Vector3 B , Vector3 C ) {
+        //         //     return Vector3.Dot( (B-A).normalized , (C-B).normalized )<0f && Vector3.Dot( (A-B).normalized , (C-A).normalized )<0f;
+        //         // }
+
+        //         if (angle < maxAngle) {
+        //             hitCount++;
+        //             pushDirection = pushDirection.normalized;
+        //             // col.gameObject.GetComponent<Rigidbody>().AddForce(
+        //             //     pushDirection * m_BatPlayerForce, ForceMode.VelocityChange
+        //             // );
+        //             col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_BatPlayerForce);
+        //         }
+        //     }
+        // }
 
         Collider[] itemColliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_ItemMask);
         foreach (Collider col in itemColliders) {

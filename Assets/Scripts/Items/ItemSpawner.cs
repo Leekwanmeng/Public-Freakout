@@ -21,7 +21,19 @@ public class ItemSpawner : MonoBehaviour
     {
         m_ItemDb = GetComponent<ItemDatabase>();
     }
-    void Start()
+    // void Start()
+    // {
+    //     Collider collider = m_BaseStage.GetComponent<Collider>();
+    //     Vector3 min = collider.bounds.min;
+    //     Vector3 max = collider.bounds.max;
+    //     m_xMin = min.x;
+    //     m_zMin = min.z;
+    //     m_xMax = max.x;
+    //     m_zMax = max.z;
+    //     m_y = m_HeightToSpawn;
+    // }
+
+    void Update()
     {
         Collider collider = m_BaseStage.GetComponent<Collider>();
         Vector3 min = collider.bounds.min;
@@ -30,11 +42,8 @@ public class ItemSpawner : MonoBehaviour
         m_zMin = min.z;
         m_xMax = max.x;
         m_zMax = max.z;
-        m_y = max.y + m_HeightToSpawn;
-    }
+        m_y = m_HeightToSpawn;
 
-    void Update()
-    {
         m_Time += Time.deltaTime;
         if (m_Time >= 1f){
             m_Time = 0.0f;

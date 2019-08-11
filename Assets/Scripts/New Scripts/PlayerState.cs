@@ -89,6 +89,8 @@ public class PlayerState : MonoBehaviour
             m_TurnSpeed = slowerTurn;
         } else {
             if (holdingStationaryItem){
+                GetComponent<AudioSource>().Stop();
+                GetComponent<AudioSource>().loop = false;
                 m_CanWalk = true;
                 m_TurnSpeed = 10f;
             }
@@ -120,6 +122,8 @@ public class PlayerState : MonoBehaviour
         m_CanRotate = false;
         m_IsShoving = false;
         m_IsCharging = false;
+        m_IsSingleUseItem = false;
+        m_IsUsingStationaryItem = false;
         
     }
 
