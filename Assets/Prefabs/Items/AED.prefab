@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7274908552024802800}
   - component: {fileID: 471771827298697986}
   - component: {fileID: 2094330056031747199}
+  - component: {fileID: 7507128103780250721}
   m_Layer: 10
   m_Name: AED
   m_TagString: Item
@@ -59,7 +60,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 3195893512391787435}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.35
   m_Height: 0.9
   m_Direction: 1
@@ -82,6 +83,20 @@ MonoBehaviour:
   m_RotateSpeed: 15
   m_Thrown: 0
   m_ThrowKnockForce: 0
+--- !u!64 &7507128103780250721
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3195893512391787435}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 8992404249781019998, guid: 3f6ddb6b3fc834144a3b6673cd16d012, type: 3}
 --- !u!1001 &1619901337965788974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -148,6 +163,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1504981713932161579, guid: 3f6ddb6b3fc834144a3b6673cd16d012,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f6ddb6b3fc834144a3b6673cd16d012, type: 3}

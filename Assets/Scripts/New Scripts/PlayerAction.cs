@@ -44,7 +44,7 @@ public class PlayerAction : MonoBehaviour
 
     private float audioTimer;
     private float sfx_OffsetJH = 0.049f;
-    
+
     void Awake()
     {
         audio = GetComponent<AudioSource>();
@@ -66,7 +66,7 @@ public class PlayerAction : MonoBehaviour
         m_PlayerState.m_MaxChargeShovePressure = m_MaxChargeShovePressure;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         CheckAButton();
         CheckBButton();
@@ -77,7 +77,7 @@ public class PlayerAction : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.J)){
-            m_PlayerState.DoForce(new Vector3(4f,0,0));
+            m_PlayerState.DoForce(new Vector3(15f,0,0));
         }
     }
 
@@ -425,6 +425,24 @@ public class PlayerAction : MonoBehaviour
             Vector3 force = transform.forward * (m_MinDropForce + m_PlayerState.m_MovementMagnitude * m_WalkDropForce);
             // Debug.Log(force.magnitude);
             obj.GetComponent<Rigidbody>().AddForce(force);
+            obj.GetComponent<Item>().m_Thrown = true;
+            // Set to empty
+            m_PlayerState.m_HoldItemId = -1;
+        }
+    }
+
+    public void KnockDropItem(Vector3 knockForce){
+        if (m_PlayerState.m_HoldItemId != -1){
+            GameObject itemPrefabToInstantiate = m_ItemDatabase.GetItemById(m_PlayerState.m_HoldItemId);
+            Vector3 objPosition = transform.position + knockForce.normalized + new Vector3(0f, 2.0f, 0f);
+            GameObject obj = Instantiate(itemPrefabToInstantiate, objPosition, Quaternion.identity);
+            
+
+            Vector3 dir = Quaternion.AngleAxis( Random.Range(-30f, 30f), Vector3.up) * knockForce/1.5f;
+            Vector3 force = dir * (m_MinDropForce) + new Vector3(0, 7f, 0);
+            // Debug.Log(force.magnitude);
+            obj.GetComponent<Rigidbody>().AddForce(force);
+            obj.GetComponent<Rigidbody>().angularVelocity = force;
             obj.GetComponent<Item>().m_Thrown = true;
             // Set to empty
             m_PlayerState.m_HoldItemId = -1;

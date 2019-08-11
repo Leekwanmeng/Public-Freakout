@@ -39,7 +39,6 @@ public class RemoveLevel : MonoBehaviour
             if (Mathf.Abs(distanceTravelled) < 20.0f) {
                 //Distance travelled before reducing collider 
                 if (Mathf.Abs(distanceTravelled) > 0.2f && reduceCollider){
-                    Debug.Log("Destroy");
                     reduceCollider = false;
                     transform.parent.GetComponent<StageManager2>().reduceStageCollider();
                 }

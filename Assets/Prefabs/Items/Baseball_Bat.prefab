@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: -9042668540411098286}
   - component: {fileID: 8104363772301057995}
   - component: {fileID: -5292665716215058944}
+  - component: {fileID: 3956524516948638798}
   m_Layer: 10
   m_Name: Baseball_Bat
   m_TagString: Item
@@ -59,7 +60,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 5877812647998634713}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.2
   m_Height: 1.2
   m_Direction: 1
@@ -82,6 +83,20 @@ MonoBehaviour:
   m_RotateSpeed: 30
   m_Thrown: 0
   m_ThrowKnockForce: 0
+--- !u!64 &3956524516948638798
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5877812647998634713}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -5487231089509351980, guid: 4a414ab96fd74e94fb1aa0c193887a97, type: 3}
 --- !u!1 &8373748395809719963
 GameObject:
   m_ObjectHideFlags: 0

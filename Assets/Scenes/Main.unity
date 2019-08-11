@@ -1007,8 +1007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9e4c7d5310c1414ab0b5fac1312e33e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layersToRemove:
-  - {fileID: 1290304093}
+  layersToRemove: []
   levels: 5
   buildingLength: 20
   durationBetweenRounds: 0
@@ -1044,7 +1043,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: af0a94951d1cff74da783c42ac9bfea3, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
