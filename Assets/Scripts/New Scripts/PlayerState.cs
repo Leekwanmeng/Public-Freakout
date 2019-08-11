@@ -64,15 +64,18 @@ public class PlayerState : MonoBehaviour
 
     void CheckStationaryItem() {
         float slowerTurn = 2.0f;
-        bool holdingStationaryItem = m_HoldItemId == 2 || m_HoldItemId == 3;
+
         if (m_IsUsingStationaryItem) {
+        
             m_CanWalk = false;
             m_TurnSpeed = slowerTurn;
+        
         } else {
-            if (holdingStationaryItem){
+            if (!m_IsShoving){
                 m_CanWalk = true;
                 m_TurnSpeed = 10f;
             }
+            
         }
     }
 
