@@ -70,7 +70,7 @@ public class StageManager2 : MonoBehaviour
         }
     }
 
-    void Reset(){
+    public void Reset(){
 
         foreach (Transform child in transform) {
             if (child.childCount == 0){
