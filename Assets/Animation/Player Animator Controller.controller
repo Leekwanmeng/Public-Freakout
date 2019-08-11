@@ -114,11 +114,7 @@ AnimatorState:
   - {fileID: 5657884734559725241}
   - {fileID: -5840851693799350355}
   m_StateMachineBehaviours:
-<<<<<<< HEAD
-  - {fileID: 3341431656543364337}
-=======
   - {fileID: -5839544350559822947}
->>>>>>> 10881711c901ed9e03fbeffbe9bb13de25b5e995
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -1377,9 +1373,6 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-<<<<<<< HEAD
-    m_Controller: {fileID: 9100000}
-=======
     m_Controller: {fileID: 0}
   - m_Name: isShoving
     m_Type: 4
@@ -1387,7 +1380,6 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
->>>>>>> 10881711c901ed9e03fbeffbe9bb13de25b5e995
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1608,46 +1600,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
-<<<<<<< HEAD
---- !u!1101 &1991201172414373043
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 6
-    m_ConditionEvent: holdItemId
-    m_EventTreshold: 3
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: -8032905231408350351}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0
-  m_TransitionOffset: 0
-  m_ExitTime: 0.94957983
-  m_HasExitTime: 0
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
---- !u!114 &2685090006541360102
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a64744f8626a1646a9eb2f4ee202e92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-=======
->>>>>>> 10881711c901ed9e03fbeffbe9bb13de25b5e995
 --- !u!1101 &2765552403051280254
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

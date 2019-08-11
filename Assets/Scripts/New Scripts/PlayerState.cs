@@ -114,12 +114,13 @@ public class PlayerState : MonoBehaviour
     }
 
     public void GetKnocked() {
+        m_ChargeShovePressure = 0.0f;
         m_IsKnocked = true;
         m_CanWalk = false;
         m_CanRotate = false;
         m_IsShoving = false;
         m_IsCharging = false;
-        m_ChargeShovePressure = 0.0f;
+        
     }
 
     public void DoForce(Vector3 force) {
