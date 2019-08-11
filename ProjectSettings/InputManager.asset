@@ -282,7 +282,7 @@ InputManager:
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: 
+    positiveButton: joystick button 0
     altNegativeButton: 
     altPositiveButton: 
     gravity: 0
@@ -291,8 +291,8 @@ InputManager:
     snap: 1
     invert: 0
     type: 0
-    axis: 4
-    joyNum: 0
+    axis: 0
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Cancel
     descriptiveName: 
@@ -324,7 +324,7 @@ InputManager:
     invert: 0
     type: 0
     axis: 4
-    joyNum: 0
+    joyNum: 14
   - serializedVersion: 3
     m_Name: VerticalUI
     descriptiveName: 
@@ -340,9 +340,9 @@ InputManager:
     invert: 0
     type: 0
     axis: 4
-    joyNum: 0
+    joyNum: 15
   - serializedVersion: 3
-    m_Name: VerticalUI
+    m_Name: Horizontal
     descriptiveName: 
     descriptiveNegativeName: 
     negativeButton: 
@@ -356,4 +356,20 @@ InputManager:
     invert: 0
     type: 0
     axis: 4
-    joyNum: 0
+    joyNum: 15
+  - serializedVersion: 3
+    m_Name: Vertical
+    descriptiveName: 
+    descriptiveNegativeName: 
+    negativeButton: 
+    positiveButton: 
+    altNegativeButton: 
+    altPositiveButton: 
+    gravity: 0
+    dead: 0
+    sensitivity: 1
+    snap: 1
+    invert: 0
+    type: 0
+    axis: 4
+    joyNum: 15
