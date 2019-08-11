@@ -22,6 +22,10 @@ public class StageManager2 : MonoBehaviour
         buildingCollapse = GetComponent<AudioSource>();
         b_Min = new Vector3( -buildingLength/2f, 0, 0 -buildingLength/2f);
         b_Max = new Vector3( buildingLength/2f, 0, buildingLength/2f);
+
+        stageCollider = gameObject.AddComponent<BoxCollider>();
+        stageCollider.isTrigger = true;
+        stageCollider.center = new Vector3(0,0,0);
         Reset();
        
         //Build flooring for levels
@@ -33,12 +37,7 @@ public class StageManager2 : MonoBehaviour
 
         //Create bounding box for stage
 
-        int numOfLayers = transform.childCount;
 
-        stageCollider = gameObject.AddComponent<BoxCollider>();
-        stageCollider.isTrigger = true;
-        stageCollider.center = new Vector3(0,0,0);
-        stageCollider.size = new Vector3(buildingLength + numOfLayers * 2, 5, buildingLength + numOfLayers * 2);
 
     }
 
@@ -91,6 +90,8 @@ public class StageManager2 : MonoBehaviour
             StartCoroutine(coroutine);
         }
 
+        int numOfLayers = transform.childCount;
+        stageCollider.size = new Vector3(buildingLength + numOfLayers * 2, 5, buildingLength + numOfLayers * 2);
     }
 
 }

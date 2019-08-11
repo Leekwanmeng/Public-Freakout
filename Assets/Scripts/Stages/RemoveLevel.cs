@@ -68,6 +68,7 @@ public class RemoveLevel : MonoBehaviour
 
     public void ResetRemove(){
         foreach (Transform child in transform) {
+            reduceCollider = true;
             GameObject.Destroy(child.gameObject);
             start = false;
             distanceTravelled = 0f;
