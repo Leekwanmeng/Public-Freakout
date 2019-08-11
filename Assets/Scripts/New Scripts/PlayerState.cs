@@ -95,6 +95,7 @@ public class PlayerState : MonoBehaviour
         m_Animator.SetBool("isKnocked", m_IsKnocked);
         m_Animator.SetBool("isUsingStationaryItem", m_IsUsingStationaryItem);
         m_Animator.SetBool("isSingleUseItem", m_IsSingleUseItem);
+        m_Animator.SetBool("isShoving", m_IsShoving);
     }
 
     public void GetKnocked() {
