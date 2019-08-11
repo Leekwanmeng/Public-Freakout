@@ -27,7 +27,7 @@ public class PlayerAction : MonoBehaviour
     private bool m_CanUseFireEx = false;
     private bool m_CanUseJackhammer = false;
 
-    private float m_ChargeShovePressure;
+    // private float m_ChargeShovePressure;
     private string m_AButtonName;
     private string m_BButtonName;
     private PlayerState m_PlayerState;
@@ -62,7 +62,7 @@ public class PlayerAction : MonoBehaviour
         m_AButtonName = "AButton" + m_PlayerState.m_PlayerNumber;
         m_BButtonName = "BButton" + m_PlayerState.m_PlayerNumber;
 
-        m_ChargeShovePressure = 0f;
+        // m_ChargeShovePressure = 0f;
         m_ExtinguisherPushbackCurrent = Vector3.zero;
         m_ExtinguisherPushbackPrevious = Vector3.zero;
         m_PlayerState.m_MinChargeShovePressure = m_MinChargeShovePressure;
@@ -185,29 +185,28 @@ public class PlayerAction : MonoBehaviour
 
     private void ChargeShove() {
         m_PlayerState.m_IsCharging = true;
-        if (m_ChargeShovePressure < m_MaxChargeShovePressure) {
-            m_ChargeShovePressure += m_ChargeShoveIncrement * Time.deltaTime;
+        if (m_PlayerState.m_ChargeShovePressure < m_MaxChargeShovePressure) {
+            m_PlayerState.m_ChargeShovePressure += m_ChargeShoveIncrement * Time.deltaTime;
         }
         else {
-            m_ChargeShovePressure = m_MaxChargeShovePressure;
+            m_PlayerState.m_ChargeShovePressure = m_MaxChargeShovePressure;
         }
-        m_PlayerState.m_ChargeShovePressure = m_ChargeShovePressure;
+        
     }
 
     void Shove() {
-        if (m_ChargeShovePressure > 0f) {
+        if (m_PlayerState.m_ChargeShovePressure > 0f && !m_PlayerState.m_IsKnocked) {
             m_PlayerState.m_IsCharging = false;
             m_PlayerState.m_IsShoving = true;
             m_PlayerState.m_CanWalk = false;
             m_PlayerState.m_CanRotate = false;
-            m_ChargeShovePressure += m_MinChargeShovePressure;
-            Vector3 force = transform.forward * m_ChargeShovePressure;
+            m_PlayerState.m_ChargeShovePressure += m_MinChargeShovePressure;
+            Vector3 force = transform.forward * m_PlayerState.m_ChargeShovePressure;
             Debug.Log(m_PlayerState.m_CanWalk);
-            StartCoroutine(WaitToWalk(m_ChargeShovePressure));
+            StartCoroutine(WaitToWalk(m_PlayerState.m_ChargeShovePressure));
 
             m_RigidBody.AddForce(force, ForceMode.VelocityChange);
-            m_ChargeShovePressure = 0f;
-            m_PlayerState.m_ChargeShovePressure = m_ChargeShovePressure;
+            m_PlayerState.m_ChargeShovePressure = 0f;
         }
     }
 
