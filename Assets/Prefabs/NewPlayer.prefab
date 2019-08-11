@@ -5384,8 +5384,8 @@ MonoBehaviour:
   sfx_AED: {fileID: 8300000, guid: 3920beb7c20ee0f409458b250eb6c12a, type: 3}
   sfx_BatHit: {fileID: 8300000, guid: 06785da911c5fe342b61c13995883089, type: 3}
   sfx_BatMiss: {fileID: 8300000, guid: 3f9ea122e8c33be49b2ac1bc802b88f9, type: 3}
-  sfx_Jackhammer: {fileID: 8300000, guid: 960ab5e0bdbd79540b84e1555f18e1e6, type: 3}
-  sfx_FireEx: {fileID: 0}
+  sfx_Jackhammer: {fileID: 8300000, guid: a62ff2519187f224098ba13f1dbab710, type: 3}
+  sfx_FireEx: {fileID: 8300000, guid: 30b59e8beb625a74ab929b94e6e232e2, type: 3}
 --- !u!114 &981807044
 MonoBehaviour:
   m_ObjectHideFlags: 0
