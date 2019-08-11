@@ -32,8 +32,8 @@ AnimatorStateMachine:
   m_Name: Base Layer
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: 4450160778353485555}
-    m_Position: {x: 410.4272, y: 103.35428, z: 0}
+    m_State: {fileID: 6238966678428099475}
+    m_Position: {x: 387.5, y: 119.10712, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -43,15 +43,15 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 4450160778353485555}
---- !u!1102 &4450160778353485555
+  m_DefaultState: {fileID: 6238966678428099475}
+--- !u!1102 &6238966678428099475
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PlayerAEDIdle
+  m_Name: AED_Idle
   m_Speed: 3
   m_CycleOffset: 0
   m_Transitions: []
@@ -64,7 +64,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1827226128182048838, guid: 5a453e6df88bd5b498c30f45e0583d62,
+  m_Motion: {fileID: 1827226128182048838, guid: 5bab2f1ca2b8cc6469ec35542ad98c31,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 

@@ -88,6 +88,8 @@ public class PlayerState : MonoBehaviour
         m_Animator.SetInteger("holdItemId", m_HoldItemId);
         m_Animator.SetFloat("chargeShovePressure", m_ChargeShovePressure);
         m_Animator.SetBool("isCharged", m_IsCharging);
+        m_Animator.SetBool("isKnocked", m_IsKnocked);
+        m_Animator.SetBool("isUsingStationaryItem", m_IsUsingStationaryItem);
     }
 
     public void GetKnocked() {
@@ -101,7 +103,7 @@ public class PlayerState : MonoBehaviour
     }
 
     public void DoForce(Vector3 force) {
-        if (force.magnitude > 5f) {
+        if (force.magnitude > 3f) {
             // m_IsKnocked = true;
             Debug.Log("IM KNOCKED!");
             GetKnocked();
