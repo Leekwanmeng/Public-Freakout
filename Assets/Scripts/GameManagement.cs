@@ -32,8 +32,6 @@ public class GameManagement : MonoBehaviour
         m_ItemSpawner = GameObject.Find("ItemManager").GetComponent<ItemSpawner>();
 
         SpawnAllPlayers();
-        SetCameraTargets();
-
         StartCoroutine(GameLoop());        
     }
 
@@ -82,7 +80,8 @@ public class GameManagement : MonoBehaviour
     private IEnumerator RoundStarting()
     {
         m_ItemSpawner.ResetItems();
-        ResetAllPlayers();
+        RespawnAllPlayers();
+        SetCameraTargets();
         DisablePlayerControl();
         m_CameraControl.SetStartPositionAndSize();
         m_RoundNumber++;
@@ -201,6 +200,19 @@ public class GameManagement : MonoBehaviour
         }
     }
 
+    private void RespawnAllPlayers() {
+        for (int i = 0; i < m_Players.Length; i++)
+        {
+            Destroy(m_Players[i].m_Instance);
+            m_Players[i].m_Instance = Instantiate (
+                    m_PlayerPrefab,
+                    m_Players[i].m_SpawnPoint.position,
+                    m_Players[i].m_SpawnPoint.rotation
+                ) as GameObject;
+            m_Players[i].Setup();
+
+        }
+    }
 
     private void EnablePlayerControl()
     {
