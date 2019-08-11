@@ -49,6 +49,7 @@ public class PlayerState : MonoBehaviour
             m_IsKnocked = false;
             m_CanWalk = true;
             m_CanRotate = true;
+            m_TurnSpeed = 10f;
         }
         if (m_PlayerNumber == 1){
         // Debug.Log("Knocked: " + m_IsKnocked);
@@ -62,20 +63,34 @@ public class PlayerState : MonoBehaviour
         ReduceCooldown();
     }
 
+    // void CheckStationaryItem() {
+    //     float slowerTurn = 2.0f;
+
+    //     if (m_IsUsingStationaryItem) {
+        
+    //         m_CanWalk = false;
+    //         m_TurnSpeed = slowerTurn;
+        
+    //     } else {
+    //         // if (!m_IsShoving && !m_IsKnocked){
+    //         //     m_CanWalk = true;
+    //         //     m_TurnSpeed = 10f;
+    //         // }
+            
+    //     }
+    // }
+
     void CheckStationaryItem() {
         float slowerTurn = 2.0f;
-
+        bool holdingStationaryItem = m_HoldItemId == 2 || m_HoldItemId == 3;
         if (m_IsUsingStationaryItem) {
-        
             m_CanWalk = false;
             m_TurnSpeed = slowerTurn;
-        
         } else {
-            if (!m_IsShoving && !m_IsKnocked){
+            if (holdingStationaryItem){
                 m_CanWalk = true;
                 m_TurnSpeed = 10f;
             }
-            
         }
     }
 
@@ -102,7 +117,6 @@ public class PlayerState : MonoBehaviour
         m_IsShoving = false;
         m_IsCharging = false;
         m_ChargeShovePressure = 0.0f;
-        
     }
 
     public void DoForce(Vector3 force) {
