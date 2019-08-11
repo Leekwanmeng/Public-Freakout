@@ -71,7 +71,7 @@ public class PlayerState : MonoBehaviour
             m_TurnSpeed = slowerTurn;
         
         } else {
-            if (!m_IsShoving){
+            if (!m_IsShoving && !m_IsKnocked){
                 m_CanWalk = true;
                 m_TurnSpeed = 10f;
             }
