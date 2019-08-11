@@ -42,11 +42,9 @@ public class PlayerAction : MonoBehaviour
     public AudioClip sfx_FireEx;
     private AudioSource audio;
 
-    private bool m_UsingJackhammer = false;
-    private bool m_UsingFireEx = false;
-
     private float audioTimer;
     private float sfx_OffsetJH = 0.049f;
+    
     void Awake()
     {
         audio = GetComponent<AudioSource>();
