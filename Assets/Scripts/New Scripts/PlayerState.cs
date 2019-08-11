@@ -124,7 +124,10 @@ public class PlayerState : MonoBehaviour
         m_IsCharging = false;
         m_IsSingleUseItem = false;
         m_IsUsingStationaryItem = false;
-        
+        if (GetComponent<AudioSource>().loop == true){
+            GetComponent<AudioSource>().Stop();
+            GetComponent<AudioSource>().loop = false;
+        }
     }
 
     public void DoForce(Vector3 force) {
