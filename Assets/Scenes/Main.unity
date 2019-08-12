@@ -6168,7 +6168,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 3.333958e-11, z: 6.77e-43, w: 2.214065e-11}
+  m_BoundingSphereOverride: {x: 0, y: 2.2199224e-24, z: 6.63e-43, w: 1.7771616e-24}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -7741,6 +7741,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0140b992313b4554ca30471bf7fccc3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  started: 0
 --- !u!1 &1618274237
 GameObject:
   m_ObjectHideFlags: 0
@@ -8562,7 +8563,7 @@ MonoBehaviour:
   m_BaseStage: {fileID: 830133795}
   m_HeightToSpawn: 10
   m_ItemsToSpawn: 10
-  m_SpawnProbability: 0.3
+  m_SpawnProbability: 0.2
 --- !u!1 &1878621706
 GameObject:
   m_ObjectHideFlags: 0
@@ -9290,7 +9291,7 @@ PrefabInstance:
     - target: {fileID: 4327208773110642679, guid: 89238d3cd3d216447a5e95b08cc04875,
         type: 3}
       propertyPath: durationBetweenRounds
-      value: 5
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 4327208773110642679, guid: 89238d3cd3d216447a5e95b08cc04875,
         type: 3}

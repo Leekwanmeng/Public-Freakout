@@ -16,10 +16,12 @@ public class PlayerJoin : MonoBehaviour
     public int m_PlayerNumber;
     public string key;
     public bool joined;
+    public bool m_LockedJoin;
     public GameObject m_CurrentAnimation;
     private Image playerwheel;
     private Color defaultcolour;
     private string m_AButtonName;
+    private string m_BButtonName;
     private PlayerAnimationDatabase m_DB;
     
     void Awake()
@@ -29,27 +31,25 @@ public class PlayerJoin : MonoBehaviour
     void Start()
     {
         m_AButtonName = "AButton" + m_PlayerNumber;
+        m_BButtonName = "BButton" + m_PlayerNumber;
         playerwheel = gameObject.GetComponentInChildren<Image>();
         defaultcolour = playerwheel.color;
+        m_LockedJoin = false;
     }
 
     void Update()
     {
-        if (Input.GetButtonDown(m_AButtonName))
-        {
-            if (playerwheel.color == defaultcolour)
-            {
-                playerwheel.color = m_JoinedColour;
-                JoinAnimation();
-                Debug.Log(m_PlayerNumber + " joined");
-                joined = true;
-
+        if (!m_LockedJoin) {
+            if (Input.GetButtonDown(m_AButtonName)) {
+                if (playerwheel.color == defaultcolour) {
+                    playerwheel.color = m_JoinedColour;
+                    JoinAnimation();
+                    joined = true;
+                }
             }
-            else
-            {
+            if (Input.GetButtonDown(m_BButtonName)) {
                 playerwheel.color = defaultcolour;
                 DefaultAnimation();
-                Debug.Log(m_PlayerNumber + " left");
                 joined = false;
             }
         }
