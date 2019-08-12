@@ -66,9 +66,10 @@ public class ItemSpawner : MonoBehaviour
     {
         int randomItemId = Mathf.RoundToInt(Random.Range(0, m_ItemDb.m_ItemList.Count));
 
-        if (randomItemId == lastItemId){
+        while (randomItemId == lastItemId){
             randomItemId = Mathf.RoundToInt(Random.Range(0, m_ItemDb.m_ItemList.Count));
         }
+        lastItemId = randomItemId;
         GameObject randomItem = m_ItemDb.GetItemById(randomItemId);
         randomItem = Instantiate(randomItem, spawnPoint, Quaternion.identity);
         randomItem.transform.parent = gameObject.transform;
