@@ -272,8 +272,8 @@ public class PlayerAction : MonoBehaviour
             m_AEDVFX.Zap();
 
 
-            float radius = 2.0f;
-            float maxAngle = 15f;
+            float radius = 1.5f;
+            float maxAngle = 20f;
 
             Collider[] colliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_PlayerMask);
             foreach (Collider col in colliders) {
@@ -350,7 +350,7 @@ public class PlayerAction : MonoBehaviour
     
 
     void UseExtinguisher() {        
-        float radius = 6.0f;
+        float radius = 4.0f;
         float maxAngle = 15f;
 
         // Push self back
@@ -388,7 +388,7 @@ public class PlayerAction : MonoBehaviour
     }
 
     void UseJackhammer() {     
-        float radius = 3.0f;
+        float radius = 2.5f;
         float randomRotate = 15f;
         float randomPlayerCap = 4f;
         float randomItemCap = 2f;
@@ -413,7 +413,7 @@ public class PlayerAction : MonoBehaviour
             PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
             Vector3 pushDirection = (col.transform.position - transform.position).normalized;
             if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
-                float randomBonusInDirection = Random.Range(0.3f, 0.85f);
+                float randomBonusInDirection = Random.Range(0.2f, 0.7f);
                 col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * randomBonusInDirection);
             }
         }
