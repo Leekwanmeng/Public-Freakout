@@ -4,20 +4,29 @@ using UnityEngine;
 
 public class ShockLauncher : MonoBehaviour
 {
-    public ParticleSystem shockLauncher;
-    // Start is called before the first frame update
-    void Start()
+    private PlayerState m_PlayerState;
+    private ParticleSystem m_ParticleSystem;
+    private bool m_Played;
+    void Awake()
     {
-        
+        m_PlayerState = GetComponentInParent<PlayerState>();
+        m_ParticleSystem = GetComponent<ParticleSystem>();
+        m_Played = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetButton("Fire1"))
-        {
-            shockLauncher.Emit(1);
+        if (!m_Played) {
+            StartCoroutine(Shock());
+        }
+    }
 
+    IEnumerator Shock() {
+        if (m_PlayerState.m_HoldItemId == 1 && m_PlayerState.m_IsSingleUseItem) {
+            m_Played = true;
+            yield return new WaitForSeconds(1f);
+            m_ParticleSystem.Play();
+            m_Played = false;
         }
     }
 }
