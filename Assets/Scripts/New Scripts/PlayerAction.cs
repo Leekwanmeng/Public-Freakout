@@ -48,11 +48,14 @@ public class PlayerAction : MonoBehaviour
     private float audioTimer;
     private float sfx_OffsetJH = 0.049f;
 
+    private ShockLauncher m_AEDVFX;
+
     void Awake()
     {
         audio = GetComponent<AudioSource>();
         m_PlayerState = GetComponent<PlayerState>();
         m_ItemDatabase = GameObject.FindGameObjectWithTag("ItemManager").GetComponent<ItemDatabase>();
+        m_AEDVFX = GetComponentInChildren<ShockLauncher>();
         m_RigidBody = GetComponent<Rigidbody>();
         m_Cooldown = Time.time;
     }
@@ -261,6 +264,8 @@ public class PlayerAction : MonoBehaviour
         yield return new WaitForSeconds(1);
         if (m_PlayerState.m_HoldItemId == 1){
             audio.PlayOneShot(sfx_AED, 0.1f);
+            m_AEDVFX.Zap();
+
 
             float radius = 2.0f;
             float maxAngle = 15f;

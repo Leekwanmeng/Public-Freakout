@@ -16,9 +16,9 @@ public class ShockLauncher : MonoBehaviour
 
     void Update()
     {
-        if (!m_Played) {
-            StartCoroutine(Shock());
-        }
+        // if (!m_Played) {
+        //     StartCoroutine(Shock());
+        // }
     }
 
     IEnumerator Shock() {
@@ -28,5 +28,9 @@ public class ShockLauncher : MonoBehaviour
             m_ParticleSystem.Play();
             m_Played = false;
         }
+    }
+
+    public void Zap() {
+        m_ParticleSystem.Play();
     }
 }
