@@ -109,7 +109,7 @@ public class PlayerAction : MonoBehaviour
                 // AED
                 case 1:
                     StartCoroutine(UseAED());
-                    Set_Cooldown(m_PlayerState.m_AEDCastDuration);
+                    Set_Cooldown(1.0f);
                     break;
 
                 //Fire extinguisher
