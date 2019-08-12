@@ -211,10 +211,8 @@ public class PlayerAction : MonoBehaviour
             m_PlayerState.m_CanWalk = false;
             m_PlayerState.m_CanRotate = false;
             m_PlayerState.m_ChargeShovePressure += m_MinChargeShovePressure;
-            Debug.Log(m_PlayerState.m_ChargeShovePressure);
             m_ChargeShovePressureForce = m_PlayerState.m_ChargeShovePressure;
             Vector3 force = transform.forward * m_PlayerState.m_ChargeShovePressure;
-            Debug.Log(m_PlayerState.m_CanWalk);
             StartCoroutine(WaitToWalk(m_PlayerState.m_ChargeShovePressure));
 
             m_RigidBody.AddForce(force, ForceMode.VelocityChange);
@@ -233,32 +231,37 @@ public class PlayerAction : MonoBehaviour
             m_PlayerState.m_CanWalk = true;
             m_PlayerState.m_CanRotate = true;
             m_PlayerState.m_IsShoving = false;    
+            m_PlayerState.m_ShoveHitLog = new List<int>();
         }
         
     }
 
 
-    void OnCollisionEnter(Collision other) {
-        if (other.gameObject.tag == "Player" && m_PlayerState.m_IsShoving) {
-            //Play collision audio
-            audio.PlayOneShot(sfx_PlayerCollision);
-
-            PlayerState otherPlayer = other.gameObject.GetComponent<PlayerState>();
-            Vector3 pushDirection = other.transform.position - transform.position;
-            pushDirection = pushDirection.normalized;
-            other.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * (m_ChargeShovePressureForce / 1.5f));
-
-        } else if (other.gameObject.tag == "Item"){
+    void OnCollisionStay(Collision other) {
+        if (!m_PlayerState.m_ShoveHitLog.Contains(other.gameObject.GetInstanceID())) {
+                
             
-            if (m_PlayerState.m_IsShoving){
-                other.gameObject.GetComponent<Rigidbody>().AddForce( transform.forward * 3f + new Vector3(0,1f,0), ForceMode.VelocityChange);
+            
+            if (other.gameObject.tag == "Player" && m_PlayerState.m_IsShoving) {
+                Debug.Log("Collision");
+                m_PlayerState.m_ShoveHitLog.Add(other.gameObject.GetInstanceID());
+                //Play collision audio
+                audio.PlayOneShot(sfx_PlayerCollision);
+
+                PlayerState otherPlayer = other.gameObject.GetComponent<PlayerState>();
+                Vector3 pushDirection = other.transform.position - transform.position;
+                pushDirection = pushDirection.normalized;
+                other.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * (m_ChargeShovePressureForce / 1.5f));
+
+            } else if (other.gameObject.tag == "Item"){
+                Debug.Log("Collision");
+                m_PlayerState.m_ShoveHitLog.Add(other.gameObject.GetInstanceID());
+                if (m_PlayerState.m_IsShoving){
+                    other.gameObject.GetComponent<Rigidbody>().AddForce( transform.forward * 3f + new Vector3(0,1f,0), ForceMode.VelocityChange);
+                }
+    
             }
-            // if (other.gameObject.GetComponent<Item>().m_Thrown == true && other.gameObject.GetComponent<Rigidbody>().velocity.magnitude > 3f){
-            //     audio.PlayOneShot(sfx_PlayerCollision, 0.1f);
-            // }
-
         }
-
     }
 
     IEnumerator UseAED() {
@@ -496,7 +499,6 @@ public class PlayerAction : MonoBehaviour
 
             Vector3 dir = Quaternion.AngleAxis( Random.Range(-30f, 30f), Vector3.up) * knockForce.normalized;
             Vector3 force = dir * (m_MinDropForce * 1.5f) + new Vector3(0, 7f, 0);
-            Debug.Log(force.magnitude);
             obj.GetComponent<Rigidbody>().AddForce(force);
             obj.GetComponent<Rigidbody>().angularVelocity = force;
             obj.GetComponent<Item>().m_Thrown = false;
