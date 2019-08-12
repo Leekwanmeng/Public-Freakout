@@ -23,8 +23,11 @@ public class PlayerCooldownUI : MonoBehaviour
 
     void Update()
     {
-        CheckNewMaxCooldown();
-        SetSliderValue();
+        if (m_PlayerState.m_UseCoolDownUI){
+            CheckNewMaxCooldown();
+            SetSliderValue();
+        }
+        
     }
 
     void CheckNewMaxCooldown() {

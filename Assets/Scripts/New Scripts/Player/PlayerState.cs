@@ -34,6 +34,7 @@ public class PlayerState : MonoBehaviour
     public float m_AEDChargingTime;
     public float m_AEDCastDuration = 0.5f;
     public bool m_AEDIsCharging = false;
+    public bool m_UseCoolDownUI = false;
     
 
     void Awake()
