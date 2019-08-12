@@ -269,7 +269,7 @@ public class PlayerAction : MonoBehaviour
         m_PlayerState.m_CanRotate = false;
         m_PlayerState.m_IsSingleUseItem = true;
         
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         if (m_PlayerState.m_HoldItemId == 1){
             audio.PlayOneShot(sfx_AED, 0.1f);
             m_AEDVFX.Zap();

@@ -693,7 +693,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: AEDDischarge
-  m_Speed: 1
+  m_Speed: 8
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -1758562517830046467}
@@ -3194,7 +3194,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: AEDCharge
-  m_Speed: 3
+  m_Speed: 8
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 2833426408521099242}
