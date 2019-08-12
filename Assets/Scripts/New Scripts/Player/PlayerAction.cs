@@ -107,7 +107,6 @@ public class PlayerAction : MonoBehaviour
                 // AED
                 case 1:
                     StartCoroutine(UseAED());
-                    Set_Cooldown(m_UseAEDCooldown);
                     break;
 
                 //Fire extinguisher
@@ -268,9 +267,12 @@ public class PlayerAction : MonoBehaviour
         m_PlayerState.m_CanWalk = false;
         m_PlayerState.m_CanRotate = false;
         m_PlayerState.m_IsSingleUseItem = true;
+        m_PlayerState.m_AEDChargingTime = Time.time;
+        m_PlayerState.m_AEDIsCharging = true;
         
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(m_PlayerState.m_AEDCastDuration);
         if (m_PlayerState.m_HoldItemId == 1){
+            m_PlayerState.m_AEDIsCharging = false;
             audio.PlayOneShot(sfx_AED, 0.1f);
             m_AEDVFX.Zap();
 
@@ -482,6 +484,7 @@ public class PlayerAction : MonoBehaviour
             m_PlayerState.m_IsSingleUseItem = false;
             m_PlayerState.m_IsUsingStationaryItem = false;
             m_PlayerState.m_TurnSpeed = 10f;
+            m_PlayerState.m_AEDIsCharging = false;
         }
     }
 

@@ -31,6 +31,9 @@ public class PlayerState : MonoBehaviour
     public Rigidbody m_RigidBody;
     public GameObject m_CurrentAnimation;
     public List<int> m_ShoveHitLog;
+    public float m_AEDChargingTime;
+    public float m_AEDCastDuration = 0.5f;
+    public bool m_AEDIsCharging = false;
     
 
     void Awake()
@@ -123,6 +126,7 @@ public class PlayerState : MonoBehaviour
         m_IsCharging = false;
         m_IsSingleUseItem = false;
         m_IsUsingStationaryItem = false;
+        m_AEDIsCharging = false;
     }
 
     public void DoForce(Vector3 force) {
