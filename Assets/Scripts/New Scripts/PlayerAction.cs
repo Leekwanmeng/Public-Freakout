@@ -11,7 +11,7 @@ public class PlayerAction : MonoBehaviour
     private float m_ChargeShoveIncrement = 12;
     private float m_MinChargeShovePressure = 3;
     private float m_MaxChargeShovePressure = 10;
-    private float m_ShoveKnockForce = 5f;
+    private float m_ShoveKnockForce = 8f;
     private float m_AEDForce = 20f;
     private float m_ExtinguisherForce = 1.5f;
 
@@ -74,6 +74,7 @@ public class PlayerAction : MonoBehaviour
 
     void Update()
     {
+    
         CheckAButton();
         CheckBButton();
 
@@ -314,38 +315,6 @@ public class PlayerAction : MonoBehaviour
             }
         }
 
-        // Collider[] playerColliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_PlayerMask);
-        // foreach (Collider col in playerColliders) {
-        //     PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
-        //     if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
-        //         Vector3 pushDirection = col.transform.position - transform.position;
-        //         float angle = Vector3.Angle(pushDirection, transform.forward);
-
-        //         float half_width = 0.5f;
-        //         Vector3 other_position = col.transform.position;
-        //         Vector2 my_position = new Vector2(transform.position.x, transform.position.z);
-        //         Vector2 forward = new Vector2(transform.forward.x, transform.forward.z);
-        //         Vector2 normal = Vector2.Perpendicular(forward);
-        //         Vector2 min_thresh = forward - normal * half_width + my_position;
-        //         Vector2 max_thresh = forward + normal * half_width + my_position;
-
-
-
-        //         // bool IsCBetweenAB ( Vector3 A , Vector3 B , Vector3 C ) {
-        //         //     return Vector3.Dot( (B-A).normalized , (C-B).normalized )<0f && Vector3.Dot( (A-B).normalized , (C-A).normalized )<0f;
-        //         // }
-
-        //         if (angle < maxAngle) {
-        //             hitCount++;
-        //             pushDirection = pushDirection.normalized;
-        //             // col.gameObject.GetComponent<Rigidbody>().AddForce(
-        //             //     pushDirection * m_BatPlayerForce, ForceMode.VelocityChange
-        //             // );
-        //             col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_BatPlayerForce);
-        //         }
-        //     }
-        // }
-
         Collider[] itemColliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_ItemMask);
         foreach (Collider col in itemColliders) {
             
@@ -415,7 +384,7 @@ public class PlayerAction : MonoBehaviour
     }
 
     void UseJackhammer() {     
-        float radius = 4.0f;
+        float radius = 3.0f;
         float randomRotate = 15f;
         float randomPlayerCap = 4f;
         float randomItemCap = 2f;
@@ -440,7 +409,7 @@ public class PlayerAction : MonoBehaviour
             PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
             Vector3 pushDirection = (col.transform.position - transform.position).normalized;
             if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
-                float randomBonusInDirection = Random.Range(0f, 1f);
+                float randomBonusInDirection = Random.Range(0f, 0.5f);
                 col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * randomBonusInDirection);
             }
         }
