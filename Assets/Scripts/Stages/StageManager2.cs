@@ -28,7 +28,7 @@ public class StageManager2 : MonoBehaviour
     }
 
 
-    void Start()
+    public void StartScript()
     {
         Reset();
         //Build flooring for levels
