@@ -278,17 +278,14 @@ public class PlayerAction : MonoBehaviour
             float radius = 1.5f;
             float maxAngle = 20f;
 
-            Collider[] colliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_PlayerMask);
+            Collider[] colliders = Physics.OverlapBox(transform.position + transform.forward * 0.6f, new Vector3(0.25f, 0.5f, 0.6f), transform.rotation, m_PlayerState.m_PlayerMask);
             foreach (Collider col in colliders) {
                 PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
                 if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
                     Vector3 pushDirection = col.transform.position - transform.position;
-                    float angle = Vector3.Angle(pushDirection, transform.forward);
-                    if (angle < maxAngle) {
                         pushDirection = pushDirection.normalized;
                         col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_AEDForce);
 
-                    }
                 }
             }
             m_PlayerState.m_IsSingleUseItem = false;
@@ -305,39 +302,37 @@ public class PlayerAction : MonoBehaviour
         float maxAngle = 25f;
         int hitCount = 0;
 
-        Collider[] playerColliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_PlayerMask);
+        Collider[] playerColliders = Physics.OverlapBox(transform.position + transform.forward * 0.6f, new Vector3(0.25f, 0.5f, 0.6f), transform.rotation, m_PlayerState.m_PlayerMask);
+        
         foreach (Collider col in playerColliders) {
             PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
             if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
+                Debug.Log("HITTING WITH CAPSULE");
                 Vector3 pushDirection = col.transform.position - transform.position;
-                float angle = Vector3.Angle(pushDirection, transform.forward);
-                if (angle < maxAngle) {
-                    hitCount++;
-                    pushDirection = pushDirection.normalized;
-                    // col.gameObject.GetComponent<Rigidbody>().AddForce(
-                    //     pushDirection * m_BatPlayerForce, ForceMode.VelocityChange
-                    // );
-                    col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_BatPlayerForce);
-                }
+                hitCount++;
+                pushDirection = pushDirection.normalized;
+                // col.gameObject.GetComponent<Rigidbody>().AddForce(
+                //     pushDirection * m_BatPlayerForce, ForceMode.VelocityChange
+                // );
+                col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_BatPlayerForce);
+            
             }
         }
 
-        Collider[] itemColliders = Physics.OverlapSphere(transform.position, radius, m_PlayerState.m_ItemMask);
+        Collider[] itemColliders = Physics.OverlapBox(transform.position + transform.forward * 0.6f, new Vector3(0.25f, 0.5f, 0.6f), transform.rotation, m_PlayerState.m_ItemMask);
         foreach (Collider col in itemColliders) {
             
             Vector3 pushDifference = col.transform.position - transform.position;
             float angle = Vector3.Angle(pushDifference, transform.forward);
-            if (angle < maxAngle) {
-                hitCount++;
-                //Force to applied to object
-                Vector3 force = transform.forward.normalized * m_BatItemHForce;
-                //Vertical force
-                force.y = m_BatItemVForce;
-                col.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                col.gameObject.GetComponent<Rigidbody>().AddForce(
-                    force, ForceMode.VelocityChange
-                );
-            }
+            
+            hitCount++;
+            //Force to applied to object
+            Vector3 force = transform.forward.normalized * m_BatItemHForce;
+            //Vertical force
+            force.y = m_BatItemVForce;
+            col.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            col.gameObject.GetComponent<Rigidbody>().AddForce(force, ForceMode.VelocityChange);    
+            
         }
 
         if (hitCount > 0){
@@ -510,12 +505,6 @@ public class PlayerAction : MonoBehaviour
                 audio.loop = false;
             }
         }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 1.5f);
     }
 
 }

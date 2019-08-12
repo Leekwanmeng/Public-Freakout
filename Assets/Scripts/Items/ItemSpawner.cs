@@ -16,10 +16,12 @@ public class ItemSpawner : MonoBehaviour
     private float m_zMin;
     private float m_zMax;
     private float m_Time = 0.0f;
+    private float lastItemId;
     
     void Awake()
     {
         m_ItemDb = GetComponent<ItemDatabase>();
+        lastItemId = -1;
     }
     // void Start()
     // {
@@ -38,10 +40,10 @@ public class ItemSpawner : MonoBehaviour
         Collider collider = m_BaseStage.GetComponent<Collider>();
         Vector3 min = collider.bounds.min;
         Vector3 max = collider.bounds.max;
-        m_xMin = min.x;
-        m_zMin = min.z;
-        m_xMax = max.x;
-        m_zMax = max.z;
+        m_xMin = min.x + 1;
+        m_zMin = min.z + 1;
+        m_xMax = max.x - 1;
+        m_zMax = max.z - 1;
         m_y = m_HeightToSpawn;
 
         m_Time += Time.deltaTime;
@@ -63,6 +65,10 @@ public class ItemSpawner : MonoBehaviour
     void SpawnRandomItem(Vector3 spawnPoint, Vector3 force)
     {
         int randomItemId = Mathf.RoundToInt(Random.Range(0, m_ItemDb.m_ItemList.Count));
+
+        if (randomItemId == lastItemId){
+            randomItemId = Mathf.RoundToInt(Random.Range(0, m_ItemDb.m_ItemList.Count));
+        }
         GameObject randomItem = m_ItemDb.GetItemById(randomItemId);
         randomItem = Instantiate(randomItem, spawnPoint, Quaternion.identity);
         randomItem.transform.parent = gameObject.transform;
