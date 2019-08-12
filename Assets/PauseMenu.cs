@@ -1,18 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class PauseMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Canvas cOwnCanvas;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetButtonDown("AButton1")) {
+            cOwnCanvas.gameObject.SetActive(false);
+            SceneManager.LoadScene(0);
+        }
     }
 }
