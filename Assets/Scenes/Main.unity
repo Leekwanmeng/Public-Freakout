@@ -774,8 +774,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 5
-      minScalar: 5
+      scalar: 6
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1471,7 +1471,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 300
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -1920,7 +1920,7 @@ ParticleSystem:
         serializedVersion: 2
         key0: {r: 1, g: 0.956998, b: 0.6102941, a: 1}
         key1: {r: 1, g: 0.6413794, b: 0, a: 1}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 1, g: 0.92625296, b: 0.75, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -9992,7 +9992,7 @@ PrefabInstance:
     - target: {fileID: 4327208773110642679, guid: 89238d3cd3d216447a5e95b08cc04875,
         type: 3}
       propertyPath: durationBetweenRounds
-      value: 45
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4327208773110642679, guid: 89238d3cd3d216447a5e95b08cc04875,
         type: 3}
@@ -10308,8 +10308,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 5
-      minScalar: 5
+      scalar: 6
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -11005,7 +11005,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 100
+      scalar: 300
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -11454,7 +11454,7 @@ ParticleSystem:
         serializedVersion: 2
         key0: {r: 1, g: 0.956998, b: 0.6102941, a: 1}
         key1: {r: 1, g: 0.6413794, b: 0, a: 1}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 1, g: 0.92625296, b: 0.75, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
