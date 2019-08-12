@@ -246,7 +246,7 @@ public class PlayerAction : MonoBehaviour
             PlayerState otherPlayer = other.gameObject.GetComponent<PlayerState>();
             Vector3 pushDirection = other.transform.position - transform.position;
             pushDirection = pushDirection.normalized;
-            other.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_ChargeShovePressureForce);
+            other.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * (m_ChargeShovePressureForce / 1.5f));
 
         } else if (other.gameObject.tag == "Item"){
             

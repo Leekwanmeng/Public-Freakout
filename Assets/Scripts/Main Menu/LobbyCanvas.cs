@@ -61,7 +61,7 @@ public class LobbyCanvas : MonoBehaviour
 
     bool readyToStart()
     {
-        numReady = 2;
+        numReady = 0;
         for (int i = 0; i < lobbyPlayers.Length; i++)
         {
             PlayerJoin playerJoin = lobbyPlayers[i].gameObject.GetComponent<PlayerJoin>();

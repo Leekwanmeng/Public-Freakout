@@ -60,11 +60,11 @@ CapsuleCollider:
   m_GameObject: {fileID: 5877812647998634713}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.2
-  m_Height: 1.2
+  m_Enabled: 1
+  m_Radius: 0.12478317
+  m_Height: 1.0866027
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0.0038494915, y: -0.004071176, z: -0.002215147}
 --- !u!114 &-5292665716215058944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,7 +92,7 @@ MeshCollider:
   m_GameObject: {fileID: 5877812647998634713}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 1
   m_CookingOptions: 14

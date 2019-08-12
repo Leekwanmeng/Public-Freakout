@@ -39,6 +39,10 @@ public class StageManager2 : MonoBehaviour
         }
     }
 
+    void Start(){
+        StartScript();
+    }
+
     
 
     private IEnumerator RemoveLevel(GameObject layer, float waitTime){
