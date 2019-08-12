@@ -20,31 +20,26 @@ public class StageManager2 : MonoBehaviour
     void Awake()
     {
         buildingCollapse = GetComponent<AudioSource>();
-        b_Min = new Vector3( -buildingLength/2f, 0, 0 -buildingLength/2f);
-        b_Max = new Vector3( buildingLength/2f, 0, buildingLength/2f);
-
         stageCollider = gameObject.AddComponent<BoxCollider>();
         stageCollider.isTrigger = true;
         stageCollider.center = new Vector3(0,0,0);
+        b_Min = new Vector3( -buildingLength/2f, 0, 0 -buildingLength/2f);
+        b_Max = new Vector3( buildingLength/2f, 0, buildingLength/2f);
+    }
+
+
+    public void StartScript()
+    {
         Reset();
-       
         //Build flooring for levels
         for (float i = 0; i < levels; i++){
             Vector3 position = new Vector3(0, -i * heightOfLevel - 0.1818f/2, 0);
             GameObject cube = Instantiate(flooring, position, Quaternion.identity);
             cube.transform.localScale = new Vector3(Mathf.Abs(b_Min.x - b_Max.x), 0.182f, Mathf.Abs(b_Max.z - b_Min.z));
         }
-
-        //Create bounding box for stage
-
     }
 
-    void Update(){
-        if (reset){
-            reset = false;
-            Reset();
-        }
-    }
+    
 
     private IEnumerator RemoveLevel(GameObject layer, float waitTime){
         yield return new WaitForSeconds(waitTime);

@@ -29,6 +29,6 @@ public class PlayerChargeUI : MonoBehaviour
     }
 
     float Normalise(float value, float min, float max) {
-        return (value - min) / (max - min);
+        return (value) / (max - min);
     }
 }
