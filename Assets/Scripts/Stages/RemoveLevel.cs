@@ -76,6 +76,7 @@ public class RemoveLevel : MonoBehaviour
             count = 1f;
             timer = 5;
             transform.position = new Vector3(0,0,0);
+            
         }
     }
 }

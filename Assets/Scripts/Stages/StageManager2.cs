@@ -47,6 +47,7 @@ public class StageManager2 : MonoBehaviour
 
     private IEnumerator RemoveLevel(GameObject layer, float waitTime){
         yield return new WaitForSeconds(waitTime);
+        Debug.Log("Removing layer :" + Time.time);
         layer.GetComponent<RemoveLevel>().start = true;
         // script.start = true;
         buildingCollapse.Play(0);
@@ -68,8 +69,9 @@ public class StageManager2 : MonoBehaviour
     }
 
     public void Reset(){
-
+        StopAllCoroutines();
         foreach (Transform child in transform) {
+           
             if (child.childCount == 0){
                 child.GetComponent<CreateLevel>().StartScript();
             }
