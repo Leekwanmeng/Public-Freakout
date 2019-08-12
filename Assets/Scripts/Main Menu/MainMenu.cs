@@ -15,6 +15,12 @@ public class MainMenu : MonoBehaviour
         cLobby.gameObject.SetActive(true);
     }
 
+    public void ToMainMenu()
+    {
+        cMenu.gameObject.SetActive(true);
+        cLobby.gameObject.SetActive(false);
+    }
+
     public void QuitGame()
     {
         Debug.Log("quitgame!!!");

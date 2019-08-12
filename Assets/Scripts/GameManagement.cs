@@ -10,7 +10,9 @@ public class GameManagement : MonoBehaviour
     public float m_StartDelay = 3f;         
     public float m_EndDelay = 3f;           
     public CameraControl m_CameraControl;   
-    public Text m_MessageText;              
+    public Text m_MessageText;
+    public GameObject m_MessageCanvas;
+    public GameObject m_PauseCanvas;
     public GameObject m_PlayerPrefab;         
     public PlayerManager[] m_Players;
 
@@ -146,9 +148,13 @@ public class GameManagement : MonoBehaviour
                 Time.timeScale = 0.0f;
                 DisablePlayerControl();
                 m_Paused = true;
-                m_MessageText.text = "PAUSED";
+                // m_MessageText.text = "PAUSED";
+                m_MessageCanvas.SetActive(false);
+                m_PauseCanvas.SetActive(true);
             } else {
-                m_MessageText.text = string.Empty;
+                // m_MessageText.text = string.Empty;
+                m_MessageCanvas.SetActive(true);
+                m_PauseCanvas.SetActive(false);
                 EnablePlayerControl();
                 Time.timeScale = 1.0f;
                 m_Paused = false;
