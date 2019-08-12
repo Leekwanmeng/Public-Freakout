@@ -38,6 +38,7 @@ public class GameManagement : MonoBehaviour
 
     public void BeginGame(bool[] readyPlayers) {
         m_ReadyPlayers = readyPlayers;
+        m_StageManager.StartScript();
         SpawnPlayers();
         StartCoroutine(GameLoop());
     }
@@ -112,8 +113,12 @@ public class GameManagement : MonoBehaviour
         DisablePlayerControl();
         m_CameraControl.SetStartPositionAndSize();
         m_RoundNumber++;
-        m_MessageText.text = "ROUND " + m_RoundNumber;
-        yield return m_StartWait;
+        m_MessageText.text = "ROUND STARTING IN 3...";
+        yield return new WaitForSeconds(1);
+        m_MessageText.text = "ROUND STARTING IN 2...";
+        yield return new WaitForSeconds(1);
+        m_MessageText.text = "ROUND STARTING IN 1...";
+        yield return new WaitForSeconds(1);
     }
 
 
@@ -213,9 +218,9 @@ public class GameManagement : MonoBehaviour
         string message = "DRAW!";
 
         if (m_RoundWinner != null)
-            message = m_RoundWinner.m_ColoredPlayerText + " WINS THE ROUND!";
+            message = "ROUND WINNER: " + m_RoundWinner.m_ColoredPlayerText;
 
-        message += "\n\n\n\n";
+        message += "\n\n\n\n\n";
 
         for (int i = 0; i < m_Players.Length; i++)
         {
@@ -223,7 +228,7 @@ public class GameManagement : MonoBehaviour
         }
 
         if (m_GameWinner != null)
-            message = m_GameWinner.m_ColoredPlayerText + " WINS THE GAME!";
+            message = m_GameWinner.m_ColoredPlayerText + " VICTORY";
 
         return message;
     }

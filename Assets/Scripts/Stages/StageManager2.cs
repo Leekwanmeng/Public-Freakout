@@ -39,9 +39,9 @@ public class StageManager2 : MonoBehaviour
         }
     }
 
-    void Start(){
-        StartScript();
-    }
+    // void Start(){
+    //     StartScript();
+    // }
 
     
 
