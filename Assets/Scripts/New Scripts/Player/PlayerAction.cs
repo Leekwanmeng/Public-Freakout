@@ -9,9 +9,10 @@ public class PlayerAction : MonoBehaviour
     private float m_MinDropForce = 120f;
     private float m_ItemSpawnFromPlayerHeight = 1.0f;
     private float m_ChargeShoveIncrement = 12;
-    private float m_MinChargeShovePressure = 3;
-    private float m_MaxChargeShovePressure = 10;
-    private float m_ShoveKnockForce = 8f;
+    private float m_MinChargeShovePressure = 5;
+    private float m_MaxChargeShovePressure = 11;
+    private float m_ChargeShovePressureForce;
+    // private float m_ShoveKnockForce = 8f;
     private float m_AEDForce = 20f;
     private float m_ExtinguisherForce = 1.5f;
 
@@ -27,7 +28,7 @@ public class PlayerAction : MonoBehaviour
     private bool m_CanUseFireEx = false;
     private bool m_CanUseJackhammer = false;
 
-    // private float m_ChargeShovePressure;
+    
     private string m_AButtonName;
     private string m_BButtonName;
     private PlayerState m_PlayerState;
@@ -194,11 +195,11 @@ public class PlayerAction : MonoBehaviour
 
     private void ChargeShove() {
         m_PlayerState.m_IsCharging = true;
-        if (m_PlayerState.m_ChargeShovePressure < m_MaxChargeShovePressure) {
+        if (m_PlayerState.m_ChargeShovePressure < m_MaxChargeShovePressure - m_MinChargeShovePressure) {
             m_PlayerState.m_ChargeShovePressure += m_ChargeShoveIncrement * Time.deltaTime;
         }
         else {
-            m_PlayerState.m_ChargeShovePressure = m_MaxChargeShovePressure;
+            m_PlayerState.m_ChargeShovePressure = (m_MaxChargeShovePressure - m_MinChargeShovePressure);
         }
         
     }
@@ -210,6 +211,8 @@ public class PlayerAction : MonoBehaviour
             m_PlayerState.m_CanWalk = false;
             m_PlayerState.m_CanRotate = false;
             m_PlayerState.m_ChargeShovePressure += m_MinChargeShovePressure;
+            Debug.Log(m_PlayerState.m_ChargeShovePressure);
+            m_ChargeShovePressureForce = m_PlayerState.m_ChargeShovePressure;
             Vector3 force = transform.forward * m_PlayerState.m_ChargeShovePressure;
             Debug.Log(m_PlayerState.m_CanWalk);
             StartCoroutine(WaitToWalk(m_PlayerState.m_ChargeShovePressure));
@@ -243,7 +246,8 @@ public class PlayerAction : MonoBehaviour
             PlayerState otherPlayer = other.gameObject.GetComponent<PlayerState>();
             Vector3 pushDirection = other.transform.position - transform.position;
             pushDirection = pushDirection.normalized;
-            other.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_ShoveKnockForce);
+            other.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_ChargeShovePressureForce);
+
         } else if (other.gameObject.tag == "Item"){
             
             if (m_PlayerState.m_IsShoving){
@@ -409,7 +413,7 @@ public class PlayerAction : MonoBehaviour
             PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
             Vector3 pushDirection = (col.transform.position - transform.position).normalized;
             if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
-                float randomBonusInDirection = Random.Range(0f, 0.5f);
+                float randomBonusInDirection = Random.Range(0.3f, 0.85f);
                 col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * randomBonusInDirection);
             }
         }
