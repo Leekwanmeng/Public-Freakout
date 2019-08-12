@@ -13,7 +13,7 @@ public class PlayerAction : MonoBehaviour
     private float m_MaxChargeShovePressure = 11;
     private float m_ChargeShovePressureForce;
     // private float m_ShoveKnockForce = 8f;
-    private float m_AEDForce = 20f;
+    private float m_AEDForce = 17f;
     private float m_ExtinguisherForce = 1.5f;
 
     private float m_BatPlayerForce = 10f;
@@ -93,6 +93,7 @@ public class PlayerAction : MonoBehaviour
         //Single click actions
         if (m_PlayerState.m_Cooldown <= 0f) {
             if (Input.GetButtonDown(m_AButtonName)  && !m_PlayerState.m_IsKnocked) {
+                m_PlayerState.m_UseCoolDownUI = false;
                 switch(m_PlayerState.m_HoldItemId) {
                 // bb bat
                 case -1:
@@ -101,12 +102,14 @@ public class PlayerAction : MonoBehaviour
 
                 case 0:
                     StartCoroutine(UseBat());
+                    m_PlayerState.m_UseCoolDownUI = true;
                     Set_Cooldown(m_UseBatCooldown);
                     break;
 
                 // AED
                 case 1:
                     StartCoroutine(UseAED());
+                    Set_Cooldown(m_PlayerState.m_AEDCastDuration);
                     break;
 
                 //Fire extinguisher
@@ -225,6 +228,7 @@ public class PlayerAction : MonoBehaviour
 
     IEnumerator WaitToWalk(float force) {
         Set_Cooldown(m_UseShoveCooldown);
+        m_PlayerState.m_UseCoolDownUI = true;
         yield return new WaitForSeconds( (force/m_PlayerState.m_FrictionMagnitude - 5) * Time.deltaTime);
         if (!m_PlayerState.m_IsKnocked){
             m_PlayerState.m_CanWalk = true;
@@ -304,7 +308,7 @@ public class PlayerAction : MonoBehaviour
         float maxAngle = 25f;
         int hitCount = 0;
 
-        Collider[] playerColliders = Physics.OverlapBox(transform.position + transform.forward * 0.6f, new Vector3(0.25f, 0.5f, 0.6f), transform.rotation, m_PlayerState.m_PlayerMask);
+        Collider[] playerColliders = Physics.OverlapBox(transform.position + transform.forward * 0.5f, new Vector3(0.25f, 0.5f, 0.5f), transform.rotation, m_PlayerState.m_PlayerMask);
         
         foreach (Collider col in playerColliders) {
             PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
