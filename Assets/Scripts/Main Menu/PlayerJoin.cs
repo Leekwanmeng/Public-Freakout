@@ -41,6 +41,7 @@ public class PlayerJoin : MonoBehaviour
             {
                 playerwheel.color = m_JoinedColour;
                 JoinAnimation();
+                Debug.Log(m_PlayerNumber + " joined");
                 joined = true;
 
             }
@@ -48,6 +49,7 @@ public class PlayerJoin : MonoBehaviour
             {
                 playerwheel.color = defaultcolour;
                 DefaultAnimation();
+                Debug.Log(m_PlayerNumber + " left");
                 joined = false;
             }
         }

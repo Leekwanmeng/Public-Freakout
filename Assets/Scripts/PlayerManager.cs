@@ -62,19 +62,4 @@ public class PlayerManager
     }
 
 
-    public void Reset()
-    {
-        m_PlayerState.DestroyCurrentAnimation();
-        m_Instance.transform.position = m_SpawnPoint.position;
-        m_Instance.transform.rotation = m_SpawnPoint.rotation;
-
-        m_Instance.SetActive(false);
-        m_Instance.SetActive(true);
-        m_Instance.GetComponent<PlayerState>().m_HoldItemId = -1;
-        m_Instance.GetComponent<PlayerFriction>().enabled = true;
-        m_Instance.GetComponent<Rigidbody>().constraints = 
-            RigidbodyConstraints.FreezePositionY | 
-            RigidbodyConstraints.FreezeRotation;
-    }
-
 }

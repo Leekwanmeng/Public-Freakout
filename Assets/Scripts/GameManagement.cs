@@ -14,7 +14,7 @@ public class GameManagement : MonoBehaviour
     public GameObject m_PlayerPrefab;         
     public PlayerManager[] m_Players;
 
-
+    private bool[] m_ReadyPlayers;
     private bool m_Paused;
     private int m_RoundNumber;
     private WaitForSeconds m_StartWait;     
@@ -34,20 +34,40 @@ public class GameManagement : MonoBehaviour
         m_StageManager = GameObject.Find("Stage").GetComponent<StageManager2>();   
     }
 
-    public void BeginGame() {
-        SpawnAllPlayers();
+    public void BeginGame(bool[] readyPlayers) {
+        m_ReadyPlayers = readyPlayers;
+        SpawnPlayers();
         StartCoroutine(GameLoop());
     }
 
 
-    private void SpawnAllPlayers()
+    // private void SpawnAllPlayers()
+    // {
+    //     for (int i = 0; i < m_Players.Length; i++)
+    //     {
+    //         m_Players[i].m_Instance =
+    //             Instantiate(m_PlayerPrefab, m_Players[i].m_SpawnPoint.position, m_Players[i].m_SpawnPoint.rotation) as GameObject;
+    //         m_Players[i].m_PlayerNumber = i + 1;
+    //         m_Players[i].Setup();
+    //     }
+    // }
+
+    private void SpawnPlayers()
     {
-        for (int i = 0; i < m_Players.Length; i++)
+        for (int i = 0; i < m_ReadyPlayers.Length; i++)
         {
-            m_Players[i].m_Instance =
-                Instantiate(m_PlayerPrefab, m_Players[i].m_SpawnPoint.position, m_Players[i].m_SpawnPoint.rotation) as GameObject;
             m_Players[i].m_PlayerNumber = i + 1;
-            m_Players[i].Setup();
+            if (m_ReadyPlayers[i]) {
+                m_Players[i].m_Instance =
+                    Instantiate(m_PlayerPrefab, m_Players[i].m_SpawnPoint.position, m_Players[i].m_SpawnPoint.rotation) as GameObject;
+                m_Players[i].Setup();
+            }
+            else {
+                m_Players[i].m_Instance =
+                    Instantiate(m_PlayerPrefab, Vector3.zero, m_Players[i].m_SpawnPoint.rotation) as GameObject;
+                m_Players[i].Setup();
+                m_Players[i].m_Instance.SetActive(false);
+            }
         }
     }
 
@@ -144,8 +164,10 @@ public class GameManagement : MonoBehaviour
 
         for (int i = 0; i < m_Players.Length; i++)
         {
-            if (m_Players[i].m_Instance.activeSelf)
-                numPlayersLeft++;
+            if (m_ReadyPlayers[i]) {
+                if (m_Players[i].m_Instance.activeSelf)
+                    numPlayersLeft++; 
+            }
         }
 
         return numPlayersLeft <= 1;
@@ -156,8 +178,10 @@ public class GameManagement : MonoBehaviour
     {
         for (int i = 0; i < m_Players.Length; i++)
         {
-            if (m_Players[i].m_Instance.activeSelf)
-                return m_Players[i];
+            if (m_ReadyPlayers[i]) {
+                if (m_Players[i].m_Instance.activeSelf)
+                    return m_Players[i];
+            }
         }
 
         return null;
@@ -168,8 +192,10 @@ public class GameManagement : MonoBehaviour
     {
         for (int i = 0; i < m_Players.Length; i++)
         {
-            if (m_Players[i].m_Wins == m_NumRoundsToWin)
-                return m_Players[i];
+            if (m_ReadyPlayers[i]) {
+                if (m_Players[i].m_Wins == m_NumRoundsToWin)
+                    return m_Players[i];
+            }
         }
 
         return null;
@@ -187,7 +213,7 @@ public class GameManagement : MonoBehaviour
 
         for (int i = 0; i < m_Players.Length; i++)
         {
-            message += m_Players[i].m_ColoredPlayerText + ": " + m_Players[i].m_Wins + " WINS\n";
+            if (m_ReadyPlayers[i]) message += m_Players[i].m_ColoredPlayerText + ": " + m_Players[i].m_Wins + " WINS\n";
         }
 
         if (m_GameWinner != null)
@@ -197,33 +223,36 @@ public class GameManagement : MonoBehaviour
     }
 
 
-    private void ResetAllPlayers()
-    {
-        for (int i = 0; i < m_Players.Length; i++)
-        {
-            m_Players[i].Reset();
-        }
-    }
-
     private void RespawnAllPlayers() {
-        for (int i = 0; i < m_Players.Length; i++)
+        for (int i = 0; i < m_ReadyPlayers.Length; i++)
         {
             Destroy(m_Players[i].m_Instance);
-            m_Players[i].m_Instance = Instantiate (
-                    m_PlayerPrefab,
-                    m_Players[i].m_SpawnPoint.position,
-                    m_Players[i].m_SpawnPoint.rotation
-                ) as GameObject;
-            m_Players[i].Setup();
+            if (m_ReadyPlayers[i]) {
+                m_Players[i].m_Instance = Instantiate (
+                        m_PlayerPrefab,
+                        m_Players[i].m_SpawnPoint.position,
+                        m_Players[i].m_SpawnPoint.rotation
+                    ) as GameObject;
+                m_Players[i].Setup();
+            }
+            else {
+                m_Players[i].m_Instance = Instantiate (
+                        m_PlayerPrefab,
+                        Vector3.zero,
+                        m_Players[i].m_SpawnPoint.rotation
+                    ) as GameObject;
+                m_Players[i].Setup();
+                m_Players[i].m_Instance.SetActive(false);
+            }
 
         }
     }
 
     private void EnablePlayerControl()
     {
-        for (int i = 0; i < m_Players.Length; i++)
+        for (int i = 0; i < m_ReadyPlayers.Length; i++)
         {
-            m_Players[i].EnableControl();
+            if (m_ReadyPlayers[i]) m_Players[i].EnableControl();
         }
     }
 
@@ -232,7 +261,7 @@ public class GameManagement : MonoBehaviour
     {
         for (int i = 0; i < m_Players.Length; i++)
         {
-            m_Players[i].DisableControl();
+            if (m_ReadyPlayers[i]) m_Players[i].DisableControl();
         }
     }
 }
