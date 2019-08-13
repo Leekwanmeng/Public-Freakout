@@ -24,7 +24,7 @@ public class Item : MonoBehaviour
     {
         m_RigidBody = GetComponent<Rigidbody>();
         m_Mesh = GetComponentInChildren<MeshRenderer>();
-        m_ThrowKnockForce = 2.0f;
+        m_ThrowKnockForce = 1.5f;
     }
     protected virtual void Start()
     {

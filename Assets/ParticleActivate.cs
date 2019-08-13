@@ -20,11 +20,10 @@ public class ParticleActivate : MonoBehaviour
     }
 
     void EmptyAmmoSmoke() {
-        // if (m_ItemId == 2 || m_ItemId == 3) {
-        if (m_Item.m_ItemId == 2) {
-            if (m_Item.m_Ammo <= 0f) {
-                m_PS.Play();
-            }
+        
+        if (m_Item.m_Ammo <= 0f) {
+            m_PS.Play();
         }
+    
     }   
 }

@@ -83,6 +83,7 @@ MonoBehaviour:
   m_RotateSpeed: 30
   m_Thrown: 0
   m_ThrowKnockForce: 0
+  m_Ammo: 100
 --- !u!64 &5231680753683771256
 MeshCollider:
   m_ObjectHideFlags: 0
