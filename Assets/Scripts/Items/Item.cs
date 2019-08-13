@@ -24,7 +24,7 @@ public class Item : MonoBehaviour
     {
         m_RigidBody = GetComponent<Rigidbody>();
         m_Mesh = GetComponentInChildren<MeshRenderer>();
-        m_ThrowKnockForce = 1.4f;
+        m_ThrowKnockForce = 2.0f;
     }
     protected virtual void Start()
     {
@@ -38,7 +38,9 @@ public class Item : MonoBehaviour
             StartCoroutine(Flash());
         }
         Countdown();
+        
     }
+
 
     protected void ResetTimer() {
         m_Timer = m_MaxTime;
