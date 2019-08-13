@@ -37,6 +37,9 @@ public class PlayerState : MonoBehaviour
     public bool m_UseCoolDownUI = false;
     
 
+    public float m_Ammo;
+    
+
     void Awake()
     {
         m_Animator = GetComponent<Animator>();
@@ -131,7 +134,7 @@ public class PlayerState : MonoBehaviour
     }
 
     public void DoForce(Vector3 force) {
-        if (force.magnitude > 3f) {
+        if (force.magnitude > 6f) {
             // m_IsKnocked = true;
             GetKnocked();
             GetComponent<PlayerAction>().KnockDropItem(force);

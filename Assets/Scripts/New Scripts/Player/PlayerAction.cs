@@ -14,7 +14,7 @@ public class PlayerAction : MonoBehaviour
     private float m_ChargeShovePressureForce;
     // private float m_ShoveKnockForce = 8f;
     private float m_AEDForce = 17f;
-    private float m_ExtinguisherForce = 1.5f;
+    private float m_ExtinguisherForce = 1.8f;
 
     private float m_BatPlayerForce = 10f;
     private float m_BatItemHForce = 7f;
@@ -27,6 +27,8 @@ public class PlayerAction : MonoBehaviour
     private bool m_CanUseShove = false;
     private bool m_CanUseFireEx = false;
     private bool m_CanUseJackhammer = false;
+
+
 
     
     private string m_AButtonName;
@@ -114,11 +116,18 @@ public class PlayerAction : MonoBehaviour
 
                 //Fire extinguisher
                 case 2:
-                    audio.loop = true;
-                    audio.clip = sfx_FireEx;
-                    audio.Play();
-                    m_CanUseFireEx = true;
+                    // if (m_PlayerState.m_Ammo > 0){
+                        audio.loop = true;
+                        audio.clip = sfx_FireEx;
+                        audio.Play();
+                        m_CanUseFireEx = true;
+                    // } else {
+                    //     m_PlayerState.m_IsUsingStationaryItem = false;
+                    //     m_CanUseFireEx = false;
+                    // }
                     break;
+                    
+                    
 
                 //Jackhammer
                 case 3:
@@ -148,17 +157,31 @@ public class PlayerAction : MonoBehaviour
                     break;
 
                 case 2:
-                    if (m_CanUseFireEx){
+                    if (m_PlayerState.m_Ammo > 0){
+                        if (m_CanUseFireEx){
                         m_PlayerState.m_IsUsingStationaryItem = true;
                         UseExtinguisher();
+                        }
+                    } else {
+                        m_PlayerState.m_IsUsingStationaryItem = false;
+                        m_CanUseFireEx = false;
                     }
+
+                    
                     break;
                 
                 case 3:
-                    if (m_CanUseJackhammer){
+
+                    if (m_PlayerState.m_Ammo > 0){
+                        if (m_CanUseJackhammer){
                         m_PlayerState.m_IsUsingStationaryItem = true;
                         UseJackhammer();
+                        }
+                    } else {
+                        m_PlayerState.m_IsUsingStationaryItem = false;
+                        m_CanUseFireEx = false;
                     }
+                    
                     break;
 
                 default:
@@ -357,6 +380,9 @@ public class PlayerAction : MonoBehaviour
         float radius = 4.0f;
         float maxAngle = 15f;
 
+        //Use up ammo
+        m_PlayerState.m_Ammo -= 0.5f;
+
         // Push self back
         if (m_RigidBody.velocity.magnitude < 1f) {
             m_RigidBody.AddForce(-transform.forward * m_ExtinguisherForce, ForceMode.VelocityChange);
@@ -394,9 +420,11 @@ public class PlayerAction : MonoBehaviour
     void UseJackhammer() {     
         float radius = 2.5f;
         float randomRotate = 15f;
-        float randomPlayerCap = 4f;
+        float randomPlayerCap = 3f;
         float randomItemCap = 2f;
         float forwardScale = 2f;
+
+        m_PlayerState.m_Ammo -= 0.5f;
 
         // if (audioTimer <= 0){
         //     audio.PlayOneShot(sfx_Jackhammer, 0.1f);
@@ -417,7 +445,7 @@ public class PlayerAction : MonoBehaviour
             PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
             Vector3 pushDirection = (col.transform.position - transform.position).normalized;
             if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
-                float randomBonusInDirection = Random.Range(0.2f, 0.7f);
+                float randomBonusInDirection = Random.Range(0.3f, 0.85f);
                 col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * randomBonusInDirection);
             }
         }
@@ -447,6 +475,9 @@ public class PlayerAction : MonoBehaviour
             if (nearestItem.tag == "Item") {
                 Item otherPlayer = nearestItem.GetComponent<Item>();
                 itemId = otherPlayer.m_ItemId;
+
+                m_PlayerState.m_Ammo = otherPlayer.m_Ammo;
+
                 Destroy(nearestItem);
             }
         }
@@ -475,6 +506,8 @@ public class PlayerAction : MonoBehaviour
             // Debug.Log(force.magnitude);
             obj.GetComponent<Rigidbody>().AddForce(force);
             obj.GetComponent<Item>().m_Thrown = true;
+            obj.GetComponent<Item>().m_Ammo = m_PlayerState.m_Ammo;
+            m_PlayerState.m_Ammo = 0f;
             // Set to empty
             m_PlayerState.m_HoldItemId = -1;
 
@@ -504,6 +537,8 @@ public class PlayerAction : MonoBehaviour
             obj.GetComponent<Rigidbody>().AddForce(force);
             obj.GetComponent<Rigidbody>().angularVelocity = force;
             obj.GetComponent<Item>().m_Thrown = false;
+            obj.GetComponent<Item>().m_Ammo = m_PlayerState.m_Ammo;
+            m_PlayerState.m_Ammo = 0f;
             // Set to empty
             m_PlayerState.m_HoldItemId = -1;
 

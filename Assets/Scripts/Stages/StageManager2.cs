@@ -14,6 +14,7 @@ public class StageManager2 : MonoBehaviour
 
     private AudioSource buildingCollapse;
     private BoxCollider stageCollider;
+    private float m_Offset = 0.1f;
 
     public bool reset = false;
 
@@ -90,7 +91,7 @@ public class StageManager2 : MonoBehaviour
         }
 
         int numOfLayers = transform.childCount;
-        stageCollider.size = new Vector3(buildingLength + numOfLayers * 2, 5, buildingLength + numOfLayers * 2);
+        stageCollider.size = new Vector3(buildingLength + numOfLayers * 2 + m_Offset, 5, buildingLength + numOfLayers * 2 + m_Offset);
     }
 
 }

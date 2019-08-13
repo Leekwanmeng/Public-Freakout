@@ -13,6 +13,9 @@ public class Item : MonoBehaviour
     public bool m_Thrown;
     public float m_ThrowKnockForce;
     
+    //AMMO
+    public float m_Ammo = 100f;
+    
     private float m_Timer;
     private Rigidbody m_RigidBody;
     private MeshRenderer m_Mesh;

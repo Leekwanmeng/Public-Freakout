@@ -30,6 +30,8 @@ public class PlayerChargeUI : MonoBehaviour
         } else if (m_PlayerState.m_AEDIsCharging){
             float minTime = m_PlayerState.m_AEDChargingTime;
             m_Slider.value = (Time.time - minTime) / m_PlayerState.m_AEDCastDuration;
+        } else if (m_PlayerState.m_Ammo > 0 && (m_PlayerState.m_HoldItemId == 2 || m_PlayerState.m_HoldItemId == 3)){
+            m_Slider.value = m_PlayerState.m_Ammo / 100f;
         } else {
             m_Slider.value = 0f;
         }
