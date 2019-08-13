@@ -105,7 +105,7 @@ public class PlayerAction : MonoBehaviour
                 case 0:
                     StartCoroutine(UseBat());
                     m_PlayerState.m_UseCoolDownUI = true;
-                    Set_Cooldown(m_UseBatCooldown);
+                    
                     break;
 
                 // AED
@@ -366,9 +366,11 @@ public class PlayerAction : MonoBehaviour
 
         if (hitCount > 0){
             audio.PlayOneShot(sfx_BatHit);
+            Set_Cooldown(m_UseBatCooldown);
         } else {
             //Play woosh
             audio.PlayOneShot(sfx_BatMiss);
+            Set_Cooldown(1.3f);
         }
         yield return new WaitForSeconds(0.2f);
         m_PlayerState.m_IsSingleUseItem = false;
@@ -381,7 +383,7 @@ public class PlayerAction : MonoBehaviour
         float maxAngle = 15f;
 
         //Use up ammo
-        m_PlayerState.m_Ammo -= 0.5f;
+        m_PlayerState.m_Ammo -= 0.3f;
 
         // Push self back
         if (m_RigidBody.velocity.magnitude < 1f) {
@@ -424,7 +426,7 @@ public class PlayerAction : MonoBehaviour
         float randomItemCap = 2f;
         float forwardScale = 2f;
 
-        m_PlayerState.m_Ammo -= 0.5f;
+        m_PlayerState.m_Ammo -= 0.3f;
 
         // if (audioTimer <= 0){
         //     audio.PlayOneShot(sfx_Jackhammer, 0.1f);
