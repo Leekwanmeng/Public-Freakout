@@ -139,7 +139,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: fb1236b9ad18b2341bab7803176ab91a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9019c6c0cc0e87f449387ac7defe8d24, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -16135,7 +16135,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 40
+      scalar: 10
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -24810,7 +24810,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: fb1236b9ad18b2341bab7803176ab91a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9019c6c0cc0e87f449387ac7defe8d24, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
