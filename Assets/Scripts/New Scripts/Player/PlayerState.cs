@@ -66,23 +66,6 @@ public class PlayerState : MonoBehaviour
         ReduceCooldown();
     }
 
-    // void CheckStationaryItem() {
-    //     float slowerTurn = 2.0f;
-
-    //     if (m_IsUsingStationaryItem) {
-        
-    //         m_CanWalk = false;
-    //         m_TurnSpeed = slowerTurn;
-        
-    //     } else {
-    //         // if (!m_IsShoving && !m_IsKnocked){
-    //         //     m_CanWalk = true;
-    //         //     m_TurnSpeed = 10f;
-    //         // }
-            
-    //     }
-    // }
-
     void CheckStationaryItem() {
         float slowerTurn = 2.0f;
         bool holdingStationaryItem = m_HoldItemId == 2 || m_HoldItemId == 3;
@@ -90,10 +73,6 @@ public class PlayerState : MonoBehaviour
             m_CanWalk = false;
             m_TurnSpeed = slowerTurn;
         } else {
-            // if (GetComponent<AudioSource>().loop == true){
-            // GetComponent<AudioSource>().Stop();
-            // GetComponent<AudioSource>().loop = false;
-            // }
             if (holdingStationaryItem){
                 GetComponent<AudioSource>().Stop();
                 GetComponent<AudioSource>().loop = false;

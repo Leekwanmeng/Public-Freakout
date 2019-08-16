@@ -12,31 +12,32 @@ public class PlayerAction : MonoBehaviour
     private float m_MinChargeShovePressure = 5;
     private float m_MaxChargeShovePressure = 11;
     private float m_ChargeShovePressureForce;
-    // private float m_ShoveKnockForce = 8f;
-    private float m_AEDForce = 17f;
-    private float m_ExtinguisherForce = 1.8f;
+    private float m_UseShoveCooldown = 1f;
 
     private float m_BatPlayerForce = 10f;
     private float m_BatItemHForce = 7f;
     private float m_BatItemVForce = 5f;
-    
     private float m_UseBatCooldown = 1f;
-    private float m_UseShoveCooldown = 1f;
-    private float m_UseAEDCooldown = 1f;
+    private float m_BatHitBoxWidth = 0.25f;
+    private float m_BatHitBoxHeight = 0.5f;
+    private float m_BatHitBoxLength = 0.5f;
+
+    private float m_AEDForce = 17f;
+    private float m_AEDHitBoxWidth = 0.3f;
+    private float m_AEDHitBoxHeight = 0.5f;
+    private float m_AEDHitBoxLength = 0.6f;
+
+    private float m_ExtinguisherForce = 1.8f;
     
     private bool m_CanUseShove = false;
     private bool m_CanUseFireEx = false;
     private bool m_CanUseJackhammer = false;
-
-
-
     
     private string m_AButtonName;
     private string m_BButtonName;
     private PlayerState m_PlayerState;
     private ItemDatabase m_ItemDatabase;
     private Rigidbody m_RigidBody;
-    private float m_Cooldown;
     private Vector3 m_ExtinguisherPushbackCurrent;
     private Vector3 m_ExtinguisherPushbackPrevious;
 
@@ -47,10 +48,6 @@ public class PlayerAction : MonoBehaviour
     public AudioClip sfx_Jackhammer;
     public AudioClip sfx_FireEx;
     private AudioSource audio;
-
-    private float audioTimer;
-    private float sfx_OffsetJH = 0.049f;
-
     private ShockLauncher m_AEDVFX;
 
     void Awake()
@@ -60,7 +57,6 @@ public class PlayerAction : MonoBehaviour
         m_ItemDatabase = GameObject.FindGameObjectWithTag("ItemManager").GetComponent<ItemDatabase>();
         m_AEDVFX = GetComponentInChildren<ShockLauncher>();
         m_RigidBody = GetComponent<Rigidbody>();
-        m_Cooldown = Time.time;
     }
 
     void Start()
@@ -68,7 +64,6 @@ public class PlayerAction : MonoBehaviour
         m_AButtonName = "AButton" + m_PlayerState.m_PlayerNumber;
         m_BButtonName = "BButton" + m_PlayerState.m_PlayerNumber;
 
-        // m_ChargeShovePressure = 0f;
         m_ExtinguisherPushbackCurrent = Vector3.zero;
         m_ExtinguisherPushbackPrevious = Vector3.zero;
         m_PlayerState.m_MinChargeShovePressure = m_MinChargeShovePressure;
@@ -77,18 +72,8 @@ public class PlayerAction : MonoBehaviour
 
     void Update()
     {
-    
         CheckAButton();
         CheckBButton();
-
-        //REMOVE THIS
-        if (Input.GetKeyDown(KeyCode.K)){
-            m_PlayerState.DoForce(new Vector3(0,0,15f));
-        }
-
-        if (Input.GetKeyDown(KeyCode.J)){
-            m_PlayerState.DoForce(new Vector3(15f,0,0));
-        }
     }
 
     void CheckAButton() {
@@ -97,95 +82,79 @@ public class PlayerAction : MonoBehaviour
             if (Input.GetButtonDown(m_AButtonName)  && !m_PlayerState.m_IsKnocked) {
                 m_PlayerState.m_UseCoolDownUI = false;
                 switch(m_PlayerState.m_HoldItemId) {
-                // bb bat
-                case -1:
-                    m_CanUseShove = true;
-                    break;
+                    case -1:
+                        m_CanUseShove = true;
+                        break;
 
-                case 0:
-                    StartCoroutine(UseBat());
-                    m_PlayerState.m_UseCoolDownUI = true;
-                    
-                    break;
+                    // bb bat
+                    case 0:
+                        StartCoroutine(UseBat());
+                        m_PlayerState.m_UseCoolDownUI = true;
+                        break;
 
-                // AED
-                case 1:
-                    StartCoroutine(UseAED());
-                    Set_Cooldown(1.0f);
-                    break;
+                    // AED
+                    case 1:
+                        StartCoroutine(UseAED());
+                        Set_Cooldown(1.0f);
+                        break;
 
-                //Fire extinguisher
-                case 2:
-                    // if (m_PlayerState.m_Ammo > 0){
+                    //Fire extinguisher
+                    case 2:
                         audio.loop = true;
                         audio.clip = sfx_FireEx;
                         audio.Play();
                         m_CanUseFireEx = true;
-                    // } else {
-                    //     m_PlayerState.m_IsUsingStationaryItem = false;
-                    //     m_CanUseFireEx = false;
-                    // }
-                    break;
-                    
-                    
+                        break;
+                        
+                    //Jackhammer
+                    case 3:
+                        audio.loop = true;
+                        audio.clip = sfx_Jackhammer;
+                        audio.Play();
+                        m_CanUseJackhammer = true;
+                        break;
 
-                //Jackhammer
-                case 3:
-                    audio.loop = true;
-                    audio.clip = sfx_Jackhammer;
-                    audio.Play();
-                    // audioTimer = sfx_Jackhammer.length - sfx_OffsetJH;
-                    m_CanUseJackhammer = true;
-                    break;
-
-
-                default:
-                    break;
+                    default:
+                        break;
                 }
-            
             }
         
             //Holdable actions
             if (Input.GetButton(m_AButtonName) && !m_PlayerState.m_IsKnocked) {
                 switch(m_PlayerState.m_HoldItemId) {
-            
-                case -1:
-                    if (m_CanUseShove){
-                        m_PlayerState.m_CanWalk = false;
-                        ChargeShove();
-                    }
-                    break;
-
-                case 2:
-                    if (m_PlayerState.m_Ammo > 0){
-                        if (m_CanUseFireEx){
-                        m_PlayerState.m_IsUsingStationaryItem = true;
-                        UseExtinguisher();
+                    case -1:
+                        if (m_CanUseShove){
+                            m_PlayerState.m_CanWalk = false;
+                            ChargeShove();
                         }
-                    } else {
-                        m_PlayerState.m_IsUsingStationaryItem = false;
-                        m_CanUseFireEx = false;
-                    }
+                        break;
 
-                    
-                    break;
-                
-                case 3:
-
-                    if (m_PlayerState.m_Ammo > 0){
-                        if (m_CanUseJackhammer){
-                        m_PlayerState.m_IsUsingStationaryItem = true;
-                        UseJackhammer();
+                    case 2:
+                        if (m_PlayerState.m_Ammo > 0){
+                            if (m_CanUseFireEx){
+                            m_PlayerState.m_IsUsingStationaryItem = true;
+                            UseExtinguisher();
+                            }
+                        } else {
+                            m_PlayerState.m_IsUsingStationaryItem = false;
+                            m_CanUseFireEx = false;
                         }
-                    } else {
-                        m_PlayerState.m_IsUsingStationaryItem = false;
-                        m_CanUseFireEx = false;
-                    }
+                        break;
                     
-                    break;
+                    case 3:
+                        if (m_PlayerState.m_Ammo > 0){
+                            if (m_CanUseJackhammer){
+                            m_PlayerState.m_IsUsingStationaryItem = true;
+                            UseJackhammer();
+                            }
+                        } else {
+                            m_PlayerState.m_IsUsingStationaryItem = false;
+                            m_CanUseFireEx = false;
+                        }
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
                 }
             }
             else {
@@ -197,12 +166,6 @@ public class PlayerAction : MonoBehaviour
                     Shove();
                 }
                 
-                // audio.loop = false;
-                // audio.Stop();
-                // m_UsingJackhammer = false;
-                // m_UsingFireEx = false;
-                // Debug.Log("AUDIO LOOP: " + audio.loop);
-                // m_UsingJackhammer = false;
             }
         }
     }
@@ -259,15 +222,11 @@ public class PlayerAction : MonoBehaviour
             m_PlayerState.m_IsShoving = false;    
             m_PlayerState.m_ShoveHitLog = new List<int>();
         }
-        
     }
 
 
     void OnCollisionStay(Collision other) {
-        if (!m_PlayerState.m_ShoveHitLog.Contains(other.gameObject.GetInstanceID())) {
-                
-            
-            
+        if (!m_PlayerState.m_ShoveHitLog.Contains(other.gameObject.GetInstanceID())) {            
             if (other.gameObject.tag == "Player" && m_PlayerState.m_IsShoving) {
                 Debug.Log("Collision");
                 m_PlayerState.m_ShoveHitLog.Add(other.gameObject.GetInstanceID());
@@ -303,10 +262,6 @@ public class PlayerAction : MonoBehaviour
             audio.PlayOneShot(sfx_AED, 0.1f);
             m_AEDVFX.Zap();
 
-
-            float radius = 1.5f;
-            float maxAngle = 20f;
-
             Collider[] colliders = Physics.OverlapBox(transform.position + transform.forward * 0.6f, new Vector3(0.25f, 0.5f, 0.6f), transform.rotation, m_PlayerState.m_PlayerMask);
             foreach (Collider col in colliders) {
                 PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
@@ -327,30 +282,34 @@ public class PlayerAction : MonoBehaviour
     IEnumerator UseBat() {
         m_PlayerState.m_IsSingleUseItem = true;
 
-        float radius = 1.5f;
-        float maxAngle = 25f;
         int hitCount = 0;
 
-        Collider[] playerColliders = Physics.OverlapBox(transform.position + transform.forward * 0.5f, new Vector3(0.25f, 0.5f, 0.5f), transform.rotation, m_PlayerState.m_PlayerMask);
+        Collider[] playerColliders = Physics.OverlapBox(
+            transform.position + transform.forward * m_BatHitBoxLength,
+            new Vector3(m_BatHitBoxWidth, m_BatHitBoxHeight, m_BatHitBoxLength),
+            transform.rotation,
+            m_PlayerState.m_PlayerMask
+        );
         
         foreach (Collider col in playerColliders) {
             PlayerState otherPlayer = col.gameObject.GetComponent<PlayerState>();
             if (otherPlayer.m_PlayerNumber != m_PlayerState.m_PlayerNumber) {
-                Debug.Log("HITTING WITH CAPSULE");
                 Vector3 pushDirection = col.transform.position - transform.position;
                 hitCount++;
                 pushDirection = pushDirection.normalized;
-                // col.gameObject.GetComponent<Rigidbody>().AddForce(
-                //     pushDirection * m_BatPlayerForce, ForceMode.VelocityChange
-                // );
                 col.gameObject.GetComponent<PlayerState>().DoForce(pushDirection * m_BatPlayerForce);
             
             }
         }
 
-        Collider[] itemColliders = Physics.OverlapBox(transform.position + transform.forward * 0.6f, new Vector3(0.25f, 0.5f, 0.6f), transform.rotation, m_PlayerState.m_ItemMask);
+        Collider[] itemColliders = Physics.OverlapBox(
+            transform.position + transform.forward * m_BatHitBoxLength,
+            new Vector3(m_BatHitBoxWidth, m_BatHitBoxHeight, m_BatHitBoxLength),
+            transform.rotation,
+            m_PlayerState.m_ItemMask
+        );
+        
         foreach (Collider col in itemColliders) {
-            
             Vector3 pushDifference = col.transform.position - transform.position;
             float angle = Vector3.Angle(pushDifference, transform.forward);
             
@@ -428,12 +387,6 @@ public class PlayerAction : MonoBehaviour
 
         m_PlayerState.m_Ammo -= 0.3f;
 
-        // if (audioTimer <= 0){
-        //     audio.PlayOneShot(sfx_Jackhammer, 0.1f);
-        //     audioTimer = sfx_Jackhammer.length - sfx_OffsetJH;
-        // } else {
-        //     audioTimer -= Time.deltaTime;
-        // }
         if (m_RigidBody.velocity.magnitude < 1f) {
             Vector3 randomForce = new Vector3(Random.Range(-randomPlayerCap, randomPlayerCap), 0, Random.Range(-randomPlayerCap, randomPlayerCap));
             randomForce += forwardScale * transform.forward;
@@ -505,7 +458,6 @@ public class PlayerAction : MonoBehaviour
             Vector3 objPosition = transform.position + transform.forward + new Vector3(0f, m_ItemSpawnFromPlayerHeight, 0f);
             GameObject obj = Instantiate(itemPrefabToInstantiate, objPosition, Quaternion.identity);
             Vector3 force = transform.forward * (m_MinDropForce + m_PlayerState.m_MovementMagnitude * m_WalkDropForce);
-            // Debug.Log(force.magnitude);
             obj.GetComponent<Rigidbody>().AddForce(force);
             obj.GetComponent<Item>().m_Thrown = true;
             obj.GetComponent<Item>().m_Ammo = m_PlayerState.m_Ammo;
