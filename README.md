@@ -20,7 +20,11 @@ Unity Version 2019.1.4f1
 
 ## Authors
 Developed by D-Dragon Studios
+
 [Oon Tong](https://github.com/Leekwanmeng)
+
 [Kwan Meng](https://github.com/oonyoontong)
+
 [Daniel Ho](https://github.com/hjhdaniel)
+
 [Lok Swen](https://github.com/swonlek)
