@@ -10,7 +10,7 @@ public class PauseMenu : MonoBehaviour
     void Update()
     {
         if (Input.GetButtonDown("AButton1")) {
-            cOwnCanvas.gameObject.SetActive(false);
+            Time.timeScale = 1.0f;
             SceneManager.LoadScene(0);
         }
     }

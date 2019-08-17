@@ -15,6 +15,8 @@ public class GameManagement : MonoBehaviour
     public GameObject m_PauseCanvas;
     public GameObject m_PlayerPrefab;         
     public PlayerManager[] m_Players;
+    public AudioClip m_LobbyMusic;
+    public bool m_PlayLobbyMusic;
 
     private bool[] m_ReadyPlayers;
     private bool m_Paused;
@@ -25,7 +27,12 @@ public class GameManagement : MonoBehaviour
     private PlayerManager m_GameWinner;
     private ItemSpawner m_ItemSpawner; 
     private StageManager2 m_StageManager;
+    private AudioSource m_AudioSource;
 
+    void Awake()
+    {
+        m_AudioSource = GetComponent<AudioSource>();
+    }
 
     private void Start()
     {
@@ -33,27 +40,27 @@ public class GameManagement : MonoBehaviour
         m_EndWait = new WaitForSeconds(m_EndDelay);
         m_Paused = false;
         m_ItemSpawner = GameObject.Find("ItemManager").GetComponent<ItemSpawner>();
-        m_StageManager = GameObject.Find("Stage").GetComponent<StageManager2>();   
+        m_StageManager = GameObject.Find("Stage").GetComponent<StageManager2>();
+        PlayLobbyMusic();
+    }
+
+    public void PlayLobbyMusic() {
+        m_AudioSource.loop = true;
+        m_AudioSource.clip = m_LobbyMusic;
+        m_AudioSource.Play();
+    }
+
+    public void StopLobbyMusic() {
+        m_AudioSource.Stop();
     }
 
     public void BeginGame(bool[] readyPlayers) {
         m_ReadyPlayers = readyPlayers;
         m_StageManager.StartScript();
         SpawnPlayers();
+        StopLobbyMusic();
         StartCoroutine(GameLoop());
     }
-
-
-    // private void SpawnAllPlayers()
-    // {
-    //     for (int i = 0; i < m_Players.Length; i++)
-    //     {
-    //         m_Players[i].m_Instance =
-    //             Instantiate(m_PlayerPrefab, m_Players[i].m_SpawnPoint.position, m_Players[i].m_SpawnPoint.rotation) as GameObject;
-    //         m_Players[i].m_PlayerNumber = i + 1;
-    //         m_Players[i].Setup();
-    //     }
-    // }
 
     private void SpawnPlayers()
     {
