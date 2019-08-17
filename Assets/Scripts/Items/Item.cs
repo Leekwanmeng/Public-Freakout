@@ -12,6 +12,7 @@ public class Item : MonoBehaviour
     private float m_FlashMinTime = 3f;
     public bool m_Thrown;
     public float m_ThrowKnockForce;
+    public AudioClip m_BounceSound;
     
     //AMMO
     public float m_Ammo = 100f;
@@ -19,16 +20,19 @@ public class Item : MonoBehaviour
     private float m_Timer;
     private Rigidbody m_RigidBody;
     private MeshRenderer m_Mesh;
+    private AudioSource m_AudioSource;
 
     void Awake()
     {
         m_RigidBody = GetComponent<Rigidbody>();
         m_Mesh = GetComponentInChildren<MeshRenderer>();
+        m_AudioSource = GetComponent<AudioSource>();
         m_ThrowKnockForce = 1.5f;
     }
     protected virtual void Start()
     {
         ResetTimer();
+        m_AudioSource.clip = m_BounceSound;
     }
 
     // Update is called once per frame
@@ -71,6 +75,7 @@ public class Item : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision other) {
+        m_AudioSource.Play();
         if (other.gameObject.tag == "Ground") {
             m_Thrown = false;
         }
