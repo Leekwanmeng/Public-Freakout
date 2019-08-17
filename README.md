@@ -7,14 +7,24 @@ Set in real-world scenarios, players take control of cartoonish citizens who fre
 
 Gather some friends and **LET THE CHAOS BEGIN**!
 
-2-4 Players on Logitech F310 / PS4 controllers
 
-Unity Game by D-Dragon Studios
+Watch a short gameplay [here](https://www.youtube.com/watch?v=K4cbXgjsOO0&)
+
+
+2-4 Players on Logitech F310 / PS4 controllers
 
 Unity Version 2019.1.4f1
 
 ## Executable
-Download and play game [here](https://drive.google.com/drive/folders/1RWpnIn6YHYl9gvrtm26XRRcczh2CWhsT?usp=sharing)
+[Download and play now](https://drive.google.com/drive/folders/1RWpnIn6YHYl9gvrtm26XRRcczh2CWhsT?usp=sharing)
 
-## Gameplay
-Watch a short gameplay [here](https://www.youtube.com/watch?v=K4cbXgjsOO0&)
+## Authors
+Developed by D-Dragon Studios
+
+[Oon Tong](https://github.com/Leekwanmeng)
+
+[Kwan Meng](https://github.com/oonyoontong)
+
+[Daniel Ho](https://github.com/hjhdaniel)
+
+[Lok Swen](https://github.com/swonlek)
