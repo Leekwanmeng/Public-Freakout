@@ -16,7 +16,7 @@ public class GameManagement : MonoBehaviour
     public GameObject m_PlayerPrefab;         
     public PlayerManager[] m_Players;
     public AudioClip m_LobbyMusic;
-    public bool m_PlayLobbyMusic;
+    public AudioClip m_TrafficMusic;
 
     private bool[] m_ReadyPlayers;
     private bool m_Paused;
@@ -50,15 +50,17 @@ public class GameManagement : MonoBehaviour
         m_AudioSource.Play();
     }
 
-    public void StopLobbyMusic() {
+    public void StartTraffic() {
         m_AudioSource.Stop();
+        m_AudioSource.clip = m_TrafficMusic;
+        m_AudioSource.Play();
     }
 
     public void BeginGame(bool[] readyPlayers) {
         m_ReadyPlayers = readyPlayers;
         m_StageManager.StartScript();
         SpawnPlayers();
-        StopLobbyMusic();
+        StartTraffic();
         StartCoroutine(GameLoop());
     }
 

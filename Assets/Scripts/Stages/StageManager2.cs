@@ -65,6 +65,7 @@ public class StageManager2 : MonoBehaviour
             other.gameObject.GetComponent<PlayerState>().m_CanWalk = false;
             other.gameObject.GetComponent<PlayerState>().m_CanRotate = false;
             other.gameObject.GetComponent<PlayerFriction>().enabled = false;
+            other.gameObject.GetComponent<PlayerAction>().enabled = false;
             other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         }
     }

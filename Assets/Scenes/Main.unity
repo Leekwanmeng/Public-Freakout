@@ -10323,7 +10323,7 @@ MonoBehaviour:
     m_Instance: {fileID: 0}
     m_Wins: 0
   m_LobbyMusic: {fileID: 8300000, guid: a083c095fe7ae8e47acc22c0b10ac7c7, type: 3}
-  m_PlayLobbyMusic: 0
+  m_TrafficMusic: {fileID: 8300000, guid: 2269dc28b76baaf4d95c325aa46acb97, type: 3}
 --- !u!82 &1237129194
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13224,7 +13224,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: af0a94951d1cff74da783c42ac9bfea3, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.753
   m_Pitch: 1
   Loop: 0
   Mute: 0
