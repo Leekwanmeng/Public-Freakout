@@ -16,7 +16,7 @@ Watch a short gameplay [here](https://www.youtube.com/watch?v=K4cbXgjsOO0&)
 Unity Version 2019.1.4f1
 
 ## Executable
-[Download and play now](https://drive.google.com/drive/folders/1RWpnIn6YHYl9gvrtm26XRRcczh2CWhsT?usp=sharing)
+Download and play: [Public Freakout v2](https://drive.google.com/drive/folders/1BaM5uBuwNcNSvEeNpSN5Wh-H3rpmvXyq?usp=sharing)
 
 ## Authors
 Developed by D-Dragon Studios
